@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarCheck, LogOut } from "lucide-react";
+import { LayoutDashboard, CalendarCheck, LogOut, X } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 
@@ -11,14 +12,30 @@ export function Sidebar({
   lang,
   dict,
   userName,
+  open,
+  onClose,
   onLogoutClick,
 }: {
   lang: Locale;
   dict: Dictionary["dashboard"]["sidebar"];
   userName: string;
+  open: boolean;
+  onClose: () => void;
   onLogoutClick: () => void;
 }) {
   const pathname = usePathname();
+
+  // Only relevant on mobile, where the sidebar is an off-canvas drawer —
+  // at the lg breakpoint it's always visible and this has no effect.
+  useEffect(() => {
+    if (!open) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
 
   const navItems = [
     {
@@ -36,58 +53,81 @@ export function Sidebar({
   ];
 
   return (
-    <aside className="flex h-full w-64 shrink-0 flex-col border-r border-border bg-surface">
-      <div className="px-6 py-6">
-        <Image
-          src="/logo/logo.webp"
-          alt="Afrobraid Connect"
-          width={126}
-          height={32}
-          className="theme-invert"
+    <>
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          onClick={onClose}
+          aria-hidden
         />
-      </div>
+      )}
 
-      <nav className="flex-1 space-y-1 px-3">
-        {navItems.map(({ href, label, icon: Icon, active }) => (
-          <Link
-            key={href}
-            href={href}
-            aria-current={active ? "page" : undefined}
-            className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors ${
-              active
-                ? "bg-brand text-brand-foreground"
-                : "text-muted-foreground hover:bg-border/40 hover:text-foreground"
-            }`}
-          >
-            <Icon className="size-5" />
-            {label}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="border-t border-border px-3 py-4">
-        <div className="flex items-center gap-3 px-3 py-2">
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex h-full w-64 shrink-0 flex-col border-r border-border bg-surface transition-transform duration-200 ease-in-out lg:static lg:z-auto lg:translate-x-0 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-6 py-6">
           <Image
-            src="/images/profile.jpg"
-            alt={userName}
-            width={36}
-            height={36}
-            className="size-9 shrink-0 object-cover"
+            src="/logo/logo.webp"
+            alt="Afrobraid Connect"
+            width={126}
+            height={32}
+            className="theme-invert"
           />
-          <span className="truncate text-sm font-semibold text-foreground">
-            {userName}
-          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close menu"
+            className="p-1 text-muted-foreground hover:text-foreground lg:hidden"
+          >
+            <X className="size-5" />
+          </button>
         </div>
 
-        <button
-          type="button"
-          onClick={onLogoutClick}
-          className="mt-1 flex w-full items-center gap-3 px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-border/40 hover:text-foreground"
-        >
-          <LogOut className="size-5" />
-          {dict.logout}
-        </button>
-      </div>
-    </aside>
+        <nav className="flex-1 space-y-1 px-3">
+          {navItems.map(({ href, label, icon: Icon, active }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              aria-current={active ? "page" : undefined}
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors ${
+                active
+                  ? "bg-brand text-brand-foreground"
+                  : "text-muted-foreground hover:bg-border/40 hover:text-foreground"
+              }`}
+            >
+              <Icon className="size-5" />
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="border-t border-border px-3 py-4">
+          <div className="flex items-center gap-3 px-3 py-2">
+            <Image
+              src="/images/profile.jpg"
+              alt={userName}
+              width={36}
+              height={36}
+              className="size-9 shrink-0 object-cover"
+            />
+            <span className="truncate text-sm font-semibold text-foreground">
+              {userName}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={onLogoutClick}
+            className="mt-1 flex w-full items-center gap-3 px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-border/40 hover:text-foreground"
+          >
+            <LogOut className="size-5" />
+            {dict.logout}
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

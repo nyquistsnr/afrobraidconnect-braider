@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, MessageSquare, LogOut } from "lucide-react";
+import { Bell, MessageSquare, LogOut, Menu } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
@@ -42,26 +42,41 @@ export function DashboardHeader({
   lang,
   dict,
   themeLabels,
+  onMenuClick,
   onLogoutClick,
 }: {
   lang: Locale;
   dict: Dictionary["dashboard"]["header"];
   themeLabels: Dictionary["common"]["theme"];
+  onMenuClick: () => void;
   onLogoutClick: () => void;
 }) {
   return (
-    <header className="flex h-16 shrink-0 items-center justify-end gap-2 border-b border-border bg-surface px-6">
-      <IconButton icon={Bell} label={dict.notifications} count={NOTIFICATION_COUNT} />
-      <IconButton icon={MessageSquare} label={dict.messages} count={MESSAGE_COUNT} />
+    <header className="flex h-16 shrink-0 items-center gap-1 border-b border-border bg-surface px-3 sm:gap-2 sm:px-6">
+      <button
+        type="button"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+        className="p-2 text-muted-foreground transition-colors hover:bg-border/40 hover:text-foreground lg:hidden"
+      >
+        <Menu className="size-5" />
+      </button>
 
-      <div className="mx-2 h-6 w-px bg-border" />
+      <div className="flex-1" />
 
-      <ThemeToggle labels={themeLabels} dropDirection="down" />
-      <LanguageSwitcher lang={lang} dropDirection="down" />
+      <div className="flex items-center gap-0.5 sm:gap-2">
+        <IconButton icon={Bell} label={dict.notifications} count={NOTIFICATION_COUNT} />
+        <IconButton icon={MessageSquare} label={dict.messages} count={MESSAGE_COUNT} />
 
-      <div className="mx-2 h-6 w-px bg-border" />
+        <div className="mx-1 h-6 w-px bg-border sm:mx-2" />
 
-      <IconButton icon={LogOut} label={dict.logout} onClick={onLogoutClick} />
+        <ThemeToggle labels={themeLabels} dropDirection="down" />
+        <LanguageSwitcher lang={lang} dropDirection="down" />
+
+        <div className="mx-1 h-6 w-px bg-border sm:mx-2" />
+
+        <IconButton icon={LogOut} label={dict.logout} onClick={onLogoutClick} />
+      </div>
     </header>
   );
 }

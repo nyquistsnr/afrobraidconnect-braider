@@ -23,6 +23,7 @@ export function DashboardShell({
   children: React.ReactNode;
 }) {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
   const handleConfirmLogout = useCallback(() => {
@@ -36,6 +37,8 @@ export function DashboardShell({
         lang={lang}
         dict={dict.sidebar}
         userName={CURRENT_USER_NAME}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
         onLogoutClick={() => setLogoutModalOpen(true)}
       />
 
@@ -44,10 +47,11 @@ export function DashboardShell({
           lang={lang}
           dict={dict.header}
           themeLabels={themeLabels}
+          onMenuClick={() => setSidebarOpen(true)}
           onLogoutClick={() => setLogoutModalOpen(true)}
         />
 
-        <main className="flex-1 overflow-y-auto bg-background p-6">
+        <main className="flex-1 overflow-y-auto bg-background p-4 sm:p-6">
           {children}
         </main>
       </div>
