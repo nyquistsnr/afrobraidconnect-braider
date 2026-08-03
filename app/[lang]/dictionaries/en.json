@@ -60,6 +60,7 @@
     "emailPlaceholder": "hello@example.com",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
     "forgotPassword": "Forgot Password?",
     "signIn": "Sign In",
     "or": "OR",

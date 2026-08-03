@@ -12,6 +12,7 @@ import { getAuthErrorMessage } from "@/lib/api/error-messages";
 import { onboardingStepPath } from "@/lib/onboarding";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 
@@ -21,7 +22,7 @@ export function LoginForm({
   lang,
   callbackUrl,
 }: {
-  dict: Dictionary["login"];
+  dict: Dictionary["login"] & { rememberMe?: string };
   common: Dictionary["common"];
   lang: Locale;
   callbackUrl?: string | null;
@@ -29,9 +30,10 @@ export function LoginForm({
   const router = useRouter();
 
   const loginMutation = useMutation({
-    mutationFn: async (credentials: { email: string; password: string }) => {
+    mutationFn: async (credentials: { email: string; password: string; rememberMe: boolean }) => {
       const result = await signIn("credentials", {
         ...credentials,
+        rememberMe: String(credentials.rememberMe),
         redirect: false,
       });
 
@@ -69,6 +71,7 @@ export function LoginForm({
     loginMutation.mutate({
       email: String(formData.get("email") ?? ""),
       password: String(formData.get("password") ?? ""),
+      rememberMe: formData.get("remember_me") === "on",
     });
   }
 
@@ -96,7 +99,13 @@ export function LoginForm({
           required
         />
 
-        <div className="flex justify-end">
+        <div className="flex items-center justify-between pt-1">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <Checkbox name="remember_me" />
+            <span className="text-sm font-medium text-foreground select-none">
+              {dict.rememberMe || "Remember me"}
+            </span>
+          </label>
           <Link
             href={`/${lang}/forgot-password`}
             className="text-sm font-medium text-brand hover:text-brand-hover"
