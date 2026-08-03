@@ -72,7 +72,10 @@ export function ComboboxInput({
             onChange?.(e);
             setOpen(true);
           }}
-          onFocus={() => setOpen(true)}
+          onFocus={(e) => {
+            setOpen(true);
+            e.target.select();
+          }}
           className={`w-full bg-transparent text-sm text-foreground outline-none placeholder:text-placeholder ${className}`}
           {...props}
         />
@@ -94,7 +97,7 @@ export function ComboboxInput({
       </div>
 
       {open && filteredOptions.length > 0 && (
-        <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-60 overflow-y-auto border border-border bg-surface py-1 shadow-lg">
+        <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-60 overflow-y-auto border border-border bg-surface py-1 shadow-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {filteredOptions.map((opt) => (
             <li key={opt}>
               <button

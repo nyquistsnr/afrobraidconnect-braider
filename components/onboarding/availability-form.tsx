@@ -18,6 +18,7 @@ import type {
 import { Locale } from "@/lib/i18n";
 
 import { Input } from "@/components/ui/input";
+import { ComboboxInput } from "@/components/ui/combobox-input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
@@ -55,9 +56,22 @@ export function AvailabilityForm({
 
   // Settings State
   const [settings, setSettings] = useState(initialSettings);
+  const [lastSavedSettings, setLastSavedSettings] = useState(initialSettings);
   
+  const timezones = ["UTC", ...Intl.supportedValuesOf("timeZone")];
+
   // Local state for lists (could use react-query cache, but local state is easier to mutate optimistically)
-  const [windows, setWindows] = useState(initialWindows);
+  const [windows, setWindows] = useState(() => {
+    if (initialWindows.length > 0) return initialWindows;
+    // Prefill Mon-Sat if completely empty
+    return DAYS_OF_WEEK.filter(d => d !== "SUNDAY").map(d => ({
+      id: `temp-${d}`,
+      day_of_week: d,
+      start_time: "09:00",
+      end_time: "17:00",
+      is_active: true,
+    })) as WeeklyWindowResponse[];
+  });
   const [exceptions, setExceptions] = useState(initialExceptions);
 
   // New Window Form State
@@ -79,10 +93,22 @@ export function AvailabilityForm({
     },
     onSuccess: (data) => {
       setSettings(data);
+      setLastSavedSettings(data);
       toast.success(dict.toasts.settingsSaved);
     },
     onError: (err: any) => toast.error(err.message || common.errors.validationError),
   });
+
+  function handleSettingsBlur() {
+    if (
+      settings.timezone !== lastSavedSettings.timezone ||
+      settings.min_notice_hours !== lastSavedSettings.min_notice_hours ||
+      settings.max_advance_days !== lastSavedSettings.max_advance_days ||
+      settings.buffer_minutes !== lastSavedSettings.buffer_minutes
+    ) {
+      updateSettingsMutation.mutate(settings);
+    }
+  }
 
   const addWindowMutation = useMutation({
     mutationFn: async () => {
@@ -140,8 +166,24 @@ export function AvailabilityForm({
     onError: (err: any) => toast.error(err.message || common.errors.validationError),
   });
 
-  function handleContinue() {
-    // Availability is mostly a live editor, we just push to the next step.
+  async function handleContinue() {
+    const tempWindows = windows.filter(w => w.id.startsWith("temp-"));
+    if (tempWindows.length > 0) {
+      try {
+        await Promise.all(
+          tempWindows.map(w =>
+            onboardingApi.createWeeklyWindow(token, {
+              day_of_week: w.day_of_week,
+              start_time: w.start_time,
+              end_time: w.end_time,
+            })
+          )
+        );
+      } catch (err: any) {
+        toast.error(err.message || common.errors.validationError);
+        return; // Halt navigation if saving fails
+      }
+    }
     router.push(`/${lang}/onboarding`);
   }
 
@@ -162,12 +204,13 @@ export function AvailabilityForm({
         </div>
         
         <div className="grid gap-6 md:grid-cols-2">
-          <Input
+          <ComboboxInput
             label={dict.timezoneLabel}
             showLabel
             value={settings.timezone}
             onChange={(e) => setSettings({ ...settings, timezone: e.target.value })}
-            onBlur={() => updateSettingsMutation.mutate(settings)}
+            onBlur={handleSettingsBlur}
+            options={timezones}
           />
           <Input
             label={dict.minNoticeHoursLabel}
@@ -176,7 +219,7 @@ export function AvailabilityForm({
             min="0"
             value={settings.min_notice_hours}
             onChange={(e) => setSettings({ ...settings, min_notice_hours: Number(e.target.value) })}
-            onBlur={() => updateSettingsMutation.mutate(settings)}
+            onBlur={handleSettingsBlur}
           />
           <Input
             label={dict.maxAdvanceDaysLabel}
@@ -185,7 +228,7 @@ export function AvailabilityForm({
             min="1"
             value={settings.max_advance_days}
             onChange={(e) => setSettings({ ...settings, max_advance_days: Number(e.target.value) })}
-            onBlur={() => updateSettingsMutation.mutate(settings)}
+            onBlur={handleSettingsBlur}
           />
           <Input
             label={dict.bufferMinutesLabel}
@@ -194,7 +237,7 @@ export function AvailabilityForm({
             min="0"
             value={settings.buffer_minutes}
             onChange={(e) => setSettings({ ...settings, buffer_minutes: Number(e.target.value) })}
-            onBlur={() => updateSettingsMutation.mutate(settings)}
+            onBlur={handleSettingsBlur}
           />
         </div>
       </section>
@@ -209,39 +252,58 @@ export function AvailabilityForm({
         <div className="space-y-4">
           {DAYS_OF_WEEK.map((day) => {
             const dayWindows = windows.filter((w) => w.day_of_week === day);
-            if (dayWindows.length === 0) return null;
+            const hasWindows = dayWindows.length > 0;
             return (
-              <div key={day} className="flex flex-col gap-2 md:flex-row md:items-center">
-                <div className="w-32 font-medium text-foreground">{dict.days[day]}</div>
+              <div key={day} className="flex flex-col gap-3 border-b border-border/50 py-4 last:border-0 md:flex-row md:items-center md:py-3">
+                <div className="flex w-32 items-center gap-2 font-medium text-foreground">
+                  <div className={`size-1.5 rounded-full ${hasWindows ? "bg-brand" : "bg-border"}`} />
+                  <span className={hasWindows ? "" : "text-muted-foreground"}>{dict.days[day]}</span>
+                </div>
                 <div className="flex flex-1 flex-wrap gap-2">
-                  {dayWindows.map((w) => (
-                    <div key={w.id} className="flex items-center gap-2 rounded-lg border border-border bg-muted px-3 py-1.5 text-sm">
-                      <span>{w.start_time.slice(0, 5)} - {w.end_time.slice(0, 5)}</span>
-                      <button
-                        onClick={() => deleteWindowMutation.mutate(w.id)}
-                        className="text-icon-muted hover:text-red-500"
-                        disabled={deleteWindowMutation.isPending}
+                  {hasWindows ? (
+                    dayWindows.map((w) => (
+                      <div
+                        key={w.id}
+                        className="group flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 pl-4 pr-1.5 py-1 text-sm font-medium text-brand transition-colors hover:border-brand/30 hover:bg-brand/10"
                       >
-                        <Trash2 className="size-4" />
-                      </button>
-                    </div>
-                  ))}
+                        <Clock className="size-3.5 opacity-70" />
+                        <span className="mr-1">
+                          {w.start_time.slice(0, 5)} - {w.end_time.slice(0, 5)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (w.id.startsWith("temp-")) {
+                              setWindows((prev) => prev.filter((win) => win.id !== w.id));
+                            } else {
+                              deleteWindowMutation.mutate(w.id);
+                            }
+                          }}
+                          className="flex size-6 items-center justify-center rounded-full text-brand/60 transition-colors hover:bg-red-500/10 hover:text-red-600 focus:outline-none"
+                          disabled={deleteWindowMutation.isPending}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-sm font-medium text-muted-foreground/60">{dict.exceptionTypes.CLOSED}</span>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
 
-        <div className="flex flex-col gap-4 rounded-xl border border-border border-dashed p-4 md:flex-row md:items-end">
-          <div className="flex-1">
-            <Select
-              label="Day"
-              options={DAYS_OF_WEEK.map(d => ({ value: d, label: dict.days[d] }))}
-              value={newWindowDay}
-              onChange={setNewWindowDay}
-            />
-          </div>
-          <div className="flex-1">
+        <div className="space-y-4 rounded-xl border border-border border-dashed p-5 bg-muted/30">
+          <Select
+            label="Day"
+            showLabel
+            options={DAYS_OF_WEEK.map(d => ({ value: d, label: dict.days[d] }))}
+            value={newWindowDay}
+            onChange={setNewWindowDay}
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
             <Input
               label={dict.startTimeLabel}
               showLabel
@@ -249,8 +311,6 @@ export function AvailabilityForm({
               value={newWindowStart}
               onChange={(e) => setNewWindowStart(e.target.value)}
             />
-          </div>
-          <div className="flex-1">
             <Input
               label={dict.endTimeLabel}
               showLabel
@@ -262,7 +322,7 @@ export function AvailabilityForm({
           <Button
             onClick={() => addWindowMutation.mutate()}
             disabled={addWindowMutation.isPending}
-            className="w-full md:w-auto"
+            className="w-full mt-2"
           >
             <Plus className="mr-2 size-4" />
             {dict.addWindow}
@@ -298,8 +358,8 @@ export function AvailabilityForm({
           ))}
         </div>
 
-        <div className="space-y-4 rounded-xl border border-border border-dashed p-4">
-          <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-4 rounded-xl border border-border border-dashed p-5 bg-muted/30">
+          <div className="grid gap-4 sm:grid-cols-2">
             <Input
               label={dict.dateLabel}
               showLabel
@@ -309,6 +369,7 @@ export function AvailabilityForm({
             />
             <Select
               label={dict.exceptionTypeLabel}
+              showLabel
               options={[
                 { value: "CLOSED", label: dict.exceptionTypes.CLOSED },
                 { value: "CUSTOM_HOURS", label: dict.exceptionTypes.CUSTOM_HOURS },
@@ -319,7 +380,7 @@ export function AvailabilityForm({
           </div>
 
           {newExceptionType === "CUSTOM_HOURS" && (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <Input
                 label={dict.startTimeLabel}
                 showLabel
@@ -337,25 +398,22 @@ export function AvailabilityForm({
             </div>
           )}
 
-          <div className="flex gap-4 items-end">
-            <div className="flex-1">
-              <Input
-                label={dict.reasonLabel}
-                showLabel
-                placeholder="e.g. Holiday"
-                value={newExceptionReason}
-                onChange={(e) => setNewExceptionReason(e.target.value)}
-              />
-            </div>
-            <Button
-              onClick={() => addExceptionMutation.mutate()}
-              disabled={addExceptionMutation.isPending || !newExceptionDate}
-              variant="outline"
-            >
-              <Plus className="mr-2 size-4" />
-              {dict.addException}
-            </Button>
-          </div>
+          <Input
+            label={dict.reasonLabel}
+            showLabel
+            placeholder="e.g. Holiday"
+            value={newExceptionReason}
+            onChange={(e) => setNewExceptionReason(e.target.value)}
+          />
+          <Button
+            onClick={() => addExceptionMutation.mutate()}
+            disabled={addExceptionMutation.isPending || !newExceptionDate}
+            variant="outline"
+            className="w-full mt-2"
+          >
+            <Plus className="mr-2 size-4" />
+            {dict.addException}
+          </Button>
         </div>
       </section>
 

@@ -168,7 +168,7 @@ export function SearchableCountrySelect({
           
           <ul
             role="listbox"
-            className="max-h-60 overflow-y-auto py-1"
+            className="max-h-60 overflow-y-auto py-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {filteredOptions.length === 0 ? (
               <li className="px-4 py-3 text-center text-sm text-muted-foreground">

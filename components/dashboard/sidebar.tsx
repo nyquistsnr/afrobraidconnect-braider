@@ -74,6 +74,7 @@ export function Sidebar({
             width={126}
             height={32}
             className="theme-invert"
+            priority
           />
           <button
             type="button"

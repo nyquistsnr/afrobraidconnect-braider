@@ -297,7 +297,8 @@
       "travelFeeLabel": "Travel fee (€, optional)",
       "continue": "Save & Continue",
       "toasts": {
-        "saved": "Location saved."
+        "saved": "Location saved.",
+        "incomplete": "Please fill out all required location details."
       }
     },
     "availability": {

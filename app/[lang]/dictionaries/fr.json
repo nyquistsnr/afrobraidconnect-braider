@@ -297,7 +297,8 @@
       "travelFeeLabel": "Frais de déplacement (€, facultatif)",
       "continue": "Enregistrer et continuer",
       "toasts": {
-        "saved": "Emplacement enregistré."
+        "saved": "Emplacement enregistré.",
+        "incomplete": "Veuillez remplir tous les détails d'emplacement requis."
       }
     },
     "availability": {

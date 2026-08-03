@@ -297,7 +297,8 @@
       "travelFeeLabel": "Reisegebühr (€, optional)",
       "continue": "Speichern & Weiter",
       "toasts": {
-        "saved": "Standort gespeichert."
+        "saved": "Standort gespeichert.",
+        "incomplete": "Bitte füllen Sie alle erforderlichen Standortdetails aus."
       }
     },
     "availability": {

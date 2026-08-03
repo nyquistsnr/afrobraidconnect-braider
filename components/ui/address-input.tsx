@@ -52,7 +52,7 @@ export function AddressInput({ countryCode, onAddressSelected, defaultValue = ""
           streetName = component.long_name;
         } else if (types.includes("locality") || types.includes("postal_town") || types.includes("administrative_area_level_2")) {
           if (!city) city = component.long_name;
-        } else if (types.includes("postal_code")) {
+        } else if (types.includes("postal_code") || types.includes("postal_code_prefix")) {
           postalCode = component.long_name;
         }
       }

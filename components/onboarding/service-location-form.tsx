@@ -108,9 +108,13 @@ export function ServiceLocationForm({
         travel_fee: offersMobile && travelFee ? parseFloat(travelFee) : undefined,
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success(dict.toasts.saved);
-      router.push(`/${lang}/onboarding`);
+      if (data.is_complete) {
+        router.push(`/${lang}/onboarding`);
+      } else {
+        toast.error(dict.toasts.incomplete);
+      }
     },
     onError: (error) => {
       const code = error instanceof ApiError ? error.code : undefined;
@@ -135,7 +139,7 @@ export function ServiceLocationForm({
       travelRadiusKm !== (initialData.travel_radius_km?.toString() ?? "") ||
       travelFee !== (initialData.travel_fee?.toString() ?? "");
 
-    if (!hasChanged) {
+    if (!hasChanged && initialData.is_complete) {
       router.push(`/${lang}/onboarding`);
       return;
     }
@@ -222,22 +226,18 @@ export function ServiceLocationForm({
                   <Input
                     label={dict.postalCodeLabel}
                     showLabel
-                    readOnly
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
                     placeholder={dict.postalCodePlaceholder}
-                    className="bg-muted text-muted-foreground"
                   />
                 )}
                 <div className={isFixedLocation ? "" : "col-span-2"}>
                   <Input
-                    label={dict.cityLabel}
+                    label={isFixedLocation ? dict.cityLabel : "Region / City"}
                     showLabel
-                    readOnly
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder={dict.cityPlaceholder}
-                    className="bg-muted text-muted-foreground"
                   />
                 </div>
               </div>
