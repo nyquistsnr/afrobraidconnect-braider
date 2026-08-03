@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import { onboardingApi } from "@/lib/api/onboarding-client";
-import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
+import { loginPath } from "@/lib/auth-redirect";
 import { BusinessInfoForm } from "@/components/onboarding/business-info-form";
 
 export function generateStaticParams() {
@@ -16,29 +16,24 @@ export default async function BusinessInfoPage({
 
   if (!hasLocale(lang)) notFound();
 
+  // onboarding/layout.tsx redirects when unauthenticated too, but Next
+  // renders a layout and its page concurrently rather than strictly in
+  // order, so this page's own code still runs and needs its own guard.
   const session = await auth();
-  if (!session) redirect(`/${lang}/login`);
-  if (!session.braider) redirect(`/${lang}/dashboard`);
+  if (!session) redirect(await loginPath(lang));
 
   const dict = await getDictionary(lang);
 
-  const [status, businessInfo] = await Promise.all([
-    onboardingApi.getStatus(session.accessToken),
-    onboardingApi.getBusinessInfo(session.accessToken),
-  ]).catch(() => {
-    redirect(`/${lang}/login`);
-  });
-
-  if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);
+  const businessInfo = await onboardingApi
+    .getBusinessInfo(session.accessToken)
+    .catch(async () => redirect(await loginPath(lang)));
 
   return (
-    <OnboardingShell lang={lang} dict={dict} status={status} step="BUSINESS_INFO">
-      <BusinessInfoForm
-        dict={dict.onboarding.businessInfo}
-        common={dict.common}
-        lang={lang}
-        initialData={businessInfo}
-      />
-    </OnboardingShell>
+    <BusinessInfoForm
+      dict={dict.onboarding.businessInfo}
+      common={dict.common}
+      lang={lang}
+      initialData={businessInfo}
+    />
   );
 }

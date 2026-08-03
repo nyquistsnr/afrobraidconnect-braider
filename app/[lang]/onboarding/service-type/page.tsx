@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import { onboardingApi } from "@/lib/api/onboarding-client";
-import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
+import { loginPath } from "@/lib/auth-redirect";
 import { ServiceTypeForm } from "@/components/onboarding/service-type-form";
 
 export function generateStaticParams() {
@@ -16,34 +16,24 @@ export default async function ServiceTypePage({
 
   if (!hasLocale(lang)) notFound();
 
+  // onboarding/layout.tsx redirects when unauthenticated too, but Next
+  // renders a layout and its page concurrently rather than strictly in
+  // order, so this page's own code still runs and needs its own guard.
   const session = await auth();
-  if (!session) redirect(`/${lang}/login`);
-  if (!session.braider) redirect(`/${lang}/dashboard`);
+  if (!session) redirect(await loginPath(lang));
 
   const dict = await getDictionary(lang);
 
-  const [status, services] = await Promise.all([
-    onboardingApi.getStatus(session.accessToken),
-    onboardingApi.getServices(session.accessToken),
-  ]).catch(() => {
-    redirect(`/${lang}/login`);
-  });
-
-  if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);
+  const services = await onboardingApi
+    .getServices(session.accessToken)
+    .catch(async () => redirect(await loginPath(lang)));
 
   return (
-    <OnboardingShell
+    <ServiceTypeForm
+      dict={dict.onboarding.serviceType}
+      common={dict.common}
       lang={lang}
-      dict={dict}
-      status={status}
-      step="SERVICE_TYPE"
-    >
-      <ServiceTypeForm
-        dict={dict.onboarding.serviceType}
-        common={dict.common}
-        lang={lang}
-        initialServices={services.items}
-      />
-    </OnboardingShell>
+      initialServices={services.items}
+    />
   );
 }

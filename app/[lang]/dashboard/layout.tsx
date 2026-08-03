@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
+import { loginPath } from "@/lib/auth-redirect";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 
 export function generateStaticParams() {
@@ -16,7 +17,7 @@ export default async function DashboardLayout({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (!session) redirect(`/${lang}/login`);
+  if (!session) redirect(await loginPath(lang));
 
   const dict = await getDictionary(lang);
   const userName = [session.user.firstName, session.user.lastName]

@@ -36,11 +36,13 @@ export function GoogleSignInButton({
   label,
   successMessage,
   errorsDict,
+  callbackUrl,
 }: {
   lang: Locale;
   label: string;
   successMessage: string;
   errorsDict: Dictionary["common"]["errors"];
+  callbackUrl?: string | null;
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +57,10 @@ export function GoogleSignInButton({
     },
     onSuccess: async () => {
       toast.success(successMessage);
+      if (callbackUrl) {
+        router.push(callbackUrl);
+        return;
+      }
       const session = await getSession();
       const step = session?.braider?.onboarding.current_step;
       router.push(

@@ -153,6 +153,7 @@
       "paymentSetup": "Payment Setup"
     },
     "stepOf": "Step {current} of {total}",
+    "resumeHint": "Pick up where you left off: {step} →",
     "businessInfo": {
       "title": "Tell us about your business",
       "subtitle": "This is what clients will see on your profile.",

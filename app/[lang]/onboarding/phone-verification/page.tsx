@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import { onboardingApi } from "@/lib/api/onboarding-client";
-import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
+import { loginPath } from "@/lib/auth-redirect";
 import { PhoneVerificationForm } from "@/components/onboarding/phone-verification-form";
 
 export function generateStaticParams() {
@@ -16,34 +16,24 @@ export default async function PhoneVerificationPage({
 
   if (!hasLocale(lang)) notFound();
 
+  // onboarding/layout.tsx redirects when unauthenticated too, but Next
+  // renders a layout and its page concurrently rather than strictly in
+  // order, so this page's own code still runs and needs its own guard.
   const session = await auth();
-  if (!session) redirect(`/${lang}/login`);
-  if (!session.braider) redirect(`/${lang}/dashboard`);
+  if (!session) redirect(await loginPath(lang));
 
   const dict = await getDictionary(lang);
 
-  const [status, phoneStatus] = await Promise.all([
-    onboardingApi.getStatus(session.accessToken),
-    onboardingApi.getPhoneVerificationStatus(session.accessToken),
-  ]).catch(() => {
-    redirect(`/${lang}/login`);
-  });
-
-  if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);
+  const phoneStatus = await onboardingApi
+    .getPhoneVerificationStatus(session.accessToken)
+    .catch(async () => redirect(await loginPath(lang)));
 
   return (
-    <OnboardingShell
+    <PhoneVerificationForm
+      dict={dict.onboarding.phoneVerification}
+      common={dict.common}
       lang={lang}
-      dict={dict}
-      status={status}
-      step="PHONE_VERIFICATION"
-    >
-      <PhoneVerificationForm
-        dict={dict.onboarding.phoneVerification}
-        common={dict.common}
-        lang={lang}
-        defaultPhoneNumber={phoneStatus.phone_number}
-      />
-    </OnboardingShell>
+      defaultPhoneNumber={phoneStatus.phone_number}
+    />
   );
 }

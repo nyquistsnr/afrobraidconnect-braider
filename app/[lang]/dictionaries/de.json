@@ -153,6 +153,7 @@
       "paymentSetup": "Zahlungseinrichtung"
     },
     "stepOf": "Schritt {current} von {total}",
+    "resumeHint": "Weiter geht's bei: {step} →",
     "businessInfo": {
       "title": "Erzählen Sie uns von Ihrem Geschäft",
       "subtitle": "Das sehen Kunden auf Ihrem Profil.",

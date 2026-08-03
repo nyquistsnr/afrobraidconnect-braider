@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { hasLocale, locales } from "../dictionaries";
 import { onboardingApi } from "@/lib/api/onboarding-client";
+import { loginPath } from "@/lib/auth-redirect";
 import { onboardingStepPath } from "@/lib/onboarding";
 
 export function generateStaticParams() {
@@ -19,14 +20,12 @@ export default async function OnboardingHubPage({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (!session) redirect(`/${lang}/login`);
+  if (!session) redirect(await loginPath(lang));
   if (!session.braider) redirect(`/${lang}/dashboard`);
 
   const status = await onboardingApi
     .getStatus(session.accessToken)
-    .catch(() => {
-      redirect(`/${lang}/login`);
-    });
+    .catch(async () => redirect(await loginPath(lang)));
 
   redirect(onboardingStepPath(lang, status.current_step));
 }

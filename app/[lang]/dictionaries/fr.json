@@ -153,6 +153,7 @@
       "paymentSetup": "Configuration du paiement"
     },
     "stepOf": "Étape {current} sur {total}",
+    "resumeHint": "Reprenez où vous en étiez : {step} →",
     "businessInfo": {
       "title": "Parlez-nous de votre entreprise",
       "subtitle": "C'est ce que les clients verront sur votre profil.",

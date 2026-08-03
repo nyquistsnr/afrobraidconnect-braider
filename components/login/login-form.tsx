@@ -19,10 +19,12 @@ export function LoginForm({
   dict,
   common,
   lang,
+  callbackUrl,
 }: {
   dict: Dictionary["login"];
   common: Dictionary["common"];
   lang: Locale;
+  callbackUrl?: string | null;
 }) {
   const router = useRouter();
 
@@ -42,6 +44,12 @@ export function LoginForm({
     },
     onSuccess: async () => {
       toast.success(common.toasts.loginSuccess);
+      // A validated callbackUrl (wherever the visitor was before an auth
+      // guard sent them here) always wins over the default destination.
+      if (callbackUrl) {
+        router.push(callbackUrl);
+        return;
+      }
       const session = await getSession();
       const step = session?.braider?.onboarding.current_step;
       router.push(
@@ -115,6 +123,7 @@ export function LoginForm({
         label={dict.signInWithGoogle}
         successMessage={common.toasts.loginSuccess}
         errorsDict={common.errors}
+        callbackUrl={callbackUrl}
       />
 
       <div className="mt-8 space-y-2 text-center text-sm text-muted-foreground">

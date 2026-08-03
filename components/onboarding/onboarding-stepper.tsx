@@ -1,22 +1,41 @@
+import Link from "next/link";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
+import type { Locale } from "@/lib/i18n";
 import type { OnboardingStatusResponse } from "@/lib/api/types";
-import { ONBOARDING_STEP_ORDER, STEP_DICT_KEYS } from "@/lib/onboarding";
+import {
+  type ActiveStep,
+  ONBOARDING_STEP_ORDER,
+  STEP_DICT_KEYS,
+  isStepCompleted,
+  onboardingStepPath,
+} from "@/lib/onboarding";
 
 export function OnboardingStepper({
   dict,
   status,
+  lang,
+  viewedStep,
 }: {
   dict: Dictionary["onboarding"];
   status: OnboardingStatusResponse;
+  lang: Locale;
+  viewedStep: ActiveStep | undefined;
 }) {
   const total = ONBOARDING_STEP_ORDER.length;
-  const index = ONBOARDING_STEP_ORDER.indexOf(
-    status.current_step as (typeof ONBOARDING_STEP_ORDER)[number]
-  );
-  const stepNumber = index === -1 ? total : index + 1;
   const stepper = dict.stepper as Record<string, string>;
-  const stepLabel =
-    index === -1 ? undefined : stepper[STEP_DICT_KEYS[ONBOARDING_STEP_ORDER[index]]];
+
+  const viewedIndex = viewedStep ? ONBOARDING_STEP_ORDER.indexOf(viewedStep) : -1;
+  const stepNumber = viewedIndex === -1 ? total : viewedIndex + 1;
+  const stepLabel = viewedStep ? stepper[STEP_DICT_KEYS[viewedStep]] : undefined;
+
+  // Where the backend would actually resume the wizard — distinct from
+  // viewedStep whenever the visitor has navigated back to review or edit an
+  // earlier, already-completed step.
+  const resumeStep =
+    status.current_step !== "COMPLETED"
+      ? (status.current_step as ActiveStep)
+      : undefined;
+  const showResumeHint = resumeStep && viewedStep && resumeStep !== viewedStep;
 
   return (
     <div className="mb-8">
@@ -28,12 +47,40 @@ export function OnboardingStepper({
         </span>
         {stepLabel && <span className="text-foreground">{stepLabel}</span>}
       </div>
-      <div className="h-1.5 w-full overflow-hidden bg-border">
-        <div
-          className="h-full bg-brand transition-all"
-          style={{ width: `${(stepNumber / total) * 100}%` }}
-        />
+
+      <div className="flex items-center gap-1.5">
+        {ONBOARDING_STEP_ORDER.map((step) => {
+          const completed = isStepCompleted(status, step);
+          const isViewed = step === viewedStep;
+          const isResumePoint = step === resumeStep;
+
+          return (
+            <div
+              key={step}
+              title={stepper[STEP_DICT_KEYS[step]]}
+              className={`h-1.5 flex-1 rounded-full transition-colors ${
+                completed || isViewed
+                  ? "bg-brand"
+                  : isResumePoint
+                    ? "bg-brand/40"
+                    : "bg-border"
+              }`}
+            />
+          );
+        })}
       </div>
+
+      {showResumeHint && (
+        <Link
+          href={onboardingStepPath(lang, resumeStep)}
+          className="mt-2 inline-block text-xs font-medium text-brand hover:text-brand-hover"
+        >
+          {dict.resumeHint.replace(
+            "{step}",
+            stepper[STEP_DICT_KEYS[resumeStep]]
+          )}
+        </Link>
+      )}
     </div>
   );
 }

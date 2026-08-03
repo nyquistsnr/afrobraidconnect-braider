@@ -234,47 +234,49 @@ export function ServiceTypeForm({
         />
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
         {styles.map((style) => {
           const added = addedStyleIds.has(style.id);
           const thumbnail = style.images[0]?.url;
           return (
             <div
               key={style.id}
-              className="flex flex-col gap-3 border border-border bg-input p-3"
+              className="flex flex-col border border-border bg-input"
             >
-              <div className="flex items-center gap-3">
+              <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-border/40">
                 {thumbnail ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={thumbnail}
                     alt=""
-                    className="size-14 shrink-0 rounded object-cover"
+                    className="size-full object-cover"
                   />
                 ) : (
-                  <div className="flex size-14 shrink-0 items-center justify-center rounded bg-border/40">
-                    <ImageOff className="size-5 text-icon-muted" />
+                  <div className="flex size-full items-center justify-center">
+                    <ImageOff className="size-6 text-icon-muted" />
                   </div>
                 )}
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-foreground">
+              </div>
+              <div className="flex flex-1 flex-col gap-2 p-3">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-foreground">
                     {style.name}
                   </p>
                   {style.description && (
-                    <p className="line-clamp-2 text-xs text-muted-foreground">
+                    <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
                       {style.description}
                     </p>
                   )}
                 </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={added}
+                  onClick={() => openStyle(style)}
+                >
+                  {added ? dict.addedBadge : dict.selectButton}
+                </Button>
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={added}
-                onClick={() => openStyle(style)}
-              >
-                {added ? dict.addedBadge : dict.selectButton}
-              </Button>
             </div>
           );
         })}
@@ -336,9 +338,10 @@ export function ServiceTypeForm({
         open={!!selectedStyle}
         onClose={() => setSelectedStyle(null)}
         labelledBy={modalTitleId}
+        size="lg"
       >
         {selectedStyle && (
-          <div className="max-h-[80vh] overflow-y-auto">
+          <>
             <h2 id={modalTitleId} className="text-lg font-bold text-foreground">
               {selectedStyle.name}
             </h2>
@@ -516,7 +519,7 @@ export function ServiceTypeForm({
               )}
             </div>
 
-            <div className="mt-6 flex gap-3">
+            <div className="sticky bottom-0 -mx-4 -mb-4 mt-6 flex gap-3 border-t border-border bg-surface px-4 py-4 sm:-mx-6 sm:-mb-6 sm:px-6">
               <Button
                 type="button"
                 variant="outline"
@@ -534,7 +537,7 @@ export function ServiceTypeForm({
                 {addMutation.isPending ? common.loading : dict.addButton}
               </Button>
             </div>
-          </div>
+          </>
         )}
       </Modal>
     </div>

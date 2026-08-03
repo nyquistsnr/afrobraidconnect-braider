@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChevronLeft, LogOut } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type { OnboardingStatusResponse } from "@/lib/api/types";
-import { type ActiveStep, onboardingStepPath, previousStep } from "@/lib/onboarding";
+import { onboardingStepPath, previousStep, stepSlugToStep } from "@/lib/onboarding";
 import { OnboardingStepper } from "@/components/onboarding/onboarding-stepper";
 import { LogoutConfirmModal } from "@/components/dashboard/logout-confirm-modal";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
@@ -17,16 +17,15 @@ export function OnboardingShell({
   lang,
   dict,
   status,
-  step,
   children,
 }: {
   lang: Locale;
   dict: Dictionary;
   status: OnboardingStatusResponse;
-  step: ActiveStep;
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
 
@@ -42,7 +41,14 @@ export function OnboardingShell({
     }
   }, [lang, dict.common.toasts.logoutSuccess, router]);
 
-  const previous = previousStep(step);
+  // Derived from the URL rather than passed in as a prop — this is the step
+  // the visitor is actually looking at, which can differ from the backend's
+  // status.current_step (e.g. they've navigated back to review a completed
+  // step). Undefined on routes that aren't a recognized step (the hub).
+  const slug = pathname.split(`/${lang}/onboarding/`)[1]?.split("/")[0] ?? "";
+  const viewedStep = stepSlugToStep(slug);
+
+  const previous = viewedStep ? previousStep(viewedStep) : undefined;
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,7 +89,12 @@ export function OnboardingShell({
       </header>
 
       <main className="mx-auto w-full max-w-xl px-4 py-10 sm:px-6">
-        <OnboardingStepper dict={dict.onboarding} status={status} />
+        <OnboardingStepper
+          dict={dict.onboarding}
+          status={status}
+          lang={lang}
+          viewedStep={viewedStep}
+        />
         {children}
       </main>
 
