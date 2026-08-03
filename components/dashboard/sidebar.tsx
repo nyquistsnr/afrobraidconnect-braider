@@ -4,7 +4,19 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarCheck, LogOut, X } from "lucide-react";
+import { 
+  LayoutDashboard, 
+  CalendarCheck, 
+  LogOut, 
+  X,
+  CreditCard,
+  Settings,
+  MessageSquare,
+  Clock,
+  MapPin,
+  Scissors,
+  ListChecks
+} from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 
@@ -18,7 +30,15 @@ export function Sidebar({
   onLogoutClick,
 }: {
   lang: Locale;
-  dict: Dictionary["dashboard"]["sidebar"];
+  dict: Dictionary["dashboard"]["sidebar"] & { 
+    payment?: string; 
+    settings?: string; 
+    chat?: string; 
+    availability?: string; 
+    location?: string; 
+    serviceStyle?: string; 
+    onboardingStatus?: string; 
+  };
   userName: string;
   userLogo: string | null;
   open: boolean;
@@ -51,6 +71,48 @@ export function Sidebar({
       label: dict.bookings,
       icon: CalendarCheck,
       active: pathname === `/${lang}/dashboard/bookings`,
+    },
+    {
+      href: `/${lang}/dashboard/payment`,
+      label: dict.payment || "Payment",
+      icon: CreditCard,
+      active: pathname === `/${lang}/dashboard/payment`,
+    },
+    {
+      href: `/${lang}/dashboard/settings`,
+      label: dict.settings || "Settings",
+      icon: Settings,
+      active: pathname === `/${lang}/dashboard/settings`,
+    },
+    {
+      href: `/${lang}/dashboard/chat`,
+      label: dict.chat || "Chat",
+      icon: MessageSquare,
+      active: pathname === `/${lang}/dashboard/chat`,
+    },
+    {
+      href: `/${lang}/dashboard/availability`,
+      label: dict.availability || "Availability",
+      icon: Clock,
+      active: pathname === `/${lang}/dashboard/availability`,
+    },
+    {
+      href: `/${lang}/dashboard/location`,
+      label: dict.location || "Location",
+      icon: MapPin,
+      active: pathname === `/${lang}/dashboard/location`,
+    },
+    {
+      href: `/${lang}/dashboard/service-style`,
+      label: dict.serviceStyle || "Service Style",
+      icon: Scissors,
+      active: pathname === `/${lang}/dashboard/service-style`,
+    },
+    {
+      href: `/${lang}/dashboard/onboarding-status`,
+      label: dict.onboardingStatus || "Onboarding Status",
+      icon: ListChecks,
+      active: pathname === `/${lang}/dashboard/onboarding-status`,
     },
   ];
 

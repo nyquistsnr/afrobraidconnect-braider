@@ -122,6 +122,13 @@
     "sidebar": {
       "dashboard": "Dashboard",
       "bookings": "Bookings",
+      "payment": "Payment",
+      "settings": "Settings",
+      "chat": "Chat",
+      "availability": "Availability",
+      "location": "Location",
+      "serviceStyle": "Service Style",
+      "onboardingStatus": "Onboarding Status",
       "logout": "Logout"
     },
     "header": {
@@ -152,6 +159,27 @@
   },
   "bookings": {
     "title": "Booking Page"
+  },
+  "payment": {
+    "title": "Payment"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "chat": {
+    "title": "Chat"
+  },
+  "availability": {
+    "title": "Availability"
+  },
+  "location": {
+    "title": "Location"
+  },
+  "serviceStyle": {
+    "title": "Service Style"
+  },
+  "onboardingStatus": {
+    "title": "Onboarding Status"
   },
   "onboarding": {
     "stepper": {

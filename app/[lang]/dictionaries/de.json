@@ -120,8 +120,15 @@
   },
   "dashboard": {
     "sidebar": {
-      "dashboard": "Übersicht",
+      "dashboard": "Dashboard",
       "bookings": "Buchungen",
+      "payment": "Zahlung",
+      "settings": "Einstellungen",
+      "chat": "Chat",
+      "availability": "Verfügbarkeit",
+      "location": "Standort",
+      "serviceStyle": "Dienstleistungsstil",
+      "onboardingStatus": "Onboarding-Status",
       "logout": "Abmelden"
     },
     "header": {
@@ -152,6 +159,27 @@
   },
   "bookings": {
     "title": "Buchungsseite"
+  },
+  "payment": {
+    "title": "Zahlung"
+  },
+  "settings": {
+    "title": "Einstellungen"
+  },
+  "chat": {
+    "title": "Chat"
+  },
+  "availability": {
+    "title": "Verfügbarkeit"
+  },
+  "location": {
+    "title": "Standort"
+  },
+  "serviceStyle": {
+    "title": "Dienstleistungsstil"
+  },
+  "onboardingStatus": {
+    "title": "Onboarding-Status"
   },
   "onboarding": {
     "stepper": {

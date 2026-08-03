@@ -122,6 +122,13 @@
     "sidebar": {
       "dashboard": "Tableau de bord",
       "bookings": "Réservations",
+      "payment": "Paiement",
+      "settings": "Paramètres",
+      "chat": "Chat",
+      "availability": "Disponibilité",
+      "location": "Emplacement",
+      "serviceStyle": "Style de service",
+      "onboardingStatus": "Statut d'intégration",
       "logout": "Déconnexion"
     },
     "header": {
@@ -130,7 +137,7 @@
       "logout": "Déconnexion"
     },
     "logoutModal": {
-      "title": "Se déconnecter ?",
+      "title": "Déconnexion ?",
       "description": "Êtes-vous sûr de vouloir vous déconnecter de votre compte ?",
       "cancel": "Annuler",
       "confirm": "Se déconnecter"
@@ -151,7 +158,28 @@
     }
   },
   "bookings": {
-    "title": "Page des réservations"
+    "title": "Page de réservation"
+  },
+  "payment": {
+    "title": "Paiement"
+  },
+  "settings": {
+    "title": "Paramètres"
+  },
+  "chat": {
+    "title": "Chat"
+  },
+  "availability": {
+    "title": "Disponibilité"
+  },
+  "location": {
+    "title": "Emplacement"
+  },
+  "serviceStyle": {
+    "title": "Style de service"
+  },
+  "onboardingStatus": {
+    "title": "Statut d'intégration"
   },
   "onboarding": {
     "stepper": {
