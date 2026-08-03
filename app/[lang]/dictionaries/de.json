@@ -7,9 +7,36 @@
       "dark": "Dunkel",
       "system": "System"
     },
+    "loading": "Wird geladen…",
     "backToLogin": "Zurück zur Anmeldung",
     "countrySearchPlaceholder": "Land suchen",
-    "noCountriesFound": "Keine Länder gefunden"
+    "noCountriesFound": "Keine Länder gefunden",
+    "errors": {
+      "validationError": "Bitte überprüfen Sie die markierten Felder und versuchen Sie es erneut.",
+      "emailAlreadyExists": "Für diese E-Mail-Adresse existiert bereits ein Konto.",
+      "phoneAlreadyExists": "Für diese Telefonnummer existiert bereits ein Konto.",
+      "invalidCredentials": "E-Mail oder Passwort ist falsch.",
+      "emailNotVerified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden.",
+      "userNotActive": "Dieses Konto wurde deaktiviert.",
+      "invalidOtp": "Dieser Code ist nicht korrekt. Bitte versuchen Sie es erneut.",
+      "otpExpired": "Dieser Code ist abgelaufen. Fordern Sie einen neuen an.",
+      "tooManyOtpAttempts": "Zu viele Versuche. Bitte fordern Sie einen neuen Code an.",
+      "socialAuthFailed": "Anmeldung mit diesem Anbieter fehlgeschlagen.",
+      "unsupportedProvider": "Dieser Anmeldeanbieter wird nicht unterstützt.",
+      "userTypeRequired": "Bitte wählen Sie einen Kontotyp, um fortzufahren.",
+      "rateLimited": "Zu viele Versuche. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
+      "networkError": "Server konnte nicht erreicht werden. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+      "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    },
+    "toasts": {
+      "signupSuccess": "Konto erstellt! Prüfen Sie Ihre E-Mails auf den Bestätigungscode.",
+      "verifyEmailSuccess": "E-Mail bestätigt! Willkommen bei Afrobraid Connect.",
+      "resendSuccess": "Ein neuer Code wurde an Ihre E-Mail gesendet.",
+      "loginSuccess": "Willkommen zurück!",
+      "forgotPasswordSuccess": "Falls dieses Konto existiert, ist ein Code zum Zurücksetzen unterwegs.",
+      "resetPasswordSuccess": "Passwort zurückgesetzt! Bitte melden Sie sich mit Ihrem neuen Passwort an.",
+      "logoutSuccess": "Sie wurden abgemeldet."
+    }
   },
   "login": {
     "title": "Willkommen zurück",
@@ -62,6 +89,16 @@
     "submit": "Konto erstellen",
     "alreadyHaveAccount": "Sie haben bereits ein Konto?",
     "signIn": "Anmelden"
+  },
+  "verifyEmail": {
+    "title": "Bestätigen Sie Ihre E-Mail",
+    "subtitle": "Geben Sie den 6-stelligen Code ein, den wir an Ihre E-Mail gesendet haben.",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "hello@example.com",
+    "codeLabel": "Bestätigungscode",
+    "codeHelp": "Keinen Code erhalten?",
+    "resendCode": "Code erneut senden",
+    "submit": "E-Mail bestätigen"
   },
   "dashboard": {
     "sidebar": {

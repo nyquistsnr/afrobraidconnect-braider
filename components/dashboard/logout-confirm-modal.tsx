@@ -9,11 +9,13 @@ export function LogoutConfirmModal({
   open,
   onClose,
   onConfirm,
+  loading = false,
   dict,
 }: {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  loading?: boolean;
   dict: Dictionary["dashboard"]["logoutModal"];
 }) {
   const titleId = useId();
@@ -26,10 +28,15 @@ export function LogoutConfirmModal({
       <p className="mt-2 text-sm text-muted-foreground">{dict.description}</p>
 
       <div className="mt-6 flex gap-3">
-        <Button type="button" variant="outline" onClick={onClose}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          disabled={loading}
+        >
           {dict.cancel}
         </Button>
-        <Button type="button" onClick={onConfirm}>
+        <Button type="button" onClick={onConfirm} disabled={loading}>
           {dict.confirm}
         </Button>
       </div>

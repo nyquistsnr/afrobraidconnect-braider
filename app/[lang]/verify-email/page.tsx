@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
 import { AuthShell } from "@/components/auth/auth-shell";
-import { ResetPasswordForm } from "@/components/reset-password/reset-password-form";
+import { VerifyEmailForm } from "@/components/verify-email/verify-email-form";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default async function ResetPasswordPage({
+export default async function VerifyEmailPage({
   params,
   searchParams,
-}: PageProps<"/[lang]/reset-password">) {
+}: PageProps<"/[lang]/verify-email">) {
   const { lang } = await params;
   const { email } = await searchParams;
 
@@ -26,8 +26,8 @@ export default async function ResetPasswordPage({
       heroImageAlt={dict.common.heroImageAlt}
       themeLabels={dict.common.theme}
     >
-      <ResetPasswordForm
-        dict={dict.resetPassword}
+      <VerifyEmailForm
+        dict={dict.verifyEmail}
         common={dict.common}
         lang={lang}
         defaultEmail={defaultEmail}

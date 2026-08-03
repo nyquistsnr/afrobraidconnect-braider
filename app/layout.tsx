@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { InlineScript } from "@/components/theme/inline-script";
+import { AppToastContainer } from "@/components/toast-container";
+import { QueryProvider } from "@/lib/query-provider";
 import { themeInitScript } from "@/lib/theme";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -40,7 +44,14 @@ export default function RootLayout({
         <InlineScript html={themeInitScript} />
       </head>
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider>
+            <QueryProvider>
+              {children}
+              <AppToastContainer />
+            </QueryProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

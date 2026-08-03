@@ -23,7 +23,7 @@ export default async function LoginPage({
       heroImageAlt={dict.common.heroImageAlt}
       themeLabels={dict.common.theme}
     >
-      <LoginForm dict={dict.login} lang={lang} />
+      <LoginForm dict={dict.login} common={dict.common} lang={lang} />
     </AuthShell>
   );
 }

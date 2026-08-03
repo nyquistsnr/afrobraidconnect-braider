@@ -2,41 +2,51 @@
 
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { LogoutConfirmModal } from "@/components/dashboard/logout-confirm-modal";
 
-// Placeholder until authenticated user data is wired up.
-const CURRENT_USER_NAME = "Amara Nwosu";
-
 export function DashboardShell({
   lang,
   dict,
   themeLabels,
+  logoutSuccessMessage,
+  userName,
   children,
 }: {
   lang: Locale;
   dict: Dictionary["dashboard"];
   themeLabels: Dictionary["common"]["theme"];
+  logoutSuccessMessage: string;
+  userName: string;
   children: React.ReactNode;
 }) {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
-  const handleConfirmLogout = useCallback(() => {
-    setLogoutModalOpen(false);
-    router.push(`/${lang}/login`);
-  }, [lang, router]);
+  const handleConfirmLogout = useCallback(async () => {
+    setLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      toast.success(logoutSuccessMessage);
+      router.push(`/${lang}/login`);
+    } finally {
+      setLoggingOut(false);
+      setLogoutModalOpen(false);
+    }
+  }, [lang, logoutSuccessMessage, router]);
 
   return (
     <div className="flex h-screen">
       <Sidebar
         lang={lang}
         dict={dict.sidebar}
-        userName={CURRENT_USER_NAME}
+        userName={userName}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onLogoutClick={() => setLogoutModalOpen(true)}
@@ -60,6 +70,7 @@ export function DashboardShell({
         open={logoutModalOpen}
         onClose={() => setLogoutModalOpen(false)}
         onConfirm={handleConfirmLogout}
+        loading={loggingOut}
         dict={dict.logoutModal}
       />
     </div>

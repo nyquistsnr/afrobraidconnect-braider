@@ -7,9 +7,36 @@
       "dark": "Sombre",
       "system": "Système"
     },
+    "loading": "Chargement…",
     "backToLogin": "Retour à la connexion",
     "countrySearchPlaceholder": "Rechercher un pays",
-    "noCountriesFound": "Aucun pays trouvé"
+    "noCountriesFound": "Aucun pays trouvé",
+    "errors": {
+      "validationError": "Veuillez vérifier les champs signalés et réessayer.",
+      "emailAlreadyExists": "Un compte existe déjà avec cet e-mail.",
+      "phoneAlreadyExists": "Un compte existe déjà avec ce numéro de téléphone.",
+      "invalidCredentials": "E-mail ou mot de passe incorrect.",
+      "emailNotVerified": "Veuillez vérifier votre e-mail avant de vous connecter.",
+      "userNotActive": "Ce compte a été désactivé.",
+      "invalidOtp": "Ce code n'est pas correct. Veuillez réessayer.",
+      "otpExpired": "Ce code a expiré. Demandez-en un nouveau.",
+      "tooManyOtpAttempts": "Trop de tentatives. Veuillez demander un nouveau code.",
+      "socialAuthFailed": "Impossible de vous connecter avec ce fournisseur.",
+      "unsupportedProvider": "Ce fournisseur de connexion n'est pas pris en charge.",
+      "userTypeRequired": "Veuillez choisir un type de compte pour continuer.",
+      "rateLimited": "Trop de tentatives. Veuillez patienter puis réessayer.",
+      "networkError": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+      "generic": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "toasts": {
+      "signupSuccess": "Compte créé ! Consultez votre e-mail pour le code de vérification.",
+      "verifyEmailSuccess": "E-mail vérifié ! Bienvenue sur Afrobraid Connect.",
+      "resendSuccess": "Un nouveau code a été envoyé à votre e-mail.",
+      "loginSuccess": "Content de vous revoir !",
+      "forgotPasswordSuccess": "Si ce compte existe, un code de réinitialisation est en route.",
+      "resetPasswordSuccess": "Mot de passe réinitialisé ! Veuillez vous connecter avec votre nouveau mot de passe.",
+      "logoutSuccess": "Vous avez été déconnecté."
+    }
   },
   "login": {
     "title": "Content de vous revoir",
@@ -62,6 +89,16 @@
     "submit": "Créer un compte",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signIn": "Se connecter"
+  },
+  "verifyEmail": {
+    "title": "Vérifiez votre e-mail",
+    "subtitle": "Entrez le code à 6 chiffres que nous avons envoyé à votre e-mail.",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "hello@example.com",
+    "codeLabel": "Code de vérification",
+    "codeHelp": "Vous n'avez pas reçu de code ?",
+    "resendCode": "Renvoyer le code",
+    "submit": "Vérifier l'e-mail"
   },
   "dashboard": {
     "sidebar": {

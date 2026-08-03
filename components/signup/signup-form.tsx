@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { Mail, User } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
+import { authApi, ApiError } from "@/lib/api/auth-client";
+import { getAuthErrorMessage } from "@/lib/api/error-messages";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { PhoneInput } from "@/components/ui/phone-input";
@@ -20,16 +25,41 @@ export function SignupForm({
   lang: Locale;
 }) {
   const [phone, setPhone] = useState<string | undefined>();
+  const router = useRouter();
+
+  const signupMutation = useMutation({
+    mutationFn: authApi.signup,
+    onSuccess: ({ email }) => {
+      toast.success(common.toasts.signupSuccess);
+      router.push(`/${lang}/verify-email?email=${encodeURIComponent(email)}`);
+    },
+    onError: (error) => {
+      const code = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(code, common.errors));
+    },
+  });
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const lastName = String(formData.get("lastName") ?? "").trim();
+
+    signupMutation.mutate({
+      first_name: String(formData.get("firstName") ?? ""),
+      last_name: lastName || undefined,
+      email: String(formData.get("email") ?? ""),
+      phone_number: phone,
+      password: String(formData.get("password") ?? ""),
+      user_type: "BRAIDER",
+    });
+  }
 
   return (
     <div className="w-full">
       <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">{dict.subtitle}</p>
 
-      <form
-        className="mt-8 space-y-4"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Input
             label={dict.firstNameLabel}
@@ -37,7 +67,7 @@ export function SignupForm({
             icon={User}
             autoComplete="given-name"
             placeholder={dict.firstNamePlaceholder}
-            defaultValue="Amara"
+            required
           />
           <Input
             label={dict.lastNameLabel}
@@ -45,7 +75,6 @@ export function SignupForm({
             icon={User}
             autoComplete="family-name"
             placeholder={dict.lastNamePlaceholder}
-            defaultValue="Nwosu"
           />
         </div>
 
@@ -56,7 +85,7 @@ export function SignupForm({
           icon={Mail}
           autoComplete="email"
           placeholder={dict.emailPlaceholder}
-          defaultValue="hello@example.com"
+          required
         />
 
         <div>
@@ -83,10 +112,13 @@ export function SignupForm({
           name="password"
           autoComplete="new-password"
           placeholder={dict.passwordPlaceholder}
-          defaultValue="password123"
+          minLength={8}
+          required
         />
 
-        <Button type="submit">{dict.submit}</Button>
+        <Button type="submit" disabled={signupMutation.isPending}>
+          {signupMutation.isPending ? common.loading : dict.submit}
+        </Button>
       </form>
 
       <p className="mt-8 text-center text-sm text-muted-foreground">

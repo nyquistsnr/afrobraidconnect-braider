@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { Mail } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
+import { authApi, ApiError } from "@/lib/api/auth-client";
+import { getAuthErrorMessage } from "@/lib/api/error-messages";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { OtpInput } from "@/components/ui/otp-input";
@@ -23,16 +28,41 @@ export function ResetPasswordForm({
 }) {
   const [email, setEmail] = useState(defaultEmail);
   const [code, setCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const router = useRouter();
+
+  const resetPasswordMutation = useMutation({
+    mutationFn: authApi.resetPassword,
+    onSuccess: () => {
+      toast.success(common.toasts.resetPasswordSuccess);
+      router.push(`/${lang}/login`);
+    },
+    onError: (error) => {
+      const code = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(code, common.errors));
+    },
+  });
+
+  const resendMutation = useMutation({
+    mutationFn: authApi.forgotPassword,
+    onSuccess: () => toast.success(common.toasts.resendSuccess),
+    onError: (error) => {
+      const code = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(code, common.errors));
+    },
+  });
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    resetPasswordMutation.mutate({ email, code, new_password: newPassword });
+  }
 
   return (
     <div className="w-full">
       <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">{dict.subtitle}</p>
 
-      <form
-        className="mt-8 space-y-5"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
         <Input
           label={dict.emailLabel}
           type="email"
@@ -42,6 +72,7 @@ export function ResetPasswordForm({
           placeholder={dict.emailPlaceholder}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          required
         />
 
         <div>
@@ -50,7 +81,9 @@ export function ResetPasswordForm({
             {dict.codeHelp}{" "}
             <button
               type="button"
-              className="font-medium text-brand hover:text-brand-hover"
+              disabled={resendMutation.isPending}
+              onClick={() => resendMutation.mutate({ email })}
+              className="font-medium text-brand hover:text-brand-hover disabled:opacity-60"
             >
               {dict.resendCode}
             </button>
@@ -62,9 +95,18 @@ export function ResetPasswordForm({
           name="new-password"
           autoComplete="new-password"
           placeholder={dict.newPasswordPlaceholder}
+          value={newPassword}
+          onChange={(event) => setNewPassword(event.target.value)}
+          minLength={8}
+          required
         />
 
-        <Button type="submit">{dict.submit}</Button>
+        <Button
+          type="submit"
+          disabled={resetPasswordMutation.isPending || code.length < 6}
+        >
+          {resetPasswordMutation.isPending ? common.loading : dict.submit}
+        </Button>
       </form>
 
       <p className="mt-8 text-center text-sm text-muted-foreground">

@@ -7,9 +7,36 @@
       "dark": "Dark",
       "system": "System"
     },
+    "loading": "Loading…",
     "backToLogin": "Back to Sign In",
     "countrySearchPlaceholder": "Search country",
-    "noCountriesFound": "No countries found"
+    "noCountriesFound": "No countries found",
+    "errors": {
+      "validationError": "Please check the highlighted fields and try again.",
+      "emailAlreadyExists": "An account with this email already exists.",
+      "phoneAlreadyExists": "An account with this phone number already exists.",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailNotVerified": "Please verify your email before signing in.",
+      "userNotActive": "This account has been deactivated.",
+      "invalidOtp": "That code isn't right. Please try again.",
+      "otpExpired": "This code has expired. Request a new one.",
+      "tooManyOtpAttempts": "Too many attempts. Please request a new code.",
+      "socialAuthFailed": "We couldn't sign you in with that provider.",
+      "unsupportedProvider": "That sign-in provider isn't supported.",
+      "userTypeRequired": "Please choose an account type to continue.",
+      "rateLimited": "Too many attempts. Please wait a moment and try again.",
+      "networkError": "Couldn't reach the server. Check your connection and try again.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "toasts": {
+      "signupSuccess": "Account created! Check your email for a verification code.",
+      "verifyEmailSuccess": "Email verified! Welcome to Afrobraid Connect.",
+      "resendSuccess": "A new code has been sent to your email.",
+      "loginSuccess": "Welcome back!",
+      "forgotPasswordSuccess": "If that email exists, a reset code is on its way.",
+      "resetPasswordSuccess": "Password reset! Please sign in with your new password.",
+      "logoutSuccess": "You've been signed out."
+    }
   },
   "login": {
     "title": "Welcome Back",
@@ -62,6 +89,16 @@
     "submit": "Create Account",
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign In"
+  },
+  "verifyEmail": {
+    "title": "Verify your email",
+    "subtitle": "Enter the 6-digit code we sent to your email.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "hello@example.com",
+    "codeLabel": "Verification code",
+    "codeHelp": "Didn't get a code?",
+    "resendCode": "Resend code",
+    "submit": "Verify Email"
   },
   "dashboard": {
     "sidebar": {

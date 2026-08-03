@@ -1,29 +1,67 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { Mail } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
+import { getAuthErrorMessage } from "@/lib/api/error-messages";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 
 export function LoginForm({
   dict,
+  common,
   lang,
 }: {
   dict: Dictionary["login"];
+  common: Dictionary["common"];
   lang: Locale;
 }) {
+  const router = useRouter();
+
+  const loginMutation = useMutation({
+    mutationFn: async (credentials: { email: string; password: string }) => {
+      const result = await signIn("credentials", {
+        ...credentials,
+        redirect: false,
+      });
+
+      // signIn() never rejects for auth failures — it resolves with an
+      // error/code pair instead, so we translate that into a thrown error
+      // to let TanStack Query's onError path handle it uniformly.
+      if (result?.error) {
+        throw new Error(result.code ?? result.error);
+      }
+    },
+    onSuccess: () => {
+      toast.success(common.toasts.loginSuccess);
+      router.push(`/${lang}/dashboard`);
+    },
+    onError: (error) => {
+      toast.error(getAuthErrorMessage(error.message, common.errors));
+    },
+  });
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    loginMutation.mutate({
+      email: String(formData.get("email") ?? ""),
+      password: String(formData.get("password") ?? ""),
+    });
+  }
+
   return (
     <div className="w-full">
       <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">{dict.subtitle}</p>
 
-      <form
-        className="mt-8 space-y-4"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
         <Input
           label={dict.emailLabel}
           type="email"
@@ -31,7 +69,7 @@ export function LoginForm({
           icon={Mail}
           autoComplete="email"
           placeholder={dict.emailPlaceholder}
-          defaultValue="hello@example.com"
+          required
         />
 
         <PasswordInput
@@ -39,7 +77,7 @@ export function LoginForm({
           name="password"
           autoComplete="current-password"
           placeholder={dict.passwordPlaceholder}
-          defaultValue="password123"
+          required
         />
 
         <div className="flex justify-end">
@@ -51,7 +89,9 @@ export function LoginForm({
           </Link>
         </div>
 
-        <Button type="submit">{dict.signIn}</Button>
+        <Button type="submit" disabled={loginMutation.isPending}>
+          {loginMutation.isPending ? common.loading : dict.signIn}
+        </Button>
       </form>
 
       <div className="my-6 flex items-center gap-4">
@@ -80,7 +120,7 @@ export function LoginForm({
         <p>
           {dict.notVerified}{" "}
           <Link
-            href={`/${lang}/revalidate`}
+            href={`/${lang}/verify-email`}
             className="font-medium text-brand hover:text-brand-hover"
           >
             {dict.revalidate}
