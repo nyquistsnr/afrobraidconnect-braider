@@ -105,7 +105,8 @@ export function LoginForm({
 
       <GoogleSignInButton
         lang={lang}
-        loginSuccessMessage={common.toasts.loginSuccess}
+        label={dict.signInWithGoogle}
+        successMessage={common.toasts.loginSuccess}
         errorsDict={common.errors}
       />
 

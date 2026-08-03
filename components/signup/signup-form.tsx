@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Button } from "@/components/ui/button";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 
 export function SignupForm({
   dict,
@@ -120,6 +121,21 @@ export function SignupForm({
           {signupMutation.isPending ? common.loading : dict.submit}
         </Button>
       </form>
+
+      <div className="my-6 flex items-center gap-4">
+        <div className="h-px flex-1 bg-border" />
+        <span className="text-xs font-medium text-muted-foreground">
+          {dict.or}
+        </span>
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
+      <GoogleSignInButton
+        lang={lang}
+        label={dict.signUpWithGoogle}
+        successMessage={common.toasts.loginSuccess}
+        errorsDict={common.errors}
+      />
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
         {dict.alreadyHaveAccount}{" "}

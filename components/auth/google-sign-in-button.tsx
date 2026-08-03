@@ -7,7 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
-import { useTheme } from "@/components/theme/theme-provider";
 import { getAuthErrorMessage } from "@/lib/api/error-messages";
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -23,12 +22,7 @@ declare global {
           }) => void;
           renderButton: (
             parent: HTMLElement,
-            options: {
-              theme: "outline" | "filled_black" | "filled_blue";
-              size: "large" | "medium" | "small";
-              text: "continue_with" | "signin_with" | "signup_with";
-              width: number;
-            }
+            options: { size: "large" | "medium" | "small"; width: number }
           ) => void;
         };
       };
@@ -38,16 +32,18 @@ declare global {
 
 export function GoogleSignInButton({
   lang,
-  loginSuccessMessage,
+  label,
+  successMessage,
   errorsDict,
 }: {
   lang: Locale;
-  loginSuccessMessage: string;
+  label: string;
+  successMessage: string;
   errorsDict: Dictionary["common"]["errors"];
 }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { resolvedTheme } = useTheme();
 
   const googleSignInMutation = useMutation({
     mutationFn: async (providerToken: string) => {
@@ -57,7 +53,7 @@ export function GoogleSignInButton({
       }
     },
     onSuccess: () => {
-      toast.success(loginSuccessMessage);
+      toast.success(successMessage);
       router.push(`/${lang}/dashboard`);
     },
     onError: (error) => {
@@ -81,9 +77,10 @@ export function GoogleSignInButton({
     function renderWhenReady() {
       if (cancelled) return;
       const container = containerRef.current;
+      const wrapper = wrapperRef.current;
       const google = window.google;
 
-      if (!google || !container) {
+      if (!google || !container || !wrapper) {
         setTimeout(renderWhenReady, 100);
         return;
       }
@@ -95,11 +92,17 @@ export function GoogleSignInButton({
         callback: (response) => googleSignInMutation.mutate(response.credential),
       });
 
+      // Google's own rendered button is the only supported way to get an
+      // ID token (rather than an access token) from a click — but its
+      // built-in themes always keep a white backing chip behind the logo
+      // even in dark mode, and its `text` option only offers a handful of
+      // fixed Google-picked strings that don't follow this app's language
+      // switcher. So it's rendered fully transparent, stretched exactly
+      // over our own styled + translated button below, and just catches
+      // the click; all the visible pixels are ours.
       google.accounts.id.renderButton(container, {
-        theme: resolvedTheme === "dark" ? "filled_black" : "outline",
         size: "large",
-        text: "continue_with",
-        width: container.offsetWidth || 320,
+        width: wrapper.offsetWidth || 320,
       });
     }
 
@@ -109,9 +112,51 @@ export function GoogleSignInButton({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedTheme]);
+  }, []);
 
   if (!GOOGLE_CLIENT_ID) return null;
 
-  return <div ref={containerRef} className="w-full" />;
+  return (
+    <div ref={wrapperRef} className="relative h-10 w-full">
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-hidden="true"
+        className="pointer-events-none flex h-10 w-full items-center justify-center gap-3 border border-border bg-input text-sm font-semibold text-foreground"
+      >
+        <GoogleIcon className="size-5 shrink-0" />
+        {label}
+      </button>
+
+      {/* Google's real, functional button — invisible but still the
+          element that actually receives the click and keyboard focus. */}
+      <div
+        ref={containerRef}
+        className="absolute inset-0 overflow-hidden opacity-0"
+      />
+    </div>
+  );
+}
+
+function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...props} viewBox="0 0 24 24">
+      <path
+        fill="#4285F4"
+        d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.89c2.27-2.09 3.58-5.17 3.58-8.82Z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.89-3c-1.08.73-2.46 1.15-4.06 1.15-3.13 0-5.78-2.11-6.73-4.95H1.26v3.11A12 12 0 0 0 12 24Z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.27 14.29a7.19 7.19 0 0 1 0-4.58V6.6H1.26a12 12 0 0 0 0 10.8l4.01-3.11Z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.77c1.76 0 3.34.6 4.58 1.79l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.26 6.6l4.01 3.11C6.22 6.88 8.87 4.77 12 4.77Z"
+      />
+    </svg>
+  );
 }

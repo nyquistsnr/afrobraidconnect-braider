@@ -87,6 +87,8 @@
     "passwordLabel": "Mot de passe",
     "passwordPlaceholder": "Créez un mot de passe",
     "submit": "Créer un compte",
+    "or": "OU",
+    "signUpWithGoogle": "S'inscrire avec Google",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signIn": "Se connecter"
   },
