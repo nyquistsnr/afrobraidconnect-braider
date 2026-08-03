@@ -137,6 +137,17 @@
     },
     "home": {
       "greeting": "Hallo"
+    },
+    "profile": {
+      "title": "Profileinstellungen",
+      "subtitle": "Aktualisieren Sie Ihre persönlichen Daten.",
+      "firstNameLabel": "Vorname",
+      "firstNamePlaceholder": "z.B. Amara",
+      "lastNameLabel": "Nachname",
+      "lastNamePlaceholder": "z.B. Nwosu",
+      "phoneLabel": "Telefonnummer",
+      "saveButton": "Änderungen speichern",
+      "successToast": "Profil erfolgreich aktualisiert."
     }
   },
   "bookings": {

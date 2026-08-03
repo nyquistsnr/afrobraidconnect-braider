@@ -22,7 +22,9 @@ export default async function OnboardingLayout({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (!session) redirect(await loginPath(lang));
+  if (!session || session.error === "RefreshAccessTokenError") {
+    redirect(await loginPath(lang));
+  }
   // Onboarding only applies to braider accounts.
   if (!session.braider) redirect(`/${lang}/dashboard`);
 

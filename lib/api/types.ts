@@ -31,6 +31,12 @@ export interface UserPublic {
   user_type: UserType;
 }
 
+export interface UserProfileUpdateRequest {
+  first_name?: string;
+  last_name?: string | null;
+  phone_number?: string | null;
+}
+
 // Returned by verify-email, login, social/{provider}, refresh.
 export interface AuthTokenResponse extends UserPublic {
   access_token: string;

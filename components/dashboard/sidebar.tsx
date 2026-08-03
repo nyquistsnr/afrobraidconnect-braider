@@ -12,6 +12,7 @@ export function Sidebar({
   lang,
   dict,
   userName,
+  userLogo,
   open,
   onClose,
   onLogoutClick,
@@ -19,6 +20,7 @@ export function Sidebar({
   lang: Locale;
   dict: Dictionary["dashboard"]["sidebar"];
   userName: string;
+  userLogo: string | null;
   open: boolean;
   onClose: () => void;
   onLogoutClick: () => void;
@@ -106,18 +108,25 @@ export function Sidebar({
         </nav>
 
         <div className="border-t border-border px-3 py-4">
-          <div className="flex items-center gap-3 px-3 py-2">
+          <Link
+            href={`/${lang}/dashboard/profile`}
+            className={`flex items-center gap-3 rounded-md px-3 py-2 transition-colors ${
+              pathname === `/${lang}/dashboard/profile`
+                ? "bg-border/80 text-foreground"
+                : "hover:bg-border/40"
+            }`}
+          >
             <Image
-              src="/images/profile.jpg"
+              src={userLogo || "/images/profile.jpg"}
               alt={userName}
               width={36}
               height={36}
-              className="size-9 shrink-0 object-cover"
+              className="size-9 shrink-0 rounded-full object-cover ring-1 ring-border"
             />
             <span className="truncate text-sm font-semibold text-foreground">
               {userName}
             </span>
-          </div>
+          </Link>
 
           <button
             type="button"

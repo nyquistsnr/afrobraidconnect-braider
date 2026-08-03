@@ -137,6 +137,17 @@
     },
     "home": {
       "greeting": "Hello There"
+    },
+    "profile": {
+      "title": "Profile Settings",
+      "subtitle": "Update your personal details.",
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "e.g. Amara",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "e.g. Nwosu",
+      "phoneLabel": "Phone Number",
+      "saveButton": "Save Changes",
+      "successToast": "Profile updated successfully."
     }
   },
   "bookings": {

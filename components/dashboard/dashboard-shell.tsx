@@ -15,6 +15,7 @@ export function DashboardShell({
   themeLabels,
   logoutSuccessMessage,
   userName,
+  userLogo,
   children,
 }: {
   lang: Locale;
@@ -22,6 +23,7 @@ export function DashboardShell({
   themeLabels: Dictionary["common"]["theme"];
   logoutSuccessMessage: string;
   userName: string;
+  userLogo: string | null;
   children: React.ReactNode;
 }) {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
@@ -47,6 +49,7 @@ export function DashboardShell({
         lang={lang}
         dict={dict.sidebar}
         userName={userName}
+        userLogo={userLogo}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onLogoutClick={() => setLogoutModalOpen(true)}

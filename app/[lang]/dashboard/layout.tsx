@@ -17,7 +17,9 @@ export default async function DashboardLayout({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (!session) redirect(await loginPath(lang));
+  if (!session || session.error === "RefreshAccessTokenError") {
+    redirect(await loginPath(lang));
+  }
 
   const dict = await getDictionary(lang);
   const userName = [session.user.firstName, session.user.lastName]
@@ -31,6 +33,7 @@ export default async function DashboardLayout({
       themeLabels={dict.common.theme}
       logoutSuccessMessage={dict.common.toasts.logoutSuccess}
       userName={userName}
+      userLogo={session.braider?.logo_url ?? null}
     >
       {children}
     </DashboardShell>
