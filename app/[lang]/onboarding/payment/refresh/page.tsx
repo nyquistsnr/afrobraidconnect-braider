@@ -13,12 +13,19 @@ export default async function PaymentRefreshPage(props: {
     redirect(`/${lang}/login`);
   }
 
+  let url: string | null = null;
+
   try {
-    // Attempt to get a new link and redirect them
+    // Attempt to get a new link
     const link = await onboardingApi.createAccountLink(session.accessToken);
-    redirect(link.onboarding_url);
+    url = link.onboarding_url;
   } catch (error) {
     console.error("Failed to refresh Stripe link", error);
+  }
+
+  if (url) {
+    redirect(url);
+  } else {
     // If it fails, send them back to the payment setup page
     redirect(`/${lang}/onboarding/payment`);
   }
