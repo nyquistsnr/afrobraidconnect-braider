@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { InlineScript } from "@/components/theme/inline-script";
@@ -44,6 +45,7 @@ export default function RootLayout({
         <InlineScript html={themeInitScript} />
       </head>
       <body className="min-h-full flex flex-col">
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
         <SessionProvider>
           <ThemeProvider>
             <QueryProvider>

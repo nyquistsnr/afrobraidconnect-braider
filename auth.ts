@@ -1,7 +1,8 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth, { CredentialsSignin, type User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import type { JWT } from "next-auth/jwt";
 import { ApiError, authApi } from "@/lib/api/auth-client";
+import type { AuthTokenResponse } from "@/lib/api/types";
 
 // Auth.js redirects thrown-CredentialsSignin subclasses back to the client
 // with `code` set to this instance property — this is how our backend's
@@ -12,6 +13,24 @@ class LoginError extends CredentialsSignin {
     super();
     this.code = code;
   }
+}
+
+// Shared by both the email/password and Google providers — same backend
+// envelope shape (AuthTokenResponse) either way, once a session exists.
+function toAuthUser(tokens: AuthTokenResponse): User {
+  return {
+    id: tokens.id,
+    email: tokens.email,
+    name: [tokens.first_name, tokens.last_name].filter(Boolean).join(" "),
+    firstName: tokens.first_name,
+    lastName: tokens.last_name,
+    phoneNumber: tokens.phone_number,
+    userType: tokens.user_type,
+    accessToken: tokens.access_token,
+    refreshToken: tokens.refresh_token,
+    accessTokenExpires: Date.now() + tokens.expires_in * 1000,
+    braider: tokens.braider,
+  };
 }
 
 // The backend rotates refresh tokens on every use, so the old one is dead
@@ -36,6 +55,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   providers: [
     Credentials({
+      id: "credentials",
       credentials: {
         email: {},
         password: {},
@@ -55,20 +75,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             password,
             remember_me: credentials?.rememberMe === "true",
           });
+          return toAuthUser(tokens);
+        } catch (error) {
+          throw new LoginError(
+            error instanceof ApiError ? error.code : "UNKNOWN_ERROR"
+          );
+        }
+      },
+    }),
+    // Not next-auth/providers/google — that provider expects to run the
+    // OAuth redirect dance itself. Google Identity Services (the button
+    // rendered client-side) instead hands us a ready-made Google ID token,
+    // which our backend verifies directly, so this is modeled as a second
+    // Credentials provider that just forwards that token.
+    Credentials({
+      id: "google",
+      name: "Google",
+      credentials: {
+        providerToken: {},
+      },
+      authorize: async (credentials) => {
+        const providerToken = credentials?.providerToken;
 
-          return {
-            id: tokens.id,
-            email: tokens.email,
-            name: [tokens.first_name, tokens.last_name].filter(Boolean).join(" "),
-            firstName: tokens.first_name,
-            lastName: tokens.last_name,
-            phoneNumber: tokens.phone_number,
-            userType: tokens.user_type,
-            accessToken: tokens.access_token,
-            refreshToken: tokens.refresh_token,
-            accessTokenExpires: Date.now() + tokens.expires_in * 1000,
-            braider: tokens.braider,
-          };
+        if (typeof providerToken !== "string") {
+          throw new LoginError("VALIDATION_ERROR");
+        }
+
+        try {
+          const tokens = await authApi.socialLogin("google", {
+            provider_token: providerToken,
+            // Ignored by the backend if the Google account already maps to
+            // an existing user — only applies to brand-new sign-ups.
+            user_type: "BRAIDER",
+          });
+          return toAuthUser(tokens);
         } catch (error) {
           throw new LoginError(
             error instanceof ApiError ? error.code : "UNKNOWN_ERROR"
