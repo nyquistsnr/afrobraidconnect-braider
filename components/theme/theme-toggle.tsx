@@ -1,20 +1,32 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown } from "lucide-react";
-import { GB, FR, DE } from "country-flag-icons/react/3x2";
-import { locales, localeNames, localeCountry, type Locale } from "@/lib/i18n";
+import { Sun, Moon, Monitor } from "lucide-react";
+import { useTheme } from "@/components/theme/theme-provider";
+import { themes, type Theme } from "@/lib/theme";
 
-const flags: Record<Locale, typeof GB> = { en: GB, fr: FR, de: DE };
+const icons: Record<Theme, typeof Sun> = {
+  light: Sun,
+  dark: Moon,
+  system: Monitor,
+};
 
-export function LanguageSwitcher({ lang }: { lang: Locale }) {
+export function ThemeToggle({
+  labels,
+}: {
+  labels: Record<Theme, string>;
+}) {
+  const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
+    // Intentional: flips exactly once, after hydration, so this component's
+    // first client render matches the server before switching to the real value.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+
     function handleClickOutside(event: MouseEvent) {
       if (
         containerRef.current &&
@@ -27,14 +39,10 @@ export function LanguageSwitcher({ lang }: { lang: Locale }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  function switchTo(nextLang: Locale) {
-    setOpen(false);
-    const segments = pathname.split("/");
-    segments[1] = nextLang;
-    router.push(segments.join("/") || "/");
-  }
-
-  const CurrentFlag = flags[lang];
+  // The server always renders "system" (it has no access to localStorage).
+  // Defer to the real value only after mount so hydration doesn't mismatch.
+  const activeTheme = mounted ? theme : "system";
+  const CurrentIcon = icons[activeTheme];
 
   return (
     <div ref={containerRef} className="relative">
@@ -43,13 +51,10 @@ export function LanguageSwitcher({ lang }: { lang: Locale }) {
         onClick={() => setOpen((value) => !value)}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-label={labels[activeTheme]}
         className="flex items-center gap-1.5 px-2 py-1 text-muted-foreground hover:bg-border/40 hover:text-foreground"
       >
-        <CurrentFlag title={localeCountry[lang]} className="h-3.5 w-5" />
-        <span className="font-medium uppercase">{lang}</span>
-        <ChevronDown
-          className={`size-3.5 transition-transform ${open ? "rotate-180" : ""}`}
-        />
+        <CurrentIcon className="size-4" />
       </button>
 
       {open && (
@@ -57,26 +62,26 @@ export function LanguageSwitcher({ lang }: { lang: Locale }) {
           role="listbox"
           className="absolute bottom-full right-0 mb-2 w-40 overflow-hidden border border-border bg-surface py-1 shadow-lg"
         >
-          {locales.map((locale) => {
-            const Flag = flags[locale];
+          {themes.map((option) => {
+            const Icon = icons[option];
             return (
-              <li key={locale}>
+              <li key={option}>
                 <button
                   type="button"
                   role="option"
-                  aria-selected={locale === lang}
-                  onClick={() => switchTo(locale)}
+                  aria-selected={option === activeTheme}
+                  onClick={() => {
+                    setTheme(option);
+                    setOpen(false);
+                  }}
                   className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-border/40 ${
-                    locale === lang
+                    option === activeTheme
                       ? "font-semibold text-brand"
                       : "text-foreground"
                   }`}
                 >
-                  <Flag className="h-3.5 w-5 shrink-0" />
-                  {localeNames[locale]}
-                  <span className="ml-auto text-xs uppercase text-muted-foreground">
-                    {locale}
-                  </span>
+                  <Icon className="size-4" />
+                  {labels[option]}
                 </button>
               </li>
             );

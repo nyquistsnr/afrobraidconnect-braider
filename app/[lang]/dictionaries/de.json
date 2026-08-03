@@ -1,6 +1,15 @@
 {
-  "locale": {
-    "name": "Deutsch"
+  "common": {
+    "supportEmail": "support@afrobraidconnect.de",
+    "heroImageAlt": "Lächelnde Frau mit geflochtenem Haar",
+    "theme": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    },
+    "backToLogin": "Zurück zur Anmeldung",
+    "countrySearchPlaceholder": "Land suchen",
+    "noCountriesFound": "Keine Länder gefunden"
   },
   "login": {
     "title": "Willkommen zurück",
@@ -16,8 +25,42 @@
     "noAccount": "Sie haben noch kein Konto?",
     "signUpProfessional": "Als Fachkraft registrieren",
     "notVerified": "Konto noch nicht verifiziert?",
-    "revalidate": "Erneut verifizieren",
-    "supportEmail": "support@afrobraidconnect.de",
-    "heroImageAlt": "Lächelnde Frau mit geflochtenem Haar"
+    "revalidate": "Erneut verifizieren"
+  },
+  "forgotPassword": {
+    "title": "Passwort vergessen?",
+    "subtitle": "Geben Sie die mit Ihrem Konto verknüpfte E-Mail-Adresse ein, und wir senden Ihnen einen Code zum Zurücksetzen.",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "hello@example.com",
+    "submit": "Code senden"
+  },
+  "resetPassword": {
+    "title": "Passwort zurücksetzen",
+    "subtitle": "Geben Sie den 6-stelligen Code ein, den wir Ihnen per E-Mail gesendet haben, und wählen Sie ein neues Passwort.",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "hello@example.com",
+    "codeLabel": "Bestätigungscode",
+    "codeHelp": "Keinen Code erhalten?",
+    "resendCode": "Code erneut senden",
+    "newPasswordLabel": "Neues Passwort",
+    "newPasswordPlaceholder": "Neues Passwort eingeben",
+    "submit": "Passwort zurücksetzen"
+  },
+  "signup": {
+    "title": "Erstellen Sie Ihr Fachkonto",
+    "subtitle": "Treten Sie Afrobraid Connect bei und erhalten Sie Buchungen.",
+    "firstNameLabel": "Vorname",
+    "firstNamePlaceholder": "Amara",
+    "lastNameLabel": "Nachname",
+    "lastNamePlaceholder": "Nwosu",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "hello@example.com",
+    "phoneLabel": "Telefonnummer",
+    "phoneOptional": "Optional",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Passwort erstellen",
+    "submit": "Konto erstellen",
+    "alreadyHaveAccount": "Sie haben bereits ein Konto?",
+    "signIn": "Anmelden"
   }
 }

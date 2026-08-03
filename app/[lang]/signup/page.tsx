@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
 import { AuthShell } from "@/components/auth/auth-shell";
-import { LoginForm } from "@/components/login/login-form";
+import { SignupForm } from "@/components/signup/signup-form";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default async function LoginPage({
+export default async function SignupPage({
   params,
-}: PageProps<"/[lang]/login">) {
+}: PageProps<"/[lang]/signup">) {
   const { lang } = await params;
 
   if (!hasLocale(lang)) notFound();
@@ -23,7 +23,7 @@ export default async function LoginPage({
       heroImageAlt={dict.common.heroImageAlt}
       themeLabels={dict.common.theme}
     >
-      <LoginForm dict={dict.login} lang={lang} />
+      <SignupForm dict={dict.signup} common={dict.common} lang={lang} />
     </AuthShell>
   );
 }

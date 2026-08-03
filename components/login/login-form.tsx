@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { Mail } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Button } from "@/components/ui/button";
 
 export function LoginForm({
   dict,
@@ -12,8 +15,6 @@ export function LoginForm({
   dict: Dictionary["login"];
   lang: Locale;
 }) {
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
     <div className="w-full">
       <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
@@ -23,47 +24,23 @@ export function LoginForm({
         className="mt-8 space-y-4"
         onSubmit={(event) => event.preventDefault()}
       >
-        <label className="block">
-          <span className="sr-only">{dict.emailLabel}</span>
-          <div className="flex items-center gap-3 rounded-lg border border-border bg-input px-4 py-3 focus-within:border-brand">
-            <MailIcon className="size-5 shrink-0 text-icon-muted" />
-            <input
-              type="email"
-              name="email"
-              autoComplete="email"
-              placeholder={dict.emailPlaceholder}
-              defaultValue="hello@example.com"
-              className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-placeholder"
-            />
-          </div>
-        </label>
+        <Input
+          label={dict.emailLabel}
+          type="email"
+          name="email"
+          icon={Mail}
+          autoComplete="email"
+          placeholder={dict.emailPlaceholder}
+          defaultValue="hello@example.com"
+        />
 
-        <label className="block">
-          <span className="sr-only">{dict.passwordLabel}</span>
-          <div className="flex items-center gap-3 rounded-lg border border-border bg-input px-4 py-3 focus-within:border-brand">
-            <LockIcon className="size-5 shrink-0 text-icon-muted" />
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              autoComplete="current-password"
-              placeholder={dict.passwordPlaceholder}
-              defaultValue="password123"
-              className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-placeholder"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((value) => !value)}
-              className="shrink-0 text-icon-muted hover:text-muted-foreground"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? (
-                <EyeOffIcon className="size-5" />
-              ) : (
-                <EyeIcon className="size-5" />
-              )}
-            </button>
-          </div>
-        </label>
+        <PasswordInput
+          label={dict.passwordLabel}
+          name="password"
+          autoComplete="current-password"
+          placeholder={dict.passwordPlaceholder}
+          defaultValue="password123"
+        />
 
         <div className="flex justify-end">
           <Link
@@ -74,12 +51,7 @@ export function LoginForm({
           </Link>
         </div>
 
-        <button
-          type="submit"
-          className="w-full rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand-hover"
-        >
-          {dict.signIn}
-        </button>
+        <Button type="submit">{dict.signIn}</Button>
       </form>
 
       <div className="my-6 flex items-center gap-4">
@@ -90,13 +62,10 @@ export function LoginForm({
         <div className="h-px flex-1 bg-border" />
       </div>
 
-      <button
-        type="button"
-        className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-input px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-border/40"
-      >
+      <Button type="button" variant="outline">
         <GoogleIcon className="size-5" />
         {dict.signInWithGoogle}
-      </button>
+      </Button>
 
       <div className="mt-8 space-y-2 text-center text-sm text-muted-foreground">
         <p>
@@ -119,76 +88,6 @@ export function LoginForm({
         </p>
       </div>
     </div>
-  );
-}
-
-function MailIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  );
-}
-
-function LockIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="11" width="18" height="11" rx="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  );
-}
-
-function EyeIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function EyeOffIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
-      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 11 8 11 8a13.16 13.16 0 0 1-1.67 2.68" />
-      <path d="M6.61 6.61A13.53 13.53 0 0 0 1 12s4 8 11 8a9.74 9.74 0 0 0 5.39-1.61" />
-      <path d="m2 2 20 20" />
-    </svg>
   );
 }
 

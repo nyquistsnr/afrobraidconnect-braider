@@ -1,6 +1,15 @@
 {
-  "locale": {
-    "name": "Français"
+  "common": {
+    "supportEmail": "support@afrobraidconnect.de",
+    "heroImageAlt": "Femme souriante portant des cheveux tressés",
+    "theme": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "backToLogin": "Retour à la connexion",
+    "countrySearchPlaceholder": "Rechercher un pays",
+    "noCountriesFound": "Aucun pays trouvé"
   },
   "login": {
     "title": "Content de vous revoir",
@@ -16,8 +25,42 @@
     "noAccount": "Vous n'avez pas de compte ?",
     "signUpProfessional": "Inscrivez-vous en tant que professionnel",
     "notVerified": "Votre compte n'est pas encore vérifié ?",
-    "revalidate": "Revalider",
-    "supportEmail": "support@afrobraidconnect.de",
-    "heroImageAlt": "Femme souriante portant des cheveux tressés"
+    "revalidate": "Revalider"
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié ?",
+    "subtitle": "Entrez l'e-mail associé à votre compte et nous vous enverrons un code de réinitialisation.",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "hello@example.com",
+    "submit": "Envoyer le code"
+  },
+  "resetPassword": {
+    "title": "Réinitialiser votre mot de passe",
+    "subtitle": "Entrez le code à 6 chiffres envoyé par e-mail, puis choisissez un nouveau mot de passe.",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "hello@example.com",
+    "codeLabel": "Code de vérification",
+    "codeHelp": "Vous n'avez pas reçu de code ?",
+    "resendCode": "Renvoyer le code",
+    "newPasswordLabel": "Nouveau mot de passe",
+    "newPasswordPlaceholder": "Entrez un nouveau mot de passe",
+    "submit": "Réinitialiser le mot de passe"
+  },
+  "signup": {
+    "title": "Créez votre compte professionnel",
+    "subtitle": "Rejoignez Afrobraid Connect et commencez à recevoir des réservations.",
+    "firstNameLabel": "Prénom",
+    "firstNamePlaceholder": "Amara",
+    "lastNameLabel": "Nom",
+    "lastNamePlaceholder": "Nwosu",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "hello@example.com",
+    "phoneLabel": "Numéro de téléphone",
+    "phoneOptional": "Facultatif",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Créez un mot de passe",
+    "submit": "Créer un compte",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "signIn": "Se connecter"
   }
 }

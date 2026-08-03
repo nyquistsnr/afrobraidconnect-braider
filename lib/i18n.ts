@@ -10,5 +10,13 @@ export const localeNames: Record<Locale, string> = {
   de: "Deutsch",
 };
 
+// Country used to represent each language's flag, and as the default
+// country for the phone number input.
+export const localeCountry: Record<Locale, "GB" | "FR" | "DE"> = {
+  en: "GB",
+  fr: "FR",
+  de: "DE",
+};
+
 export const hasLocale = (locale: string): locale is Locale =>
   (locales as readonly string[]).includes(locale);
