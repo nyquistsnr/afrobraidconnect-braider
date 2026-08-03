@@ -320,7 +320,7 @@ export function ServiceTypeForm({
                   {addedStyleName(service, lang)}
                 </span>
                 <span className="text-muted-foreground">
-                  {service.base_price.toFixed(2)} €
+                  {Number(service.base_price).toFixed(2)} €
                 </span>
               </li>
             ))}

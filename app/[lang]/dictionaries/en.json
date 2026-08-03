@@ -258,6 +258,48 @@
         "added": "Added to your menu."
       }
     },
+    "portfolio": {
+      "title": "Showcase your work",
+      "subtitle": "Add at least 3 photos of your best braiding work.",
+      "addPhoto": "Add photo",
+      "removePhoto": "Remove",
+      "captionLabel": "Caption (optional)",
+      "captionPlaceholder": "E.g. Knotless box braids...",
+      "minPhotosRequired": "You need at least 3 photos.",
+      "continue": "Continue",
+      "toasts": {
+        "uploaded": "Photo uploaded.",
+        "removed": "Photo removed.",
+        "captionUpdated": "Caption updated."
+      }
+    },
+    "serviceLocation": {
+      "title": "Where do you work?",
+      "subtitle": "Let clients know where to find you.",
+      "locationTypeLabel": "Workspace type",
+      "locationTypes": {
+        "homeStudio": "Home Studio",
+        "salon": "Salon"
+      },
+      "salonNameLabel": "Salon name",
+      "salonNamePlaceholder": "e.g. Studio 54",
+      "addressLine1Label": "Address line 1",
+      "addressLine1Placeholder": "Street and number",
+      "addressLine2Label": "Address line 2 (optional)",
+      "addressLine2Placeholder": "Apartment, suite, etc.",
+      "cityLabel": "City",
+      "cityPlaceholder": "Berlin",
+      "postalCodeLabel": "Postal code",
+      "postalCodePlaceholder": "10115",
+      "countryLabel": "Country",
+      "offersMobileLabel": "I offer mobile services (I travel to the client)",
+      "travelRadiusLabel": "Travel radius (km)",
+      "travelFeeLabel": "Travel fee (€, optional)",
+      "continue": "Save & Continue",
+      "toasts": {
+        "saved": "Location saved."
+      }
+    },
     "comingSoon": {
       "title": "Coming soon",
       "subtitle": "This step isn't ready yet — check back shortly."

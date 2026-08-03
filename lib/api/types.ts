@@ -215,6 +215,86 @@ export interface VeriffStatusResponse {
 }
 
 // ---------------------------------------------------------------------------
+// Portfolio
+// ---------------------------------------------------------------------------
+
+export type PortfolioImageContentType = "image/jpeg" | "image/png" | "image/webp";
+
+export interface PortfolioImageResponse {
+  id: string;
+  url: string;
+  caption_en: string | null;
+  caption_de: string | null;
+  caption_fr: string | null;
+  caption_en_source: BioSource | null;
+  caption_de_source: BioSource | null;
+  caption_fr_source: BioSource | null;
+  position: number;
+}
+
+export interface PortfolioResponse {
+  images: PortfolioImageResponse[];
+  min_required: number;
+  is_complete: boolean;
+}
+
+export interface PortfolioImageUploadUrlRequest {
+  content_type: PortfolioImageContentType;
+}
+
+export interface PortfolioImageUploadUrlResponse {
+  upload_url: string;
+  object_key: string;
+  expires_in: number;
+}
+
+export interface PortfolioImageConfirmRequest {
+  object_key: string;
+  caption?: string;
+}
+
+export interface PortfolioImageUpdateRequest {
+  caption?: string | null;
+}
+
+// ---------------------------------------------------------------------------
+// Service Location
+// ---------------------------------------------------------------------------
+
+export type LocationType = "HOME_STUDIO" | "SALON";
+
+export interface ServiceLocationUpdateRequest {
+  location_type?: LocationType | null;
+  salon_name?: string;
+  address_line1?: string;
+  address_line2?: string;
+  city?: string;
+  postal_code?: string;
+  country?: string;
+  latitude?: number;
+  longitude?: number;
+  offers_mobile?: boolean;
+  travel_radius_km?: number;
+  travel_fee?: number;
+}
+
+export interface ServiceLocationResponse {
+  location_type: LocationType | null;
+  salon_name: string | null;
+  address_line1: string | null;
+  address_line2: string | null;
+  city: string | null;
+  postal_code: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  offers_mobile: boolean;
+  travel_radius_km: number | null;
+  travel_fee: number | null;
+  is_complete: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Style catalog (public, locale-resolved via Accept-Language) + braider menu
 // ---------------------------------------------------------------------------
 

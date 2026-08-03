@@ -20,6 +20,14 @@ import type {
   VeriffStatusResponse,
   VerifyCodeRequest,
   VerifyCodeResponse,
+  PortfolioImageResponse,
+  PortfolioResponse,
+  PortfolioImageUploadUrlRequest,
+  PortfolioImageUploadUrlResponse,
+  PortfolioImageConfirmRequest,
+  PortfolioImageUpdateRequest,
+  ServiceLocationUpdateRequest,
+  ServiceLocationResponse,
 } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n";
 import { ApiError } from "@/lib/api/auth-client";
@@ -28,7 +36,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 const ONBOARDING_PATH = "/braiders/onboarding";
 
 interface RequestOptions {
-  method?: "GET" | "PUT" | "POST";
+  method?: "GET" | "PUT" | "POST" | "DELETE";
   body?: unknown;
   accessToken: string;
   // Only relevant for the business-info PUT — bio is saved to the caller's
@@ -63,6 +71,10 @@ async function request<TRes>(
     });
   } catch {
     throw new ApiError("NETWORK_ERROR", "Could not reach the server.", 0);
+  }
+
+  if (res.status === 204) {
+    return null as unknown as TRes;
   }
 
   const json: ApiEnvelope<TRes> = await res.json();
@@ -186,6 +198,69 @@ export const onboardingApi = {
     body: BraiderStyleUpdateRequest
   ) =>
     request<BraiderStyleResponse>(`/services/${braiderStyleId}`, {
+      method: "PUT",
+      body,
+      accessToken,
+    }),
+
+  getPortfolio: (accessToken: string) =>
+    request<PortfolioResponse>("/portfolio", { accessToken }),
+
+  getPortfolioUploadUrl: (accessToken: string, body: PortfolioImageUploadUrlRequest) =>
+    request<PortfolioImageUploadUrlResponse>("/portfolio/upload-url", {
+      method: "POST",
+      body,
+      accessToken,
+    }),
+
+  confirmPortfolioImage: (accessToken: string, body: PortfolioImageConfirmRequest, lang?: Locale) =>
+    request<PortfolioImageResponse>("/portfolio/confirm", {
+      method: "POST",
+      body,
+      accessToken,
+      lang,
+    }),
+
+  updatePortfolioImage: (accessToken: string, imageId: string, body: PortfolioImageUpdateRequest, lang?: Locale) =>
+    request<PortfolioImageResponse>(`/portfolio/${imageId}`, {
+      method: "PUT",
+      body,
+      accessToken,
+      lang,
+    }),
+
+  deletePortfolioImage: (accessToken: string, imageId: string) =>
+    request<void>(`/portfolio/${imageId}`, {
+      method: "DELETE",
+      accessToken,
+    }),
+
+  uploadPortfolioFile: async (uploadUrl: string, file: File) => {
+    let res: Response;
+    try {
+      res = await fetch(uploadUrl, {
+        method: "PUT",
+        body: file,
+        headers: { "Content-Type": file.type },
+      });
+    } catch {
+      throw new ApiError("NETWORK_ERROR", "Could not reach the server.", 0);
+    }
+
+    if (!res.ok) {
+      throw new ApiError(
+        "PORTFOLIO_UPLOAD_FAILED",
+        "Could not upload the image.",
+        res.status
+      );
+    }
+  },
+
+  getServiceLocation: (accessToken: string) =>
+    request<ServiceLocationResponse>("/service-location", { accessToken }),
+
+  updateServiceLocation: (accessToken: string, body: ServiceLocationUpdateRequest) =>
+    request<ServiceLocationResponse>("/service-location", {
       method: "PUT",
       body,
       accessToken,

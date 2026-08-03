@@ -258,6 +258,48 @@
         "added": "Ajouté à votre carte."
       }
     },
+    "portfolio": {
+      "title": "Montrez votre travail",
+      "subtitle": "Ajoutez au moins 3 photos de vos meilleures tresses.",
+      "addPhoto": "Ajouter une photo",
+      "removePhoto": "Supprimer",
+      "captionLabel": "Légende (facultatif)",
+      "captionPlaceholder": "Ex. Knotless box braids...",
+      "minPhotosRequired": "Vous avez besoin d'au moins 3 photos.",
+      "continue": "Continuer",
+      "toasts": {
+        "uploaded": "Photo téléchargée.",
+        "removed": "Photo supprimée.",
+        "captionUpdated": "Légende mise à jour."
+      }
+    },
+    "serviceLocation": {
+      "title": "Où travaillez-vous ?",
+      "subtitle": "Faites savoir aux clients où vous trouver.",
+      "locationTypeLabel": "Type d'espace de travail",
+      "locationTypes": {
+        "homeStudio": "Studio à domicile",
+        "salon": "Salon"
+      },
+      "salonNameLabel": "Nom du salon",
+      "salonNamePlaceholder": "ex. Studio 54",
+      "addressLine1Label": "Adresse ligne 1",
+      "addressLine1Placeholder": "Rue et numéro",
+      "addressLine2Label": "Adresse ligne 2 (facultatif)",
+      "addressLine2Placeholder": "Appartement, suite, etc.",
+      "cityLabel": "Ville",
+      "cityPlaceholder": "Paris",
+      "postalCodeLabel": "Code postal",
+      "postalCodePlaceholder": "75001",
+      "countryLabel": "Pays",
+      "offersMobileLabel": "Je propose des services à domicile (je me déplace chez le client)",
+      "travelRadiusLabel": "Rayon de déplacement (km)",
+      "travelFeeLabel": "Frais de déplacement (€, facultatif)",
+      "continue": "Enregistrer et continuer",
+      "toasts": {
+        "saved": "Emplacement enregistré."
+      }
+    },
     "comingSoon": {
       "title": "Bientôt disponible",
       "subtitle": "Cette étape n'est pas encore prête — revenez bientôt."

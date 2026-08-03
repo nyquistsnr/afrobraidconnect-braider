@@ -258,6 +258,48 @@
         "added": "Zum Angebot hinzugefügt."
       }
     },
+    "portfolio": {
+      "title": "Zeigen Sie Ihre Arbeit",
+      "subtitle": "Fügen Sie mindestens 3 Fotos Ihrer besten Flechtarbeiten hinzu.",
+      "addPhoto": "Foto hinzufügen",
+      "removePhoto": "Entfernen",
+      "captionLabel": "Bildunterschrift (optional)",
+      "captionPlaceholder": "Z.B. Knotless Box Braids...",
+      "minPhotosRequired": "Sie benötigen mindestens 3 Fotos.",
+      "continue": "Weiter",
+      "toasts": {
+        "uploaded": "Foto hochgeladen.",
+        "removed": "Foto entfernt.",
+        "captionUpdated": "Bildunterschrift aktualisiert."
+      }
+    },
+    "serviceLocation": {
+      "title": "Wo arbeiten Sie?",
+      "subtitle": "Teilen Sie Ihren Kunden mit, wo sie Sie finden können.",
+      "locationTypeLabel": "Arbeitsplatztyp",
+      "locationTypes": {
+        "homeStudio": "Heimstudio",
+        "salon": "Salon"
+      },
+      "salonNameLabel": "Salonname",
+      "salonNamePlaceholder": "z.B. Studio 54",
+      "addressLine1Label": "Adresszeile 1",
+      "addressLine1Placeholder": "Straße und Hausnummer",
+      "addressLine2Label": "Adresszeile 2 (optional)",
+      "addressLine2Placeholder": "Wohnung, Suite, etc.",
+      "cityLabel": "Stadt",
+      "cityPlaceholder": "Berlin",
+      "postalCodeLabel": "Postleitzahl",
+      "postalCodePlaceholder": "10115",
+      "countryLabel": "Land",
+      "offersMobileLabel": "Ich biete mobile Dienste an (ich fahre zum Kunden)",
+      "travelRadiusLabel": "Reiseradius (km)",
+      "travelFeeLabel": "Reisegebühr (€, optional)",
+      "continue": "Speichern & Weiter",
+      "toasts": {
+        "saved": "Standort gespeichert."
+      }
+    },
     "comingSoon": {
       "title": "Demnächst verfügbar",
       "subtitle": "Dieser Schritt ist noch nicht bereit — schauen Sie bald wieder vorbei."
