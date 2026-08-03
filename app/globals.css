@@ -68,6 +68,25 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Inverts dark-on-transparent artwork (e.g. the wordmark logo) so it stays
+   legible against the dark background. Mirrors the --background/--foreground
+   dual-condition above: driven by the data-theme attribute set before
+   hydration, not Tailwind's prefers-color-scheme-only dark: variant, so it
+   stays in sync when the user overrides the system theme. */
+.theme-invert {
+  filter: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-invert {
+    filter: invert(1);
+  }
+}
+
+:root[data-theme="dark"] .theme-invert {
+  filter: invert(1);
+}
+
 /* House style: no rounded corners anywhere, including native form controls. */
 * {
   border-radius: 0 !important;

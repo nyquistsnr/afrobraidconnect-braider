@@ -8,7 +8,13 @@ import { locales, localeNames, localeCountry, type Locale } from "@/lib/i18n";
 
 const flags: Record<Locale, typeof GB> = { en: GB, fr: FR, de: DE };
 
-export function LanguageSwitcher({ lang }: { lang: Locale }) {
+export function LanguageSwitcher({
+  lang,
+  dropDirection = "up",
+}: {
+  lang: Locale;
+  dropDirection?: "up" | "down";
+}) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -55,7 +61,9 @@ export function LanguageSwitcher({ lang }: { lang: Locale }) {
       {open && (
         <ul
           role="listbox"
-          className="absolute bottom-full right-0 mb-2 w-40 overflow-hidden border border-border bg-surface py-1 shadow-lg"
+          className={`absolute right-0 w-40 overflow-hidden border border-border bg-surface py-1 shadow-lg ${
+            dropDirection === "up" ? "bottom-full mb-2" : "top-full mt-2"
+          }`}
         >
           {locales.map((locale) => {
             const Flag = flags[locale];

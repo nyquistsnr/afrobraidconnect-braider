@@ -62,5 +62,29 @@
     "submit": "Create Account",
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign In"
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "bookings": "Bookings",
+      "logout": "Logout"
+    },
+    "header": {
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "logout": "Logout"
+    },
+    "logoutModal": {
+      "title": "Log out?",
+      "description": "Are you sure you want to log out of your account?",
+      "cancel": "Cancel",
+      "confirm": "Log Out"
+    },
+    "home": {
+      "greeting": "Hello There"
+    }
+  },
+  "bookings": {
+    "title": "Booking Page"
   }
 }

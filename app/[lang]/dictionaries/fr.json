@@ -62,5 +62,29 @@
     "submit": "Créer un compte",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signIn": "Se connecter"
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Tableau de bord",
+      "bookings": "Réservations",
+      "logout": "Déconnexion"
+    },
+    "header": {
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "logout": "Déconnexion"
+    },
+    "logoutModal": {
+      "title": "Se déconnecter ?",
+      "description": "Êtes-vous sûr de vouloir vous déconnecter de votre compte ?",
+      "cancel": "Annuler",
+      "confirm": "Se déconnecter"
+    },
+    "home": {
+      "greeting": "Bonjour"
+    }
+  },
+  "bookings": {
+    "title": "Page des réservations"
   }
 }

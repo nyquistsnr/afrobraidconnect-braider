@@ -62,5 +62,29 @@
     "submit": "Konto erstellen",
     "alreadyHaveAccount": "Sie haben bereits ein Konto?",
     "signIn": "Anmelden"
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Übersicht",
+      "bookings": "Buchungen",
+      "logout": "Abmelden"
+    },
+    "header": {
+      "notifications": "Benachrichtigungen",
+      "messages": "Nachrichten",
+      "logout": "Abmelden"
+    },
+    "logoutModal": {
+      "title": "Abmelden?",
+      "description": "Möchten Sie sich wirklich von Ihrem Konto abmelden?",
+      "cancel": "Abbrechen",
+      "confirm": "Abmelden"
+    },
+    "home": {
+      "greeting": "Hallo"
+    }
+  },
+  "bookings": {
+    "title": "Buchungsseite"
   }
 }

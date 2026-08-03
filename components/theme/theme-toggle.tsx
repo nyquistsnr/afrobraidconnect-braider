@@ -13,8 +13,10 @@ const icons: Record<Theme, typeof Sun> = {
 
 export function ThemeToggle({
   labels,
+  dropDirection = "up",
 }: {
   labels: Record<Theme, string>;
+  dropDirection?: "up" | "down";
 }) {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
@@ -60,7 +62,9 @@ export function ThemeToggle({
       {open && (
         <ul
           role="listbox"
-          className="absolute bottom-full right-0 mb-2 w-40 overflow-hidden border border-border bg-surface py-1 shadow-lg"
+          className={`absolute right-0 w-40 overflow-hidden border border-border bg-surface py-1 shadow-lg ${
+            dropDirection === "up" ? "bottom-full mb-2" : "top-full mt-2"
+          }`}
         >
           {themes.map((option) => {
             const Icon = icons[option];
