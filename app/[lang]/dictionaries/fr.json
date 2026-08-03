@@ -1,0 +1,23 @@
+{
+  "locale": {
+    "name": "Français"
+  },
+  "login": {
+    "title": "Content de vous revoir",
+    "subtitle": "Entrez vos informations pour accéder à votre compte.",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "hello@example.com",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "signIn": "Se connecter",
+    "or": "OU",
+    "signInWithGoogle": "Se connecter avec Google",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUpProfessional": "Inscrivez-vous en tant que professionnel",
+    "notVerified": "Votre compte n'est pas encore vérifié ?",
+    "revalidate": "Revalider",
+    "supportEmail": "support@afrobraidconnect.de",
+    "heroImageAlt": "Femme souriante portant des cheveux tressés"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "locale": {
+    "name": "English"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Enter your details to access your account.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "hello@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPassword": "Forgot Password?",
+    "signIn": "Sign In",
+    "or": "OR",
+    "signInWithGoogle": "Sign in with Google",
+    "noAccount": "Don't have an account?",
+    "signUpProfessional": "Sign Up as a Professional",
+    "notVerified": "Haven't verified your account?",
+    "revalidate": "Revalidate",
+    "supportEmail": "support@afrobraidconnect.de",
+    "heroImageAlt": "Smiling woman wearing braided hair"
+  }
+}

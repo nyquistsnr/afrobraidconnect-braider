@@ -1,0 +1,23 @@
+{
+  "locale": {
+    "name": "Deutsch"
+  },
+  "login": {
+    "title": "Willkommen zurück",
+    "subtitle": "Geben Sie Ihre Daten ein, um auf Ihr Konto zuzugreifen.",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "hello@example.com",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "forgotPassword": "Passwort vergessen?",
+    "signIn": "Anmelden",
+    "or": "ODER",
+    "signInWithGoogle": "Mit Google anmelden",
+    "noAccount": "Sie haben noch kein Konto?",
+    "signUpProfessional": "Als Fachkraft registrieren",
+    "notVerified": "Konto noch nicht verifiziert?",
+    "revalidate": "Erneut verifizieren",
+    "supportEmail": "support@afrobraidconnect.de",
+    "heroImageAlt": "Lächelnde Frau mit geflochtenem Haar"
+  }
+}
