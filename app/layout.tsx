@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fira_Sans } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -15,6 +15,12 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const firaSans = Fira_Sans({
+  variable: "--font-fira-sans",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -25,11 +31,6 @@ export const metadata: Metadata = {
   description: "Connecting clients with professional hair braiders.",
 };
 
-// This layout is intentionally static (no dynamic segment, no dynamic
-// APIs) so it never remounts on navigation — including switching the
-// [lang] segment below. That's what lets language switching stay a soft,
-// client-side transition instead of a full page reload: the <html>/<head>/
-// theme-init <script> here stay put across it.
 export default function RootLayout({
   children,
 }: {
@@ -38,14 +39,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.className} ${firaSans.className} ${geistMono.className} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
         <InlineScript html={themeInitScript} />
       </head>
       <body className="min-h-full flex flex-col">
-        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
+        <Script
+          src="https://accounts.google.com/gsi/client"
+          strategy="afterInteractive"
+        />
         <SessionProvider>
           <ThemeProvider>
             <QueryProvider>
