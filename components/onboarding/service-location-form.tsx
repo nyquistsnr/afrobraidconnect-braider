@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { SearchableCountrySelect } from "@/components/ui/searchable-country-select";
 import { AddressInput } from "@/components/ui/address-input";
+import { ComboboxInput } from "@/components/ui/combobox-input";
 
 function MapPanController({ center }: { center: { lat: number; lng: number } | null }) {
   const map = useMap();
@@ -119,12 +120,34 @@ export function ServiceLocationForm({
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+
+    const hasChanged =
+      locationType !== (initialData.location_type ?? "") ||
+      salonName !== (initialData.salon_name ?? "") ||
+      addressLine1 !== (initialData.address_line1 ?? "") ||
+      addressLine2 !== (initialData.address_line2 ?? "") ||
+      city !== (initialData.city ?? "") ||
+      postalCode !== (initialData.postal_code ?? "") ||
+      country !== (initialData.country ?? "") ||
+      lat !== (initialData.latitude ?? null) ||
+      lng !== (initialData.longitude ?? null) ||
+      offersMobile !== (initialData.offers_mobile ?? false) ||
+      travelRadiusKm !== (initialData.travel_radius_km?.toString() ?? "") ||
+      travelFee !== (initialData.travel_fee?.toString() ?? "");
+
+    if (!hasChanged) {
+      router.push(`/${lang}/onboarding`);
+      return;
+    }
+
     saveMutation.mutate();
   }
 
   const isFixedLocation = locationType === "HOME_STUDIO" || locationType === "SALON";
-  const hasCoordinates = lat !== null && lng !== null;
-  const currentCenter = hasCoordinates ? { lat, lng } : null;
+  const numLat = Number(lat);
+  const numLng = Number(lng);
+  const hasCoordinates = lat !== null && lng !== null && !isNaN(numLat) && !isNaN(numLng);
+  const currentCenter = hasCoordinates ? { lat: numLat, lng: numLng } : null;
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}>
@@ -236,7 +259,7 @@ export function ServiceLocationForm({
 
             {offersMobile && (
               <div className="grid grid-cols-2 gap-4 pt-2">
-                <Input
+                <ComboboxInput
                   label={dict.travelRadiusLabel}
                   showLabel
                   type="number"
@@ -244,6 +267,7 @@ export function ServiceLocationForm({
                   max="500"
                   value={travelRadiusKm}
                   onChange={(e) => setTravelRadiusKm(e.target.value)}
+                  options={["5", "10", "15", "20", "25", "50", "100"]}
                 />
                 <Input
                   label={dict.travelFeeLabel}

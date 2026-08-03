@@ -28,6 +28,17 @@ import type {
   PortfolioImageUpdateRequest,
   ServiceLocationUpdateRequest,
   ServiceLocationResponse,
+  AvailabilitySettingsResponse,
+  AvailabilitySettingsUpdateRequest,
+  WeeklyWindowResponse,
+  WeeklyWindowCreateRequest,
+  WeeklyWindowUpdateRequest,
+  AvailabilityExceptionResponse,
+  AvailabilityExceptionCreateRequest,
+  AvailableSlotResponse,
+  AccountLinkResponse,
+  DashboardLinkResponse,
+  PaymentSetupStatusResponse,
 } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n";
 import { ApiError } from "@/lib/api/auth-client";
@@ -36,7 +47,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 const ONBOARDING_PATH = "/braiders/onboarding";
 
 interface RequestOptions {
-  method?: "GET" | "PUT" | "POST" | "DELETE";
+  method?: "GET" | "PUT" | "POST" | "DELETE" | "PATCH";
   body?: unknown;
   accessToken: string;
   // Only relevant for the business-info PUT — bio is saved to the caller's
@@ -263,6 +274,114 @@ export const onboardingApi = {
     request<ServiceLocationResponse>("/service-location", {
       method: "PUT",
       body,
+      accessToken,
+    }),
+  // -------------------------------------------------------------------------
+  // Availability
+  // -------------------------------------------------------------------------
+
+  getAvailabilitySettings: (accessToken: string) =>
+    request<AvailabilitySettingsResponse>("/availability/settings", {
+      accessToken,
+    }),
+
+  updateAvailabilitySettings: (
+    accessToken: string,
+    body: AvailabilitySettingsUpdateRequest
+  ) =>
+    request<AvailabilitySettingsResponse>("/availability/settings", {
+      method: "PUT",
+      body,
+      accessToken,
+    }),
+
+  getWeeklyWindows: (accessToken: string) =>
+    request<WeeklyWindowResponse[]>("/availability/weekly-windows", {
+      accessToken,
+    }),
+
+  createWeeklyWindow: (
+    accessToken: string,
+    body: WeeklyWindowCreateRequest
+  ) =>
+    request<WeeklyWindowResponse>("/availability/weekly-windows", {
+      method: "POST",
+      body,
+      accessToken,
+    }),
+
+  updateWeeklyWindow: (
+    accessToken: string,
+    windowId: string,
+    body: WeeklyWindowUpdateRequest
+  ) =>
+    request<WeeklyWindowResponse>(`/availability/weekly-windows/${windowId}`, {
+      method: "PATCH", // API docs say PATCH
+      body,
+      accessToken,
+    }),
+
+  deleteWeeklyWindow: (accessToken: string, windowId: string) =>
+    request<void>(`/availability/weekly-windows/${windowId}`, {
+      method: "DELETE",
+      accessToken,
+    }),
+
+  getExceptions: (
+    accessToken: string,
+    dateFrom?: string,
+    dateTo?: string
+  ) => {
+    const query = new URLSearchParams();
+    if (dateFrom) query.set("date_from", dateFrom);
+    if (dateTo) query.set("date_to", dateTo);
+    const qs = query.toString() ? `?${query.toString()}` : "";
+    return request<AvailabilityExceptionResponse[]>(
+      `/availability/exceptions${qs}`,
+      { accessToken }
+    );
+  },
+
+  createException: (
+    accessToken: string,
+    body: AvailabilityExceptionCreateRequest
+  ) =>
+    request<AvailabilityExceptionResponse>("/availability/exceptions", {
+      method: "POST",
+      body,
+      accessToken,
+    }),
+
+  deleteException: (accessToken: string, exceptionId: string) =>
+    request<void>(`/availability/exceptions/${exceptionId}`, {
+      method: "DELETE",
+      accessToken,
+    }),
+
+  // -------------------------------------------------------------------------
+  // Payment Setup
+  // -------------------------------------------------------------------------
+
+  getPaymentSetupStatus: (accessToken: string) =>
+    request<PaymentSetupStatusResponse>("/payment-setup/status", {
+      accessToken,
+    }),
+
+  createAccountLink: (accessToken: string) =>
+    request<AccountLinkResponse>("/payment-setup/account-link", {
+      method: "POST",
+      accessToken,
+    }),
+
+  createDashboardLink: (accessToken: string) =>
+    request<DashboardLinkResponse>("/payment-setup/dashboard-link", {
+      method: "POST",
+      accessToken,
+    }),
+
+  refreshPaymentSetupStatus: (accessToken: string) =>
+    request<PaymentSetupStatusResponse>("/payment-setup/refresh", {
+      method: "POST",
       accessToken,
     }),
 };

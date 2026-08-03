@@ -300,6 +300,57 @@
         "saved": "Emplacement enregistré."
       }
     },
+    "availability": {
+      "title": "Quand êtes-vous disponible ?",
+      "subtitle": "Définissez votre emploi du temps hebdomadaire et vos exceptions.",
+      "settingsTitle": "Règles de réservation",
+      "timezoneLabel": "Fuseau horaire",
+      "minNoticeHoursLabel": "Délai minimum (heures)",
+      "maxAdvanceDaysLabel": "Jours d'avance max",
+      "bufferMinutesLabel": "Marge entre rendez-vous (mins)",
+      "weeklyWindowsTitle": "Emploi du temps hebdomadaire",
+      "addWindow": "Ajouter des heures",
+      "days": {
+        "MONDAY": "Lundi",
+        "TUESDAY": "Mardi",
+        "WEDNESDAY": "Mercredi",
+        "THURSDAY": "Jeudi",
+        "FRIDAY": "Vendredi",
+        "SATURDAY": "Samedi",
+        "SUNDAY": "Dimanche"
+      },
+      "exceptionsTitle": "Exceptions de date",
+      "addException": "Ajouter une exception",
+      "dateLabel": "Date",
+      "exceptionTypeLabel": "Statut",
+      "exceptionTypes": {
+        "CLOSED": "Fermé",
+        "CUSTOM_HOURS": "Heures personnalisées"
+      },
+      "startTimeLabel": "Heure de début",
+      "endTimeLabel": "Heure de fin",
+      "reasonLabel": "Raison (facultatif)",
+      "save": "Enregistrer",
+      "continue": "Continuer",
+      "toasts": {
+        "settingsSaved": "Paramètres enregistrés",
+        "windowAdded": "Heures ajoutées",
+        "windowRemoved": "Heures supprimées",
+        "exceptionAdded": "Exception ajoutée",
+        "exceptionRemoved": "Exception supprimée"
+      }
+    },
+    "paymentSetup": {
+      "title": "Être payé",
+      "subtitle": "Connectez-vous avec Stripe pour recevoir des paiements en toute sécurité.",
+      "connectButton": "Se connecter avec Stripe",
+      "missingRequirements": "Vous devez encore fournir certaines informations pour vérifier votre compte :",
+      "continue": "Continuer",
+      "toasts": {
+        "started": "Redirection vers Stripe...",
+        "success": "Compte Stripe connecté !"
+      }
+    },
     "comingSoon": {
       "title": "Bientôt disponible",
       "subtitle": "Cette étape n'est pas encore prête — revenez bientôt."

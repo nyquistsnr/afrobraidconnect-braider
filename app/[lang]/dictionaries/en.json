@@ -300,6 +300,57 @@
         "saved": "Location saved."
       }
     },
+    "availability": {
+      "title": "When are you available?",
+      "subtitle": "Set your weekly recurring schedule and exceptions.",
+      "settingsTitle": "Booking Rules",
+      "timezoneLabel": "Timezone",
+      "minNoticeHoursLabel": "Minimum notice (hours)",
+      "maxAdvanceDaysLabel": "Max advance days",
+      "bufferMinutesLabel": "Buffer between appointments (mins)",
+      "weeklyWindowsTitle": "Weekly Schedule",
+      "addWindow": "Add hours",
+      "days": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      },
+      "exceptionsTitle": "Date Exceptions",
+      "addException": "Add Exception",
+      "dateLabel": "Date",
+      "exceptionTypeLabel": "Status",
+      "exceptionTypes": {
+        "CLOSED": "Closed",
+        "CUSTOM_HOURS": "Custom Hours"
+      },
+      "startTimeLabel": "Start Time",
+      "endTimeLabel": "End Time",
+      "reasonLabel": "Reason (optional)",
+      "save": "Save",
+      "continue": "Continue",
+      "toasts": {
+        "settingsSaved": "Settings saved",
+        "windowAdded": "Hours added",
+        "windowRemoved": "Hours removed",
+        "exceptionAdded": "Exception added",
+        "exceptionRemoved": "Exception removed"
+      }
+    },
+    "paymentSetup": {
+      "title": "Get Paid",
+      "subtitle": "Connect with Stripe to receive payouts securely.",
+      "connectButton": "Connect with Stripe",
+      "missingRequirements": "You still need to provide some information to verify your account:",
+      "continue": "Continue",
+      "toasts": {
+        "started": "Redirecting to Stripe...",
+        "success": "Stripe account connected!"
+      }
+    },
     "comingSoon": {
       "title": "Coming soon",
       "subtitle": "This step isn't ready yet — check back shortly."

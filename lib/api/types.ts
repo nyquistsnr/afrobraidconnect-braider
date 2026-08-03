@@ -295,6 +295,92 @@ export interface ServiceLocationResponse {
 }
 
 // ---------------------------------------------------------------------------
+// Availability
+// ---------------------------------------------------------------------------
+
+export type DayOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+export type AvailabilityExceptionType = "CLOSED" | "CUSTOM_HOURS";
+
+export interface AvailabilitySettingsResponse {
+  timezone: string;
+  min_notice_hours: number;
+  max_advance_days: number;
+  buffer_minutes: number;
+}
+
+export interface AvailabilitySettingsUpdateRequest {
+  timezone?: string;
+  min_notice_hours?: number;
+  max_advance_days?: number;
+  buffer_minutes?: number;
+}
+
+export interface WeeklyWindowResponse {
+  id: string;
+  day_of_week: DayOfWeek;
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+}
+
+export interface WeeklyWindowCreateRequest {
+  day_of_week: DayOfWeek;
+  start_time: string;
+  end_time: string;
+}
+
+export interface WeeklyWindowUpdateRequest {
+  start_time?: string;
+  end_time?: string;
+  is_active?: boolean;
+}
+
+export interface AvailabilityExceptionResponse {
+  id: string;
+  date: string;
+  exception_type: AvailabilityExceptionType;
+  start_time: string | null;
+  end_time: string | null;
+  reason: string | null;
+}
+
+export interface AvailabilityExceptionCreateRequest {
+  date: string;
+  exception_type: AvailabilityExceptionType;
+  start_time?: string;
+  end_time?: string;
+  reason?: string;
+}
+
+export interface AvailableSlotResponse {
+  start_at: string;
+  end_at: string;
+}
+
+// ---------------------------------------------------------------------------
+// Payment Setup (Stripe Connect)
+// ---------------------------------------------------------------------------
+
+export interface AccountLinkResponse {
+  onboarding_url: string;
+}
+
+export interface DashboardLinkResponse {
+  dashboard_url: string;
+}
+
+export interface PaymentSetupStatusResponse {
+  has_account: boolean;
+  stripe_account_id: string | null;
+  charges_enabled: boolean;
+  payouts_enabled: boolean;
+  details_submitted: boolean;
+  disabled_reason: string | null;
+  requirements_currently_due: string[];
+  is_complete: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Style catalog (public, locale-resolved via Accept-Language) + braider menu
 // ---------------------------------------------------------------------------
 

@@ -300,6 +300,57 @@
         "saved": "Standort gespeichert."
       }
     },
+    "availability": {
+      "title": "Wann sind Sie verfügbar?",
+      "subtitle": "Legen Sie Ihren wöchentlichen Zeitplan und Ausnahmen fest.",
+      "settingsTitle": "Buchungsregeln",
+      "timezoneLabel": "Zeitzone",
+      "minNoticeHoursLabel": "Mindestvorlauf (Stunden)",
+      "maxAdvanceDaysLabel": "Max. Vorlauf (Tage)",
+      "bufferMinutesLabel": "Puffer zwischen Terminen (Min)",
+      "weeklyWindowsTitle": "Wochenplan",
+      "addWindow": "Zeiten hinzufügen",
+      "days": {
+        "MONDAY": "Montag",
+        "TUESDAY": "Dienstag",
+        "WEDNESDAY": "Mittwoch",
+        "THURSDAY": "Donnerstag",
+        "FRIDAY": "Freitag",
+        "SATURDAY": "Samstag",
+        "SUNDAY": "Sonntag"
+      },
+      "exceptionsTitle": "Datumsausnahmen",
+      "addException": "Ausnahme hinzufügen",
+      "dateLabel": "Datum",
+      "exceptionTypeLabel": "Status",
+      "exceptionTypes": {
+        "CLOSED": "Geschlossen",
+        "CUSTOM_HOURS": "Benutzerdefinierte Stunden"
+      },
+      "startTimeLabel": "Startzeit",
+      "endTimeLabel": "Endzeit",
+      "reasonLabel": "Grund (optional)",
+      "save": "Speichern",
+      "continue": "Weiter",
+      "toasts": {
+        "settingsSaved": "Einstellungen gespeichert",
+        "windowAdded": "Zeiten hinzugefügt",
+        "windowRemoved": "Zeiten entfernt",
+        "exceptionAdded": "Ausnahme hinzugefügt",
+        "exceptionRemoved": "Ausnahme entfernt"
+      }
+    },
+    "paymentSetup": {
+      "title": "Bezahlt werden",
+      "subtitle": "Verbinden Sie sich mit Stripe, um Auszahlungen sicher zu erhalten.",
+      "connectButton": "Mit Stripe verbinden",
+      "missingRequirements": "Sie müssen noch einige Informationen zur Überprüfung Ihres Kontos angeben:",
+      "continue": "Weiter",
+      "toasts": {
+        "started": "Weiterleitung zu Stripe...",
+        "success": "Stripe-Konto verbunden!"
+      }
+    },
     "comingSoon": {
       "title": "Demnächst verfügbar",
       "subtitle": "Dieser Schritt ist noch nicht bereit — schauen Sie bald wieder vorbei."

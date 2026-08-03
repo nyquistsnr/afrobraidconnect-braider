@@ -36,6 +36,8 @@ export const BUILT_ONBOARDING_STEPS: readonly ActiveStep[] = [
   "SERVICE_TYPE",
   "PORTFOLIO",
   "SERVICE_LOCATION",
+  "AVAILABILITY",
+  "PAYMENT_SETUP",
 ];
 
 export function onboardingStepPath(lang: Locale, step: OnboardingStep): string {
