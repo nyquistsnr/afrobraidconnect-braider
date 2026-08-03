@@ -10,6 +10,7 @@
     "loading": "Loading…",
     "backToLogin": "Back to Sign In",
     "backToDashboard": "Back to Dashboard",
+    "back": "Back",
     "countrySearchPlaceholder": "Search country",
     "noCountriesFound": "No countries found",
     "errors": {
@@ -33,6 +34,13 @@
       "logoNotFound": "We couldn't find that upload. Please try again.",
       "phoneVerificationUnavailable": "We couldn't send the verification code right now. Please try again shortly.",
       "invalidVerificationCode": "That code isn't right. Please try again.",
+      "veriffUnavailable": "We couldn't reach our verification provider right now. Please try again shortly.",
+      "veriffSessionNotFound": "We couldn't find a verification session yet. Start one first.",
+      "styleNotFound": "That style couldn't be found.",
+      "styleNotActive": "That style isn't available right now.",
+      "styleAlreadyAdded": "You've already added that style to your menu.",
+      "invalidStyleVariation": "One of the selected variations isn't valid for this style.",
+      "invalidAddon": "One of the selected add-ons isn't valid.",
       "generic": "Something went wrong. Please try again."
     },
     "toasts": {
@@ -163,8 +171,15 @@
       "logoLabel": "Business logo",
       "logoUpload": "Upload logo",
       "logoChange": "Change logo",
+      "logoRemove": "Remove logo",
       "logoHelp": "JPEG, PNG or WEBP, up to 5MB.",
       "continue": "Save & Continue",
+      "continueWithoutWaiting": "Continue without waiting",
+      "translationModal": {
+        "title": "Your bio is ready in other languages",
+        "failed": "Translation wasn't available right now — you can add it manually later.",
+        "continue": "Continue"
+      },
       "toasts": {
         "saved": "Business info saved.",
         "logoUploaded": "Logo uploaded."
@@ -183,6 +198,63 @@
       "toasts": {
         "codeSent": "Verification code sent.",
         "verified": "Phone number verified."
+      }
+    },
+    "veriff": {
+      "title": "Verify your identity",
+      "subtitle": "We use Veriff to confirm your identity — it keeps clients safe and helps you get approved faster.",
+      "statusLabel": "Status",
+      "reasonLabel": "Reason",
+      "start": {
+        "description": "You'll be redirected to our verification partner, Veriff, to scan an ID and take a quick selfie. It only takes a couple of minutes.",
+        "button": "Start Verification"
+      },
+      "pending": {
+        "title": "We're verifying your ID",
+        "description": "This usually takes a few minutes, but can occasionally take longer. Check back soon or refresh below.",
+        "refresh": "Refresh status",
+        "resume": "Resume verification"
+      },
+      "failed": {
+        "title": "Verification unsuccessful",
+        "description": "We couldn't verify your identity. Please try again.",
+        "tryAgain": "Try again"
+      },
+      "approved": {
+        "title": "You're verified!",
+        "description": "Your identity has been confirmed.",
+        "continue": "Continue"
+      },
+      "toasts": {
+        "refreshed": "Status updated."
+      }
+    },
+    "serviceType": {
+      "title": "Build your price menu",
+      "subtitle": "Add at least one style you offer, with your price, to continue.",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "All categories",
+      "searchLabel": "Search styles",
+      "searchPlaceholder": "Search by name…",
+      "noResults": "No styles match your filters.",
+      "loadMore": "Load more",
+      "selectButton": "Select",
+      "addedBadge": "Added",
+      "basePriceLabel": "Base price (€)",
+      "basePricePlaceholder": "e.g. 45",
+      "durationLabel": "Duration (minutes)",
+      "durationPlaceholder": "e.g. 120",
+      "variationsTitle": "Variations",
+      "addonsTitle": "Add-ons",
+      "requiredLabel": "Required",
+      "priceLabel": "Price (€)",
+      "cancel": "Cancel",
+      "addButton": "Add to menu",
+      "menuTitle": "Your menu",
+      "emptyMenu": "You haven't added any styles yet.",
+      "continue": "Continue",
+      "toasts": {
+        "added": "Added to your menu."
       }
     },
     "comingSoon": {

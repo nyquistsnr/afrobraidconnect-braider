@@ -7,8 +7,8 @@ import { stepSlugToStep } from "@/lib/onboarding";
 import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
 
 // Placeholder for the onboarding steps that don't have a built screen yet
-// (VERIFF, SERVICE_TYPE, PORTFOLIO, SERVICE_LOCATION, AVAILABILITY,
-// PAYMENT_SETUP) — only business-info and phone-verification are wired up
+// (PORTFOLIO, SERVICE_LOCATION, AVAILABILITY, PAYMENT_SETUP) — business-info,
+// phone-verification, id-verification, and service-type are wired up
 // against the real API today.
 export default async function OnboardingStepPlaceholderPage({
   params,
@@ -16,7 +16,8 @@ export default async function OnboardingStepPlaceholderPage({
   const { lang, step: stepSlug } = await params;
 
   if (!hasLocale(lang)) notFound();
-  if (!stepSlugToStep(stepSlug)) notFound();
+  const step = stepSlugToStep(stepSlug);
+  if (!step) notFound();
 
   const session = await auth();
   if (!session) redirect(`/${lang}/login`);
@@ -33,7 +34,7 @@ export default async function OnboardingStepPlaceholderPage({
   if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);
 
   return (
-    <OnboardingShell lang={lang} dict={dict} status={status}>
+    <OnboardingShell lang={lang} dict={dict} status={status} step={step}>
       <div className="w-full">
         <h1 className="text-3xl font-bold text-foreground">
           {dict.onboarding.comingSoon.title}

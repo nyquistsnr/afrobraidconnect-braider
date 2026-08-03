@@ -3,15 +3,15 @@ import { auth } from "@/auth";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import { onboardingApi } from "@/lib/api/onboarding-client";
 import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
-import { PhoneVerificationForm } from "@/components/onboarding/phone-verification-form";
+import { VeriffForm } from "@/components/onboarding/veriff-form";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default async function PhoneVerificationPage({
+export default async function IdVerificationPage({
   params,
-}: PageProps<"/[lang]/onboarding/phone-verification">) {
+}: PageProps<"/[lang]/onboarding/id-verification">) {
   const { lang } = await params;
 
   if (!hasLocale(lang)) notFound();
@@ -22,9 +22,9 @@ export default async function PhoneVerificationPage({
 
   const dict = await getDictionary(lang);
 
-  const [status, phoneStatus] = await Promise.all([
+  const [status, veriffStatus] = await Promise.all([
     onboardingApi.getStatus(session.accessToken),
-    onboardingApi.getPhoneVerificationStatus(session.accessToken),
+    onboardingApi.getVeriffStatus(session.accessToken),
   ]).catch(() => {
     redirect(`/${lang}/login`);
   });
@@ -32,17 +32,12 @@ export default async function PhoneVerificationPage({
   if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);
 
   return (
-    <OnboardingShell
-      lang={lang}
-      dict={dict}
-      status={status}
-      step="PHONE_VERIFICATION"
-    >
-      <PhoneVerificationForm
-        dict={dict.onboarding.phoneVerification}
+    <OnboardingShell lang={lang} dict={dict} status={status} step="VERIFF">
+      <VeriffForm
+        dict={dict.onboarding.veriff}
         common={dict.common}
         lang={lang}
-        defaultPhoneNumber={phoneStatus.phone_number}
+        initialStatus={veriffStatus}
       />
     </OnboardingShell>
   );

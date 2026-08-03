@@ -24,6 +24,14 @@ const CODE_TO_KEY: Record<string, keyof ErrorsDict> = {
   LOGO_UPLOAD_FAILED: "invalidLogoUpload",
   PHONE_VERIFICATION_API_UNAVAILABLE: "phoneVerificationUnavailable",
   INVALID_VERIFICATION_CODE: "invalidVerificationCode",
+  VERIFF_API_UNAVAILABLE: "veriffUnavailable",
+  VERIFF_SESSION_NOT_FOUND: "veriffSessionNotFound",
+  STYLE_NOT_FOUND: "styleNotFound",
+  STYLE_NOT_ACTIVE: "styleNotActive",
+  BRAIDER_STYLE_NOT_FOUND: "styleNotFound",
+  BRAIDER_STYLE_ALREADY_EXISTS: "styleAlreadyAdded",
+  INVALID_STYLE_VARIATION: "invalidStyleVariation",
+  INVALID_ADDON: "invalidAddon",
 };
 
 // `code` here is whatever error.code the backend returned (see ApiError),

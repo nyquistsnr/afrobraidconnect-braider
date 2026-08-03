@@ -3,15 +3,15 @@ import { auth } from "@/auth";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import { onboardingApi } from "@/lib/api/onboarding-client";
 import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
-import { PhoneVerificationForm } from "@/components/onboarding/phone-verification-form";
+import { ServiceTypeForm } from "@/components/onboarding/service-type-form";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default async function PhoneVerificationPage({
+export default async function ServiceTypePage({
   params,
-}: PageProps<"/[lang]/onboarding/phone-verification">) {
+}: PageProps<"/[lang]/onboarding/service-type">) {
   const { lang } = await params;
 
   if (!hasLocale(lang)) notFound();
@@ -22,9 +22,9 @@ export default async function PhoneVerificationPage({
 
   const dict = await getDictionary(lang);
 
-  const [status, phoneStatus] = await Promise.all([
+  const [status, services] = await Promise.all([
     onboardingApi.getStatus(session.accessToken),
-    onboardingApi.getPhoneVerificationStatus(session.accessToken),
+    onboardingApi.getServices(session.accessToken),
   ]).catch(() => {
     redirect(`/${lang}/login`);
   });
@@ -36,13 +36,13 @@ export default async function PhoneVerificationPage({
       lang={lang}
       dict={dict}
       status={status}
-      step="PHONE_VERIFICATION"
+      step="SERVICE_TYPE"
     >
-      <PhoneVerificationForm
-        dict={dict.onboarding.phoneVerification}
+      <ServiceTypeForm
+        dict={dict.onboarding.serviceType}
         common={dict.common}
         lang={lang}
-        defaultPhoneNumber={phoneStatus.phone_number}
+        initialServices={services.items}
       />
     </OnboardingShell>
   );

@@ -32,7 +32,7 @@ export default async function BusinessInfoPage({
   if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);
 
   return (
-    <OnboardingShell lang={lang} dict={dict} status={status}>
+    <OnboardingShell lang={lang} dict={dict} status={status} step="BUSINESS_INFO">
       <BusinessInfoForm
         dict={dict.onboarding.businessInfo}
         common={dict.common}

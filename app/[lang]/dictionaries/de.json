@@ -10,6 +10,7 @@
     "loading": "Wird geladen…",
     "backToLogin": "Zurück zur Anmeldung",
     "backToDashboard": "Zurück zum Dashboard",
+    "back": "Zurück",
     "countrySearchPlaceholder": "Land suchen",
     "noCountriesFound": "Keine Länder gefunden",
     "errors": {
@@ -33,6 +34,13 @@
       "logoNotFound": "Wir konnten diesen Upload nicht finden. Bitte versuchen Sie es erneut.",
       "phoneVerificationUnavailable": "Der Bestätigungscode konnte gerade nicht gesendet werden. Bitte versuchen Sie es in Kürze erneut.",
       "invalidVerificationCode": "Dieser Code ist nicht korrekt. Bitte versuchen Sie es erneut.",
+      "veriffUnavailable": "Wir konnten unseren Verifizierungsanbieter gerade nicht erreichen. Bitte versuchen Sie es in Kürze erneut.",
+      "veriffSessionNotFound": "Wir konnten noch keine Verifizierungssitzung finden. Starten Sie zuerst eine.",
+      "styleNotFound": "Dieser Stil konnte nicht gefunden werden.",
+      "styleNotActive": "Dieser Stil ist derzeit nicht verfügbar.",
+      "styleAlreadyAdded": "Sie haben diesen Stil bereits zu Ihrem Angebot hinzugefügt.",
+      "invalidStyleVariation": "Eine der ausgewählten Varianten ist für diesen Stil nicht gültig.",
+      "invalidAddon": "Eines der ausgewählten Extras ist nicht gültig.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "toasts": {
@@ -163,8 +171,15 @@
       "logoLabel": "Firmenlogo",
       "logoUpload": "Logo hochladen",
       "logoChange": "Logo ändern",
+      "logoRemove": "Logo entfernen",
       "logoHelp": "JPEG, PNG oder WEBP, bis zu 5 MB.",
       "continue": "Speichern & Weiter",
+      "continueWithoutWaiting": "Ohne Warten fortfahren",
+      "translationModal": {
+        "title": "Ihre Beschreibung ist in anderen Sprachen bereit",
+        "failed": "Übersetzung war gerade nicht möglich — Sie können sie später manuell hinzufügen.",
+        "continue": "Weiter"
+      },
       "toasts": {
         "saved": "Geschäftsinfo gespeichert.",
         "logoUploaded": "Logo hochgeladen."
@@ -183,6 +198,63 @@
       "toasts": {
         "codeSent": "Bestätigungscode gesendet.",
         "verified": "Telefonnummer bestätigt."
+      }
+    },
+    "veriff": {
+      "title": "Bestätigen Sie Ihre Identität",
+      "subtitle": "Wir nutzen Veriff, um Ihre Identität zu bestätigen — das schützt Kunden und beschleunigt Ihre Freischaltung.",
+      "statusLabel": "Status",
+      "reasonLabel": "Grund",
+      "start": {
+        "description": "Sie werden zu unserem Verifizierungspartner Veriff weitergeleitet, um einen Ausweis zu scannen und ein kurzes Selfie zu machen. Das dauert nur wenige Minuten.",
+        "button": "Verifizierung starten"
+      },
+      "pending": {
+        "title": "Wir überprüfen Ihren Ausweis",
+        "description": "Das dauert normalerweise nur wenige Minuten, kann aber gelegentlich länger dauern. Schauen Sie bald wieder vorbei oder aktualisieren Sie unten.",
+        "refresh": "Status aktualisieren",
+        "resume": "Verifizierung fortsetzen"
+      },
+      "failed": {
+        "title": "Verifizierung nicht erfolgreich",
+        "description": "Wir konnten Ihre Identität nicht bestätigen. Bitte versuchen Sie es erneut.",
+        "tryAgain": "Erneut versuchen"
+      },
+      "approved": {
+        "title": "Sie sind verifiziert!",
+        "description": "Ihre Identität wurde bestätigt.",
+        "continue": "Weiter"
+      },
+      "toasts": {
+        "refreshed": "Status aktualisiert."
+      }
+    },
+    "serviceType": {
+      "title": "Erstellen Sie Ihre Preisliste",
+      "subtitle": "Fügen Sie mindestens einen Stil mit Ihrem Preis hinzu, um fortzufahren.",
+      "categoryLabel": "Kategorie",
+      "categoryPlaceholder": "Alle Kategorien",
+      "searchLabel": "Stile durchsuchen",
+      "searchPlaceholder": "Nach Namen suchen…",
+      "noResults": "Keine Stile entsprechen Ihren Filtern.",
+      "loadMore": "Mehr laden",
+      "selectButton": "Auswählen",
+      "addedBadge": "Hinzugefügt",
+      "basePriceLabel": "Grundpreis (€)",
+      "basePricePlaceholder": "z. B. 45",
+      "durationLabel": "Dauer (Minuten)",
+      "durationPlaceholder": "z. B. 120",
+      "variationsTitle": "Varianten",
+      "addonsTitle": "Extras",
+      "requiredLabel": "Erforderlich",
+      "priceLabel": "Preis (€)",
+      "cancel": "Abbrechen",
+      "addButton": "Zum Angebot hinzufügen",
+      "menuTitle": "Ihr Angebot",
+      "emptyMenu": "Sie haben noch keine Stile hinzugefügt.",
+      "continue": "Weiter",
+      "toasts": {
+        "added": "Zum Angebot hinzugefügt."
       }
     },
     "comingSoon": {

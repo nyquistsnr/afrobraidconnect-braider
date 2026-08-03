@@ -3,23 +3,27 @@
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { LogOut } from "lucide-react";
+import { ChevronLeft, LogOut } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type { OnboardingStatusResponse } from "@/lib/api/types";
-import { AuthShell } from "@/components/auth/auth-shell";
+import { type ActiveStep, onboardingStepPath, previousStep } from "@/lib/onboarding";
 import { OnboardingStepper } from "@/components/onboarding/onboarding-stepper";
 import { LogoutConfirmModal } from "@/components/dashboard/logout-confirm-modal";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { LanguageSwitcher } from "@/components/language/language-switcher";
 
 export function OnboardingShell({
   lang,
   dict,
   status,
+  step,
   children,
 }: {
   lang: Locale;
   dict: Dictionary;
   status: OnboardingStatusResponse;
+  step: ActiveStep;
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -38,27 +42,50 @@ export function OnboardingShell({
     }
   }, [lang, dict.common.toasts.logoutSuccess, router]);
 
+  const previous = previousStep(step);
+
   return (
-    <AuthShell
-      lang={lang}
-      supportEmail={dict.common.supportEmail}
-      heroImageAlt={dict.common.heroImageAlt}
-      themeLabels={dict.common.theme}
-    >
-      <div className="mb-6 flex justify-end">
-        <button
-          type="button"
-          onClick={() => setLogoutModalOpen(true)}
-          className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
-        >
-          <LogOut className="size-4" />
-          {dict.dashboard.sidebar.logout}
-        </button>
-      </div>
+    <div className="min-h-screen bg-background">
+      <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-surface px-4 sm:px-8">
+        {previous ? (
+          <button
+            type="button"
+            onClick={() => router.push(onboardingStepPath(lang, previous))}
+            className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ChevronLeft className="size-4" />
+            {dict.common.back}
+          </button>
+        ) : (
+          <span className="text-lg font-bold text-foreground">
+            Afrobraid Connect
+          </span>
+        )}
 
-      <OnboardingStepper dict={dict.onboarding} status={status} />
+        <div className="flex items-center gap-0.5 sm:gap-2">
+          <ThemeToggle labels={dict.common.theme} dropDirection="down" />
+          <LanguageSwitcher lang={lang} dropDirection="down" />
 
-      {children}
+          <div className="mx-1 h-6 w-px bg-border sm:mx-2" />
+
+          <button
+            type="button"
+            onClick={() => setLogoutModalOpen(true)}
+            aria-label={dict.dashboard.sidebar.logout}
+            className="flex items-center gap-1.5 px-2 py-1.5 text-muted-foreground transition-colors hover:bg-border/40 hover:text-foreground"
+          >
+            <LogOut className="size-4" />
+            <span className="hidden text-sm font-medium sm:inline">
+              {dict.dashboard.sidebar.logout}
+            </span>
+          </button>
+        </div>
+      </header>
+
+      <main className="mx-auto w-full max-w-xl px-4 py-10 sm:px-6">
+        <OnboardingStepper dict={dict.onboarding} status={status} />
+        {children}
+      </main>
 
       <LogoutConfirmModal
         open={logoutModalOpen}
@@ -67,6 +94,6 @@ export function OnboardingShell({
         loading={loggingOut}
         dict={dict.dashboard.logoutModal}
       />
-    </AuthShell>
+    </div>
   );
 }

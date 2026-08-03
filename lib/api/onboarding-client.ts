@@ -3,15 +3,21 @@
 // (this module has no access to next-auth's session on its own).
 import type {
   ApiEnvelope,
+  BraiderStyleCreateRequest,
+  BraiderStyleResponse,
+  BraiderStyleUpdateRequest,
   BusinessInfoResponse,
   BusinessInfoUpdateRequest,
   LogoConfirmRequest,
   LogoUploadUrlRequest,
   LogoUploadUrlResponse,
   OnboardingStatusResponse,
+  PaginatedData,
   PhoneVerificationStatusResponse,
   SendCodeRequest,
   SendCodeResponse,
+  StartVerificationResponse,
+  VeriffStatusResponse,
   VerifyCodeRequest,
   VerifyCodeResponse,
 } from "@/lib/api/types";
@@ -145,4 +151,43 @@ export const onboardingApi = {
 
   getStatus: (accessToken: string) =>
     request<OnboardingStatusResponse>("/status", { accessToken }),
+
+  startVeriffSession: (accessToken: string) =>
+    request<StartVerificationResponse>("/veriff/session", {
+      method: "POST",
+      accessToken,
+    }),
+
+  getVeriffStatus: (accessToken: string) =>
+    request<VeriffStatusResponse>("/veriff/status", { accessToken }),
+
+  refreshVeriffStatus: (accessToken: string) =>
+    request<VeriffStatusResponse>("/veriff/refresh", {
+      method: "POST",
+      accessToken,
+    }),
+
+  getServices: (accessToken: string, page = 1, pageSize = 20) =>
+    request<PaginatedData<BraiderStyleResponse>>(
+      `/services?page=${page}&page_size=${pageSize}`,
+      { accessToken }
+    ),
+
+  addService: (accessToken: string, body: BraiderStyleCreateRequest) =>
+    request<BraiderStyleResponse>("/services", {
+      method: "POST",
+      body,
+      accessToken,
+    }),
+
+  updateService: (
+    accessToken: string,
+    braiderStyleId: string,
+    body: BraiderStyleUpdateRequest
+  ) =>
+    request<BraiderStyleResponse>(`/services/${braiderStyleId}`, {
+      method: "PUT",
+      body,
+      accessToken,
+    }),
 };

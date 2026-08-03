@@ -1,7 +1,7 @@
 import type { OnboardingStatusResponse, OnboardingStep } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n";
 
-type ActiveStep = Exclude<OnboardingStep, "COMPLETED">;
+export type ActiveStep = Exclude<OnboardingStep, "COMPLETED">;
 
 // Fixed order the backend evaluates *_completed_at fields in to compute
 // current_step — mirrors the onboarding API doc's _STEP_ORDER.
@@ -27,11 +27,13 @@ const STEP_SLUGS: Record<ActiveStep, string> = {
   PAYMENT_SETUP: "payment",
 };
 
-// Only BUSINESS_INFO and PHONE_VERIFICATION have real step pages today —
-// everything else falls through to the [step] placeholder route.
+// Only these steps have real step pages today — everything else falls
+// through to the [step] placeholder route.
 export const BUILT_ONBOARDING_STEPS: readonly ActiveStep[] = [
   "BUSINESS_INFO",
   "PHONE_VERIFICATION",
+  "VERIFF",
+  "SERVICE_TYPE",
 ];
 
 export function onboardingStepPath(lang: Locale, step: OnboardingStep): string {
@@ -43,6 +45,11 @@ export function stepSlugToStep(slug: string): ActiveStep | undefined {
   return (Object.keys(STEP_SLUGS) as ActiveStep[]).find(
     (step) => STEP_SLUGS[step] === slug
   );
+}
+
+export function previousStep(step: ActiveStep): ActiveStep | undefined {
+  const index = ONBOARDING_STEP_ORDER.indexOf(step);
+  return index > 0 ? ONBOARDING_STEP_ORDER[index - 1] : undefined;
 }
 
 const STEP_COMPLETED_KEYS: Record<ActiveStep, keyof OnboardingStatusResponse> = {

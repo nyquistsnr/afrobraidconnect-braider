@@ -10,6 +10,7 @@
     "loading": "Chargement…",
     "backToLogin": "Retour à la connexion",
     "backToDashboard": "Retour au tableau de bord",
+    "back": "Retour",
     "countrySearchPlaceholder": "Rechercher un pays",
     "noCountriesFound": "Aucun pays trouvé",
     "errors": {
@@ -33,6 +34,13 @@
       "logoNotFound": "Nous n'avons pas trouvé ce fichier. Veuillez réessayer.",
       "phoneVerificationUnavailable": "Impossible d'envoyer le code de vérification pour le moment. Veuillez réessayer bientôt.",
       "invalidVerificationCode": "Ce code n'est pas correct. Veuillez réessayer.",
+      "veriffUnavailable": "Nous n'avons pas pu joindre notre prestataire de vérification pour le moment. Veuillez réessayer bientôt.",
+      "veriffSessionNotFound": "Nous n'avons pas encore trouvé de session de vérification. Commencez-en une d'abord.",
+      "styleNotFound": "Ce style est introuvable.",
+      "styleNotActive": "Ce style n'est pas disponible pour le moment.",
+      "styleAlreadyAdded": "Vous avez déjà ajouté ce style à votre offre.",
+      "invalidStyleVariation": "L'une des variantes sélectionnées n'est pas valide pour ce style.",
+      "invalidAddon": "L'un des suppléments sélectionnés n'est pas valide.",
       "generic": "Une erreur s'est produite. Veuillez réessayer."
     },
     "toasts": {
@@ -163,8 +171,15 @@
       "logoLabel": "Logo de l'entreprise",
       "logoUpload": "Téléverser le logo",
       "logoChange": "Changer le logo",
+      "logoRemove": "Supprimer le logo",
       "logoHelp": "JPEG, PNG ou WEBP, jusqu'à 5 Mo.",
       "continue": "Enregistrer et continuer",
+      "continueWithoutWaiting": "Continuer sans attendre",
+      "translationModal": {
+        "title": "Votre biographie est prête dans les autres langues",
+        "failed": "La traduction n'était pas disponible pour le moment — vous pourrez l'ajouter manuellement plus tard.",
+        "continue": "Continuer"
+      },
       "toasts": {
         "saved": "Informations sur l'entreprise enregistrées.",
         "logoUploaded": "Logo téléversé."
@@ -183,6 +198,63 @@
       "toasts": {
         "codeSent": "Code de vérification envoyé.",
         "verified": "Numéro de téléphone vérifié."
+      }
+    },
+    "veriff": {
+      "title": "Vérifiez votre identité",
+      "subtitle": "Nous utilisons Veriff pour confirmer votre identité — cela protège les clients et accélère votre approbation.",
+      "statusLabel": "Statut",
+      "reasonLabel": "Motif",
+      "start": {
+        "description": "Vous serez redirigé vers notre partenaire de vérification, Veriff, pour scanner une pièce d'identité et prendre un selfie rapide. Cela ne prend que quelques minutes.",
+        "button": "Démarrer la vérification"
+      },
+      "pending": {
+        "title": "Nous vérifions votre pièce d'identité",
+        "description": "Cela prend généralement quelques minutes, mais peut parfois être plus long. Revenez bientôt ou actualisez ci-dessous.",
+        "refresh": "Actualiser le statut",
+        "resume": "Reprendre la vérification"
+      },
+      "failed": {
+        "title": "Échec de la vérification",
+        "description": "Nous n'avons pas pu vérifier votre identité. Veuillez réessayer.",
+        "tryAgain": "Réessayer"
+      },
+      "approved": {
+        "title": "Vous êtes vérifié !",
+        "description": "Votre identité a été confirmée.",
+        "continue": "Continuer"
+      },
+      "toasts": {
+        "refreshed": "Statut mis à jour."
+      }
+    },
+    "serviceType": {
+      "title": "Créez votre carte de prix",
+      "subtitle": "Ajoutez au moins un style que vous proposez, avec votre prix, pour continuer.",
+      "categoryLabel": "Catégorie",
+      "categoryPlaceholder": "Toutes les catégories",
+      "searchLabel": "Rechercher des styles",
+      "searchPlaceholder": "Rechercher par nom…",
+      "noResults": "Aucun style ne correspond à vos filtres.",
+      "loadMore": "Charger plus",
+      "selectButton": "Sélectionner",
+      "addedBadge": "Ajouté",
+      "basePriceLabel": "Prix de base (€)",
+      "basePricePlaceholder": "ex. 45",
+      "durationLabel": "Durée (minutes)",
+      "durationPlaceholder": "ex. 120",
+      "variationsTitle": "Variantes",
+      "addonsTitle": "Suppléments",
+      "requiredLabel": "Obligatoire",
+      "priceLabel": "Prix (€)",
+      "cancel": "Annuler",
+      "addButton": "Ajouter à la carte",
+      "menuTitle": "Votre carte",
+      "emptyMenu": "Vous n'avez encore ajouté aucun style.",
+      "continue": "Continuer",
+      "toasts": {
+        "added": "Ajouté à votre carte."
       }
     },
     "comingSoon": {
