@@ -34,8 +34,8 @@ export function SignupForm({
       router.push(`/${lang}/verify-email?email=${encodeURIComponent(email)}`);
     },
     onError: (error) => {
-      const code = error instanceof ApiError ? error.code : undefined;
-      toast.error(getAuthErrorMessage(code, common.errors));
+      const errorCode = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(errorCode, common.errors));
     },
   });
 

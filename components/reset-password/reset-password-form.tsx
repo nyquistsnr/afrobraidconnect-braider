@@ -38,8 +38,8 @@ export function ResetPasswordForm({
       router.push(`/${lang}/login`);
     },
     onError: (error) => {
-      const code = error instanceof ApiError ? error.code : undefined;
-      toast.error(getAuthErrorMessage(code, common.errors));
+      const errorCode = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(errorCode, common.errors));
     },
   });
 
@@ -47,8 +47,8 @@ export function ResetPasswordForm({
     mutationFn: authApi.forgotPassword,
     onSuccess: () => toast.success(common.toasts.resendSuccess),
     onError: (error) => {
-      const code = error instanceof ApiError ? error.code : undefined;
-      toast.error(getAuthErrorMessage(code, common.errors));
+      const errorCode = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(errorCode, common.errors));
     },
   });
 
