@@ -9,6 +9,7 @@
     },
     "loading": "Loading…",
     "backToLogin": "Back to Sign In",
+    "backToDashboard": "Back to Dashboard",
     "countrySearchPlaceholder": "Search country",
     "noCountriesFound": "No countries found",
     "errors": {
@@ -26,6 +27,12 @@
       "userTypeRequired": "Please choose an account type to continue.",
       "rateLimited": "Too many attempts. Please wait a moment and try again.",
       "networkError": "Couldn't reach the server. Check your connection and try again.",
+      "forbidden": "You don't have access to this.",
+      "invalidAccessToken": "Your session has expired. Please sign in again.",
+      "invalidLogoUpload": "That image couldn't be uploaded. Please try a JPEG, PNG, or WEBP under 5MB.",
+      "logoNotFound": "We couldn't find that upload. Please try again.",
+      "phoneVerificationUnavailable": "We couldn't send the verification code right now. Please try again shortly.",
+      "invalidVerificationCode": "That code isn't right. Please try again.",
       "generic": "Something went wrong. Please try again."
     },
     "toasts": {
@@ -125,5 +132,62 @@
   },
   "bookings": {
     "title": "Booking Page"
+  },
+  "onboarding": {
+    "stepper": {
+      "businessInfo": "Business Info",
+      "phoneVerification": "Phone Verification",
+      "veriff": "Identity Verification",
+      "serviceType": "Service Type",
+      "portfolio": "Portfolio",
+      "serviceLocation": "Service Location",
+      "availability": "Availability",
+      "paymentSetup": "Payment Setup"
+    },
+    "stepOf": "Step {current} of {total}",
+    "businessInfo": {
+      "title": "Tell us about your business",
+      "subtitle": "This is what clients will see on your profile.",
+      "businessNameLabel": "Business name",
+      "businessNamePlaceholder": "e.g. Amara's Braids",
+      "genderLabel": "Gender",
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "preferNotToSay": "Prefer not to say"
+      },
+      "bioLabel": "About your business",
+      "bioPlaceholder": "Tell clients what makes your braiding unique...",
+      "bioTranslatingNote": "Translating your bio into other languages…",
+      "logoLabel": "Business logo",
+      "logoUpload": "Upload logo",
+      "logoChange": "Change logo",
+      "logoHelp": "JPEG, PNG or WEBP, up to 5MB.",
+      "continue": "Save & Continue",
+      "toasts": {
+        "saved": "Business info saved.",
+        "logoUploaded": "Logo uploaded."
+      }
+    },
+    "phoneVerification": {
+      "title": "Verify your phone number",
+      "subtitle": "We'll text you a 6-digit code to confirm it's you.",
+      "phoneLabel": "Phone number",
+      "sendCode": "Send Code",
+      "codeLabel": "Verification code",
+      "codeSentTo": "Code sent to",
+      "changeNumber": "Change number",
+      "resendCode": "Resend code",
+      "verify": "Verify",
+      "toasts": {
+        "codeSent": "Verification code sent.",
+        "verified": "Phone number verified."
+      }
+    },
+    "comingSoon": {
+      "title": "Coming soon",
+      "subtitle": "This step isn't ready yet — check back shortly."
+    }
   }
 }

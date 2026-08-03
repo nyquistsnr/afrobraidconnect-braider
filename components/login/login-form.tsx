@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Mail } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import { getAuthErrorMessage } from "@/lib/api/error-messages";
+import { onboardingStepPath } from "@/lib/onboarding";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
@@ -39,9 +40,15 @@ export function LoginForm({
         throw new Error(result.code ?? result.error);
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success(common.toasts.loginSuccess);
-      router.push(`/${lang}/dashboard`);
+      const session = await getSession();
+      const step = session?.braider?.onboarding.current_step;
+      router.push(
+        step && step !== "COMPLETED"
+          ? onboardingStepPath(lang, step)
+          : `/${lang}/dashboard`
+      );
     },
     onError: (error) => {
       toast.error(getAuthErrorMessage(error.message, common.errors));

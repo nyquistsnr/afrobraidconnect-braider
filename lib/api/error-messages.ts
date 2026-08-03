@@ -17,6 +17,13 @@ const CODE_TO_KEY: Record<string, keyof ErrorsDict> = {
   USER_TYPE_REQUIRED: "userTypeRequired",
   RATE_LIMITED: "rateLimited",
   NETWORK_ERROR: "networkError",
+  FORBIDDEN: "forbidden",
+  INVALID_ACCESS_TOKEN: "invalidAccessToken",
+  INVALID_LOGO_UPLOAD: "invalidLogoUpload",
+  LOGO_NOT_FOUND: "logoNotFound",
+  LOGO_UPLOAD_FAILED: "invalidLogoUpload",
+  PHONE_VERIFICATION_API_UNAVAILABLE: "phoneVerificationUnavailable",
+  INVALID_VERIFICATION_CODE: "invalidVerificationCode",
 };
 
 // `code` here is whatever error.code the backend returned (see ApiError),

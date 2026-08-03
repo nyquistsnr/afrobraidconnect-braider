@@ -102,3 +102,83 @@ export interface ResetPasswordRequest {
   code: string;
   new_password: string;
 }
+
+// ---------------------------------------------------------------------------
+// Braider onboarding
+// ---------------------------------------------------------------------------
+
+export type Gender = "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
+
+export type BioSource = "HUMAN" | "MACHINE" | "PENDING" | "FAILED";
+
+export interface BusinessInfoResponse {
+  business_name: string | null;
+  logo_url: string | null;
+  bio_en: string | null;
+  bio_de: string | null;
+  bio_fr: string | null;
+  bio_en_source: BioSource | null;
+  bio_de_source: BioSource | null;
+  bio_fr_source: BioSource | null;
+  gender: Gender | null;
+  is_complete: boolean;
+}
+
+export interface BusinessInfoUpdateRequest {
+  business_name?: string;
+  bio?: string;
+  gender?: Gender;
+}
+
+export type LogoContentType = "image/jpeg" | "image/png" | "image/webp";
+
+export interface LogoUploadUrlRequest {
+  content_type: LogoContentType;
+}
+
+export interface LogoUploadUrlResponse {
+  upload_url: string;
+  object_key: string;
+  expires_in: number;
+}
+
+export interface LogoConfirmRequest {
+  object_key: string;
+}
+
+export interface SendCodeRequest {
+  phone_number: string;
+}
+
+export interface SendCodeResponse {
+  status: string;
+  phone_number: string;
+}
+
+export interface VerifyCodeRequest {
+  phone_number: string;
+  code: string;
+}
+
+export interface VerifyCodeResponse {
+  status: string;
+  is_complete: boolean;
+}
+
+export interface PhoneVerificationStatusResponse {
+  phone_number: string | null;
+  is_verified: boolean;
+}
+
+export interface OnboardingStatusResponse {
+  current_step: OnboardingStep;
+  business_info_completed_at: string | null;
+  phone_verification_completed_at: string | null;
+  veriff_completed_at: string | null;
+  service_type_completed_at: string | null;
+  portfolio_completed_at: string | null;
+  service_location_completed_at: string | null;
+  availability_completed_at: string | null;
+  payment_setup_completed_at: string | null;
+  completed_at: string | null;
+}

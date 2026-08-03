@@ -9,6 +9,7 @@
     },
     "loading": "Chargement…",
     "backToLogin": "Retour à la connexion",
+    "backToDashboard": "Retour au tableau de bord",
     "countrySearchPlaceholder": "Rechercher un pays",
     "noCountriesFound": "Aucun pays trouvé",
     "errors": {
@@ -26,6 +27,12 @@
       "userTypeRequired": "Veuillez choisir un type de compte pour continuer.",
       "rateLimited": "Trop de tentatives. Veuillez patienter puis réessayer.",
       "networkError": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+      "forbidden": "Vous n'avez pas accès à cette ressource.",
+      "invalidAccessToken": "Votre session a expiré. Veuillez vous reconnecter.",
+      "invalidLogoUpload": "Cette image n'a pas pu être envoyée. Essayez un fichier JPEG, PNG ou WEBP de moins de 5 Mo.",
+      "logoNotFound": "Nous n'avons pas trouvé ce fichier. Veuillez réessayer.",
+      "phoneVerificationUnavailable": "Impossible d'envoyer le code de vérification pour le moment. Veuillez réessayer bientôt.",
+      "invalidVerificationCode": "Ce code n'est pas correct. Veuillez réessayer.",
       "generic": "Une erreur s'est produite. Veuillez réessayer."
     },
     "toasts": {
@@ -125,5 +132,62 @@
   },
   "bookings": {
     "title": "Page des réservations"
+  },
+  "onboarding": {
+    "stepper": {
+      "businessInfo": "Infos sur l'entreprise",
+      "phoneVerification": "Vérification du téléphone",
+      "veriff": "Vérification d'identité",
+      "serviceType": "Type de service",
+      "portfolio": "Portfolio",
+      "serviceLocation": "Lieu de service",
+      "availability": "Disponibilité",
+      "paymentSetup": "Configuration du paiement"
+    },
+    "stepOf": "Étape {current} sur {total}",
+    "businessInfo": {
+      "title": "Parlez-nous de votre entreprise",
+      "subtitle": "C'est ce que les clients verront sur votre profil.",
+      "businessNameLabel": "Nom de l'entreprise",
+      "businessNamePlaceholder": "ex. Tresses d'Amara",
+      "genderLabel": "Genre",
+      "genderOptions": {
+        "male": "Homme",
+        "female": "Femme",
+        "other": "Autre",
+        "preferNotToSay": "Préfère ne pas dire"
+      },
+      "bioLabel": "À propos de votre entreprise",
+      "bioPlaceholder": "Dites aux clients ce qui rend vos tresses uniques...",
+      "bioTranslatingNote": "Traduction de votre biographie dans les autres langues…",
+      "logoLabel": "Logo de l'entreprise",
+      "logoUpload": "Téléverser le logo",
+      "logoChange": "Changer le logo",
+      "logoHelp": "JPEG, PNG ou WEBP, jusqu'à 5 Mo.",
+      "continue": "Enregistrer et continuer",
+      "toasts": {
+        "saved": "Informations sur l'entreprise enregistrées.",
+        "logoUploaded": "Logo téléversé."
+      }
+    },
+    "phoneVerification": {
+      "title": "Vérifiez votre numéro de téléphone",
+      "subtitle": "Nous vous enverrons un code à 6 chiffres par SMS pour confirmer votre identité.",
+      "phoneLabel": "Numéro de téléphone",
+      "sendCode": "Envoyer le code",
+      "codeLabel": "Code de vérification",
+      "codeSentTo": "Code envoyé au",
+      "changeNumber": "Changer de numéro",
+      "resendCode": "Renvoyer le code",
+      "verify": "Vérifier",
+      "toasts": {
+        "codeSent": "Code de vérification envoyé.",
+        "verified": "Numéro de téléphone vérifié."
+      }
+    },
+    "comingSoon": {
+      "title": "Bientôt disponible",
+      "subtitle": "Cette étape n'est pas encore prête — revenez bientôt."
+    }
   }
 }

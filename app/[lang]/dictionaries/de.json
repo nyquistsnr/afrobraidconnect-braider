@@ -9,6 +9,7 @@
     },
     "loading": "Wird geladen…",
     "backToLogin": "Zurück zur Anmeldung",
+    "backToDashboard": "Zurück zum Dashboard",
     "countrySearchPlaceholder": "Land suchen",
     "noCountriesFound": "Keine Länder gefunden",
     "errors": {
@@ -26,6 +27,12 @@
       "userTypeRequired": "Bitte wählen Sie einen Kontotyp, um fortzufahren.",
       "rateLimited": "Zu viele Versuche. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
       "networkError": "Server konnte nicht erreicht werden. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+      "forbidden": "Sie haben keinen Zugriff darauf.",
+      "invalidAccessToken": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "invalidLogoUpload": "Dieses Bild konnte nicht hochgeladen werden. Bitte verwenden Sie eine JPEG-, PNG- oder WEBP-Datei unter 5 MB.",
+      "logoNotFound": "Wir konnten diesen Upload nicht finden. Bitte versuchen Sie es erneut.",
+      "phoneVerificationUnavailable": "Der Bestätigungscode konnte gerade nicht gesendet werden. Bitte versuchen Sie es in Kürze erneut.",
+      "invalidVerificationCode": "Dieser Code ist nicht korrekt. Bitte versuchen Sie es erneut.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "toasts": {
@@ -125,5 +132,62 @@
   },
   "bookings": {
     "title": "Buchungsseite"
+  },
+  "onboarding": {
+    "stepper": {
+      "businessInfo": "Geschäftsinfo",
+      "phoneVerification": "Telefonverifizierung",
+      "veriff": "Identitätsprüfung",
+      "serviceType": "Serviceart",
+      "portfolio": "Portfolio",
+      "serviceLocation": "Servicestandort",
+      "availability": "Verfügbarkeit",
+      "paymentSetup": "Zahlungseinrichtung"
+    },
+    "stepOf": "Schritt {current} von {total}",
+    "businessInfo": {
+      "title": "Erzählen Sie uns von Ihrem Geschäft",
+      "subtitle": "Das sehen Kunden auf Ihrem Profil.",
+      "businessNameLabel": "Geschäftsname",
+      "businessNamePlaceholder": "z. B. Amaras Zöpfe",
+      "genderLabel": "Geschlecht",
+      "genderOptions": {
+        "male": "Männlich",
+        "female": "Weiblich",
+        "other": "Divers",
+        "preferNotToSay": "Keine Angabe"
+      },
+      "bioLabel": "Über Ihr Geschäft",
+      "bioPlaceholder": "Erzählen Sie Kunden, was Ihre Flechtkunst einzigartig macht...",
+      "bioTranslatingNote": "Ihre Beschreibung wird in andere Sprachen übersetzt…",
+      "logoLabel": "Firmenlogo",
+      "logoUpload": "Logo hochladen",
+      "logoChange": "Logo ändern",
+      "logoHelp": "JPEG, PNG oder WEBP, bis zu 5 MB.",
+      "continue": "Speichern & Weiter",
+      "toasts": {
+        "saved": "Geschäftsinfo gespeichert.",
+        "logoUploaded": "Logo hochgeladen."
+      }
+    },
+    "phoneVerification": {
+      "title": "Bestätigen Sie Ihre Telefonnummer",
+      "subtitle": "Wir senden Ihnen einen 6-stelligen Code per SMS zur Bestätigung.",
+      "phoneLabel": "Telefonnummer",
+      "sendCode": "Code senden",
+      "codeLabel": "Bestätigungscode",
+      "codeSentTo": "Code gesendet an",
+      "changeNumber": "Nummer ändern",
+      "resendCode": "Code erneut senden",
+      "verify": "Bestätigen",
+      "toasts": {
+        "codeSent": "Bestätigungscode gesendet.",
+        "verified": "Telefonnummer bestätigt."
+      }
+    },
+    "comingSoon": {
+      "title": "Demnächst verfügbar",
+      "subtitle": "Dieser Schritt ist noch nicht bereit — schauen Sie bald wieder vorbei."
+    }
   }
 }
