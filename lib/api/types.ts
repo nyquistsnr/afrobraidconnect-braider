@@ -271,17 +271,17 @@ export type LocationType = "HOME_STUDIO" | "SALON";
 
 export interface ServiceLocationUpdateRequest {
   location_type?: LocationType | null;
-  salon_name?: string;
-  address_line1?: string;
-  address_line2?: string;
-  city?: string;
-  postal_code?: string;
-  country?: string;
-  latitude?: number;
-  longitude?: number;
+  salon_name?: string | null;
+  address_line1?: string | null;
+  address_line2?: string | null;
+  city?: string | null;
+  postal_code?: string | null;
+  country?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   offers_mobile?: boolean;
-  travel_radius_km?: number;
-  travel_fee?: number;
+  travel_radius_km?: number | null;
+  travel_fee?: number | null;
 }
 
 export interface ServiceLocationResponse {

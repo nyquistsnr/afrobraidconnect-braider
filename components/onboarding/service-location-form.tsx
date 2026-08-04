@@ -95,17 +95,17 @@ export function ServiceLocationForm({
     mutationFn: async () => {
       return onboardingApi.updateServiceLocation(session!.accessToken, {
         location_type: locationType || null,
-        salon_name: salonName.trim() || undefined,
-        address_line1: addressLine1.trim() || undefined,
-        address_line2: addressLine2.trim() || undefined,
-        city: city.trim() || undefined,
-        postal_code: postalCode.trim() || undefined,
-        country: country || undefined,
-        latitude: lat ?? undefined,
-        longitude: lng ?? undefined,
+        salon_name: isFixedLocation && locationType === "SALON" ? (salonName.trim() || null) : null,
+        address_line1: isFixedLocation ? (addressLine1.trim() || null) : null,
+        address_line2: isFixedLocation ? (addressLine2.trim() || null) : null,
+        city: city.trim() || null,
+        postal_code: isFixedLocation ? (postalCode.trim() || null) : null,
+        country: country || null,
+        latitude: lat ?? null,
+        longitude: lng ?? null,
         offers_mobile: offersMobile,
-        travel_radius_km: offersMobile && travelRadiusKm ? parseInt(travelRadiusKm, 10) : undefined,
-        travel_fee: offersMobile && travelFee ? parseFloat(travelFee) : undefined,
+        travel_radius_km: offersMobile && travelRadiusKm ? parseInt(travelRadiusKm, 10) : null,
+        travel_fee: offersMobile && travelFee ? parseFloat(travelFee) : null,
       });
     },
     onSuccess: (data) => {
@@ -197,9 +197,9 @@ export function ServiceLocationForm({
               <AddressInput
                 label={isFixedLocation ? dict.addressLine1Label : dict.cityLabel}
                 showLabel
-                placeholder={dict.addressLine1Placeholder}
+                placeholder={isFixedLocation ? dict.addressLine1Placeholder : dict.cityPlaceholder}
                 countryCode={country}
-                defaultValue={addressLine1 || city}
+                defaultValue={isFixedLocation ? addressLine1 : city}
                 onAddressSelected={(address) => {
                   setAddressLine1(address.line1);
                   setCity(address.city);
@@ -231,15 +231,17 @@ export function ServiceLocationForm({
                     placeholder={dict.postalCodePlaceholder}
                   />
                 )}
-                <div className={isFixedLocation ? "" : "col-span-2"}>
-                  <Input
-                    label={isFixedLocation ? dict.cityLabel : "Region / City"}
-                    showLabel
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder={dict.cityPlaceholder}
-                  />
-                </div>
+                {isFixedLocation && (
+                  <div className="col-span-2 sm:col-span-1">
+                    <Input
+                      label={dict.cityLabel}
+                      showLabel
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder={dict.cityPlaceholder}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
