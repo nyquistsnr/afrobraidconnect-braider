@@ -34,6 +34,7 @@ export function LoginForm({
       const result = await signIn("credentials", {
         ...credentials,
         rememberMe: String(credentials.rememberMe),
+        lang,
         redirect: false,
       });
 

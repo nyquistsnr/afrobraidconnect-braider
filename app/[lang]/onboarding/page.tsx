@@ -24,7 +24,7 @@ export default async function OnboardingHubPage({
   if (!session.braider) redirect(`/${lang}/dashboard`);
 
   const status = await onboardingApi
-    .getStatus(session.accessToken)
+    .getStatus(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   redirect(onboardingStepPath(lang, status.current_step));

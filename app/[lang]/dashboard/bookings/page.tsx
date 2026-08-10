@@ -21,10 +21,10 @@ export default async function BookingsPage({
   }
 
   const dict = await getDictionary(lang);
-  const initialData = await bookingsApi.list(session.accessToken);
+  const initialData = await bookingsApi.list(session.accessToken, lang);
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="w-full">
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           {dict.dashboard.bookings.title}

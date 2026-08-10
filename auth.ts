@@ -3,6 +3,13 @@ import Credentials from "next-auth/providers/credentials";
 import type { JWT } from "next-auth/jwt";
 import { ApiError, authApi } from "@/lib/api/auth-client";
 import type { AuthTokenResponse } from "@/lib/api/types";
+import { defaultLocale, hasLocale, type Locale } from "@/lib/i18n";
+
+// Credentials fields arrive as untyped strings from the client — validate
+// against the known locale list rather than trusting/casting blindly.
+function resolveLocale(value: unknown): Locale {
+  return typeof value === "string" && hasLocale(value) ? value : defaultLocale;
+}
 
 // Auth.js redirects thrown-CredentialsSignin subclasses back to the client
 // with `code` set to this instance property — this is how our backend's
@@ -17,7 +24,7 @@ class LoginError extends CredentialsSignin {
 
 // Shared by both the email/password and Google providers — same backend
 // envelope shape (AuthTokenResponse) either way, once a session exists.
-function toAuthUser(tokens: AuthTokenResponse): User {
+function toAuthUser(tokens: AuthTokenResponse, lang: Locale): User {
   return {
     id: tokens.id,
     email: tokens.email,
@@ -30,14 +37,17 @@ function toAuthUser(tokens: AuthTokenResponse): User {
     refreshToken: tokens.refresh_token,
     accessTokenExpires: Date.now() + tokens.expires_in * 1000,
     braider: tokens.braider,
+    lang,
   };
 }
 
 // The backend rotates refresh tokens on every use, so the old one is dead
 // the moment this call returns — the new pair below is the only valid one.
+// Uses the locale captured at sign-in (token.lang) since there's no request
+// context here to read a fresh one from.
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
-    const refreshed = await authApi.refresh(token.refreshToken);
+    const refreshed = await authApi.refresh(token.refreshToken, token.lang);
     return {
       ...token,
       accessToken: refreshed.access_token,
@@ -60,22 +70,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: {},
         password: {},
         rememberMe: {},
+        lang: {},
       },
       authorize: async (credentials) => {
         const email = credentials?.email;
         const password = credentials?.password;
+        const lang = resolveLocale(credentials?.lang);
 
         if (typeof email !== "string" || typeof password !== "string") {
           throw new LoginError("VALIDATION_ERROR");
         }
 
         try {
-          const tokens = await authApi.login({
-            email,
-            password,
-            remember_me: credentials?.rememberMe === "true",
-          });
-          return toAuthUser(tokens);
+          const tokens = await authApi.login(
+            {
+              email,
+              password,
+              remember_me: credentials?.rememberMe === "true",
+            },
+            lang
+          );
+          return toAuthUser(tokens, lang);
         } catch (error) {
           throw new LoginError(
             error instanceof ApiError ? error.code : "UNKNOWN_ERROR"
@@ -93,22 +108,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       name: "Google",
       credentials: {
         providerToken: {},
+        lang: {},
       },
       authorize: async (credentials) => {
         const providerToken = credentials?.providerToken;
+        const lang = resolveLocale(credentials?.lang);
 
         if (typeof providerToken !== "string") {
           throw new LoginError("VALIDATION_ERROR");
         }
 
         try {
-          const tokens = await authApi.socialLogin("google", {
-            provider_token: providerToken,
-            // Ignored by the backend if the Google account already maps to
-            // an existing user — only applies to brand-new sign-ups.
-            user_type: "BRAIDER",
-          });
-          return toAuthUser(tokens);
+          const tokens = await authApi.socialLogin(
+            "google",
+            {
+              provider_token: providerToken,
+              // Ignored by the backend if the Google account already maps to
+              // an existing user — only applies to brand-new sign-ups.
+              user_type: "BRAIDER",
+            },
+            lang
+          );
+          return toAuthUser(tokens, lang);
         } catch (error) {
           throw new LoginError(
             error instanceof ApiError ? error.code : "UNKNOWN_ERROR"
@@ -133,6 +154,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           refreshToken: user.refreshToken,
           accessTokenExpires: user.accessTokenExpires,
           braider: user.braider,
+          lang: user.lang,
         };
       }
 

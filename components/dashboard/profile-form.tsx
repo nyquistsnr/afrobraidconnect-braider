@@ -34,7 +34,7 @@ export function ProfileForm({
 
   const updateMutation = useMutation({
     mutationFn: async (updates: UserProfileUpdateRequest) => {
-      return usersApi.updateMe(accessToken, updates);
+      return usersApi.updateMe(accessToken, updates, lang);
     },
     onSuccess: () => {
       toast.success(dict.successToast);

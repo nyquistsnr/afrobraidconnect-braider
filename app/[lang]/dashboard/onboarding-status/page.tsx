@@ -19,7 +19,7 @@ export default async function DashboardOnboardingStatusPage(props: {
     redirect(`/${lang}/login`);
   }
 
-  const status = await onboardingApi.getStatus(session.accessToken).catch((error) => {
+  const status = await onboardingApi.getStatus(session.accessToken, lang as Locale).catch((error) => {
     console.error("Failed to fetch onboarding status:", error);
     throw error;
   });

@@ -1,49 +1,17 @@
 // Braider Bookings endpoints — GET /braiders/me/bookings (list) and
 // GET /braiders/me/bookings/{id} (detail). Requires a BRAIDER-role Bearer token.
 import type {
-  ApiEnvelope,
   BookingDetailResponse,
   BookingListParams,
   BookingListResponse,
 } from "@/lib/api/types";
-import { ApiError } from "@/lib/api/auth-client";
+import type { Locale } from "@/lib/i18n";
+import { apiFetch } from "@/lib/api/http";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 const BOOKINGS_PATH = "/braiders/me/bookings";
 
-async function authedGet<T>(path: string, accessToken: string): Promise<T> {
-  if (!API_BASE) {
-    throw new ApiError(
-      "API_BASE_NOT_CONFIGURED",
-      "NEXT_PUBLIC_API_BASE_URL is not set.",
-      500
-    );
-  }
-
-  let res: Response;
-  try {
-    res = await fetch(`${API_BASE}${path}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-  } catch {
-    throw new ApiError("NETWORK_ERROR", "Could not reach the server.", 0);
-  }
-
-  const json: ApiEnvelope<T> = await res.json();
-
-  if (json.status === "error" || !json.data) {
-    const error = json.error ?? {
-      code: "UNKNOWN_ERROR",
-      message: "Something went wrong.",
-    };
-    throw new ApiError(error.code, error.message, res.status, error.details);
-  }
-
-  return json.data;
-}
-
 export const bookingsApi = {
-  list: (accessToken: string, params: BookingListParams = {}) => {
+  list: (accessToken: string, lang: Locale, params: BookingListParams = {}) => {
     const query = new URLSearchParams();
     if (params.status) query.set("status", params.status);
     if (params.date_from) query.set("date_from", params.date_from);
@@ -51,15 +19,15 @@ export const bookingsApi = {
     if (params.search) query.set("search", params.search);
     query.set("page", String(params.page ?? 1));
     query.set("page_size", String(params.page_size ?? 20));
-    return authedGet<BookingListResponse>(
+    return apiFetch<BookingListResponse>(
       `${BOOKINGS_PATH}?${query.toString()}`,
-      accessToken
+      { accessToken, lang }
     );
   },
 
-  getById: (accessToken: string, bookingId: string) =>
-    authedGet<BookingDetailResponse>(
-      `${BOOKINGS_PATH}/${bookingId}`,
-      accessToken
-    ),
+  getById: (accessToken: string, bookingId: string, lang: Locale) =>
+    apiFetch<BookingDetailResponse>(`${BOOKINGS_PATH}/${bookingId}`, {
+      accessToken,
+      lang,
+    }),
 };

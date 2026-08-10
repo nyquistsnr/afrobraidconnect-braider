@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,11 @@ export interface DateRangePickerProps {
 // Sunday-first locales get weekStart 0, everyone else (fr/de) starts on Monday.
 const WEEK_START: Record<Locale, number> = { en: 0, fr: 1, de: 1 };
 
+// Keeps the popover from ever touching the viewport edge.
+const VIEWPORT_MARGIN = 8;
+// Gap kept between the trigger button and the popover.
+const TRIGGER_GAP = 8;
+
 function toDateString(year: number, month: number, day: number) {
   const m = String(month + 1).padStart(2, "0");
   const d = String(day).padStart(2, "0");
@@ -43,7 +49,7 @@ function getLeadingOffset(year: number, month: number, weekStart: number) {
   return (jsDay - weekStart + 7) % 7;
 }
 
-function CalendarPopover({
+function CalendarContent({
   dateFrom,
   dateTo,
   lang,
@@ -159,8 +165,8 @@ function CalendarPopover({
   }, [lang, weekStart]);
 
   return (
-    <div className="absolute left-0 top-[calc(100%+0.5rem)] z-50 flex w-[320px] flex-col overflow-hidden border border-border bg-surface shadow-lg sm:w-[480px] sm:flex-row">
-      <div className="flex flex-col gap-1 border-b border-border bg-border/20 p-3 sm:w-[140px] sm:border-b-0 sm:border-r">
+    <div className="flex max-h-[80vh] flex-col overflow-y-auto sm:flex-row">
+      <div className="flex flex-col gap-1 border-b border-border bg-border/20 p-3 sm:w-[140px] sm:shrink-0 sm:border-b-0 sm:border-r">
         <span className="mb-1 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {presetsLabel}
         </span>
@@ -194,7 +200,7 @@ function CalendarPopover({
         </button>
       </div>
 
-      <div className="flex-1 p-4">
+      <div className="min-w-0 flex-1 p-4">
         <div className="mb-4 flex items-center justify-between">
           <button
             type="button"
@@ -299,6 +305,11 @@ function CalendarPopover({
   );
 }
 
+interface Coords {
+  top: number;
+  left: number;
+}
+
 export function DateRangePicker({
   dateFrom,
   dateTo,
@@ -319,17 +330,69 @@ export function DateRangePicker({
 }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState<Coords | null>(null);
 
-  useEffect(() => {
+  // Measures the trigger + popover and clamps the popover's fixed-position
+  // coordinates so it always stays fully inside the viewport — never wider
+  // than the screen, never cut off top/bottom/left/right, and never able to
+  // push the page into horizontal scroll (it's viewport-fixed, not part of
+  // any container's scrollable content).
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+
+    function updateCoords() {
+      const trigger = triggerRef.current;
+      const popover = popoverRef.current;
+      if (!trigger || !popover) return;
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const popoverRect = popover.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      const maxLeft = Math.max(VIEWPORT_MARGIN, vw - popoverRect.width - VIEWPORT_MARGIN);
+      const left = Math.min(Math.max(triggerRect.left, VIEWPORT_MARGIN), maxLeft);
+
+      const belowTop = triggerRect.bottom + TRIGGER_GAP;
+      const aboveTop = triggerRect.top - TRIGGER_GAP - popoverRect.height;
+      const fitsBelow = belowTop + popoverRect.height <= vh - VIEWPORT_MARGIN;
+      const fitsAbove = aboveTop >= VIEWPORT_MARGIN;
+
+      let top: number;
+      if (fitsBelow || !fitsAbove) {
+        top = belowTop;
+      } else {
+        top = aboveTop;
+      }
+      const maxTop = Math.max(VIEWPORT_MARGIN, vh - popoverRect.height - VIEWPORT_MARGIN);
+      top = Math.min(Math.max(top, VIEWPORT_MARGIN), maxTop);
+
+      setCoords({ top, left });
+    }
+
+    updateCoords();
+    window.addEventListener("resize", updateCoords);
+    window.addEventListener("scroll", updateCoords, true);
+    return () => {
+      window.removeEventListener("resize", updateCoords);
+      window.removeEventListener("scroll", updateCoords, true);
+    };
+  }, [isOpen]);
+
+  useLayoutEffect(() => {
     if (!isOpen) return;
 
     function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
       if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        containerRef.current?.contains(target) ||
+        popoverRef.current?.contains(target)
       ) {
-        setIsOpen(false);
+        return;
       }
+      setIsOpen(false);
     }
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setIsOpen(false);
@@ -369,6 +432,7 @@ export function DateRangePicker({
       )}
 
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setIsOpen((v) => !v)}
         aria-haspopup="dialog"
@@ -383,34 +447,47 @@ export function DateRangePicker({
         <CalendarIcon className="size-4 shrink-0 text-icon-muted" />
       </button>
 
-      {isOpen && (
-        <CalendarPopover
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          lang={lang}
-          presetsLabel={presetsLabel}
-          todayLabel={todayLabel}
-          last7DaysLabel={last7DaysLabel}
-          thisMonthLabel={thisMonthLabel}
-          lastMonthLabel={lastMonthLabel}
-          clearLabel={clearLabel}
-          applyLabel={applyLabel}
-          previousMonthLabel={previousMonthLabel}
-          nextMonthLabel={nextMonthLabel}
-          onApply={(from, to) => {
-            onChange(from, to);
-            setIsOpen(false);
-          }}
-          onClear={() => {
-            onChange("", "");
-            setIsOpen(false);
-          }}
-          onPreset={(from, to) => {
-            onChange(from, to);
-            setIsOpen(false);
-          }}
-        />
-      )}
+      {isOpen &&
+        createPortal(
+          <div
+            ref={popoverRef}
+            style={{
+              position: "fixed",
+              top: coords?.top ?? -9999,
+              left: coords?.left ?? -9999,
+              visibility: coords ? "visible" : "hidden",
+            }}
+            className="z-50 w-[320px] max-w-[calc(100vw-1rem)] overflow-hidden border border-border bg-surface shadow-lg sm:w-[480px]"
+          >
+            <CalendarContent
+              dateFrom={dateFrom}
+              dateTo={dateTo}
+              lang={lang}
+              presetsLabel={presetsLabel}
+              todayLabel={todayLabel}
+              last7DaysLabel={last7DaysLabel}
+              thisMonthLabel={thisMonthLabel}
+              lastMonthLabel={lastMonthLabel}
+              clearLabel={clearLabel}
+              applyLabel={applyLabel}
+              previousMonthLabel={previousMonthLabel}
+              nextMonthLabel={nextMonthLabel}
+              onApply={(from, to) => {
+                onChange(from, to);
+                setIsOpen(false);
+              }}
+              onClear={() => {
+                onChange("", "");
+                setIsOpen(false);
+              }}
+              onPreset={(from, to) => {
+                onChange(from, to);
+                setIsOpen(false);
+              }}
+            />
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

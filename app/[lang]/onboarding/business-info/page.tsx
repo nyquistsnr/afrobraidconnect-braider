@@ -25,7 +25,7 @@ export default async function BusinessInfoPage({
   const dict = await getDictionary(lang);
 
   const businessInfo = await onboardingApi
-    .getBusinessInfo(session.accessToken)
+    .getBusinessInfo(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   return (

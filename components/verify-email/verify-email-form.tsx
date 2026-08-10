@@ -30,7 +30,8 @@ export function VerifyEmailForm({
   const router = useRouter();
 
   const verifyMutation = useMutation({
-    mutationFn: authApi.verifyEmail,
+    mutationFn: (body: Parameters<typeof authApi.verifyEmail>[0]) =>
+      authApi.verifyEmail(body, lang),
     onSuccess: () => {
       toast.success(common.toasts.verifyEmailSuccess);
       router.push(`/${lang}/login`);
@@ -42,7 +43,8 @@ export function VerifyEmailForm({
   });
 
   const resendMutation = useMutation({
-    mutationFn: authApi.resendVerification,
+    mutationFn: (body: Parameters<typeof authApi.resendVerification>[0]) =>
+      authApi.resendVerification(body, lang),
     onSuccess: () => toast.success(common.toasts.resendSuccess),
     onError: (error) => {
       const errorCode = error instanceof ApiError ? error.code : undefined;

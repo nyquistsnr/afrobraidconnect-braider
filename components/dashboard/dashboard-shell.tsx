@@ -34,7 +34,7 @@ export function DashboardShell({
   const handleConfirmLogout = useCallback(async () => {
     setLoggingOut(true);
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      await fetch(`/api/auth/logout?lang=${lang}`, { method: "POST" });
       toast.success(logoutSuccessMessage);
       const currentUrl = window.location.pathname + window.location.search;
       router.push(`/${lang}/login?callbackUrl=${encodeURIComponent(currentUrl)}`);

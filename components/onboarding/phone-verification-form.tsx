@@ -36,9 +36,11 @@ export function PhoneVerificationForm({
 
   const sendCodeMutation = useMutation({
     mutationFn: () =>
-      onboardingApi.sendPhoneCode(session!.accessToken, {
-        phone_number: phone!,
-      }),
+      onboardingApi.sendPhoneCode(
+        session!.accessToken,
+        { phone_number: phone! },
+        lang
+      ),
     onSuccess: () => {
       toast.success(dict.toasts.codeSent);
       setStep("code");
@@ -51,10 +53,11 @@ export function PhoneVerificationForm({
 
   const verifyMutation = useMutation({
     mutationFn: () =>
-      onboardingApi.verifyPhoneCode(session!.accessToken, {
-        phone_number: phone!,
-        code,
-      }),
+      onboardingApi.verifyPhoneCode(
+        session!.accessToken,
+        { phone_number: phone!, code },
+        lang
+      ),
     onSuccess: () => {
       toast.success(dict.toasts.verified);
       router.push(`/${lang}/onboarding`);

@@ -95,20 +95,24 @@ export function ServiceLocationForm({
 
   const saveMutation = useMutation({
     mutationFn: async () => {
-      return onboardingApi.updateServiceLocation(session!.accessToken, {
-        location_type: locationType || null,
-        salon_name: isFixedLocation && locationType === "SALON" ? (salonName.trim() || null) : null,
-        address_line1: isFixedLocation ? (addressLine1.trim() || null) : null,
-        address_line2: isFixedLocation ? (addressLine2.trim() || null) : null,
-        city: city.trim() || null,
-        postal_code: isFixedLocation ? (postalCode.trim() || null) : null,
-        country: country || null,
-        latitude: lat ?? null,
-        longitude: lng ?? null,
-        offers_mobile: offersMobile,
-        travel_radius_km: offersMobile && travelRadiusKm ? parseInt(travelRadiusKm, 10) : null,
-        travel_fee: offersMobile && travelFee ? parseFloat(travelFee) : null,
-      });
+      return onboardingApi.updateServiceLocation(
+        session!.accessToken,
+        {
+          location_type: locationType || null,
+          salon_name: isFixedLocation && locationType === "SALON" ? (salonName.trim() || null) : null,
+          address_line1: isFixedLocation ? (addressLine1.trim() || null) : null,
+          address_line2: isFixedLocation ? (addressLine2.trim() || null) : null,
+          city: city.trim() || null,
+          postal_code: isFixedLocation ? (postalCode.trim() || null) : null,
+          country: country || null,
+          latitude: lat ?? null,
+          longitude: lng ?? null,
+          offers_mobile: offersMobile,
+          travel_radius_km: offersMobile && travelRadiusKm ? parseInt(travelRadiusKm, 10) : null,
+          travel_fee: offersMobile && travelFee ? parseFloat(travelFee) : null,
+        },
+        lang
+      );
     },
     onSuccess: (data) => {
       toast.success(dict.toasts.saved || "Saved successfully");

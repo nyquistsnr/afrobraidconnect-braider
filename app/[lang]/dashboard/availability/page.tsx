@@ -21,9 +21,9 @@ export default async function DashboardAvailabilityPage(props: {
 
   // Fetch all required data for the availability form concurrently
   const [settings, windows, exceptions] = await Promise.all([
-    onboardingApi.getAvailabilitySettings(session.accessToken),
-    onboardingApi.getWeeklyWindows(session.accessToken),
-    onboardingApi.getExceptions(session.accessToken),
+    onboardingApi.getAvailabilitySettings(session.accessToken, lang as Locale),
+    onboardingApi.getWeeklyWindows(session.accessToken, lang as Locale),
+    onboardingApi.getExceptions(session.accessToken, lang as Locale),
   ]).catch((error) => {
     console.error("Failed to fetch availability data:", error);
     throw error;

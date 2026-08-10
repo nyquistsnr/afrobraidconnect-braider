@@ -48,7 +48,8 @@ export function PortfolioForm({
       const accessToken = session!.accessToken;
       const { upload_url, object_key } = await onboardingApi.getPortfolioUploadUrl(
         accessToken,
-        { content_type: file.type as PortfolioImageContentType }
+        { content_type: file.type as PortfolioImageContentType },
+        lang
       );
       await onboardingApi.uploadPortfolioFile(upload_url, file);
       return onboardingApi.confirmPortfolioImage(accessToken, { object_key }, lang);
@@ -69,7 +70,7 @@ export function PortfolioForm({
 
   const deleteMutation = useMutation({
     mutationFn: async (imageId: string) => {
-      await onboardingApi.deletePortfolioImage(session!.accessToken, imageId);
+      await onboardingApi.deletePortfolioImage(session!.accessToken, imageId, lang);
       return imageId;
     },
     onSuccess: (deletedId) => {

@@ -25,7 +25,7 @@ export default async function IdVerificationPage({
   const dict = await getDictionary(lang);
 
   const veriffStatus = await onboardingApi
-    .getVeriffStatus(session.accessToken)
+    .getVeriffStatus(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   return (

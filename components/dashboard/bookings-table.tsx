@@ -12,7 +12,10 @@ import {
   Search,
   User,
   X,
+  MoreHorizontal,
+  Eye,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type {
@@ -28,38 +31,15 @@ import { formatCurrency, formatDate, formatTime } from "@/lib/format";
 import { Input } from "@/components/ui/input";
 import { Select, type SelectOption } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/modal";
-import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { Pagination } from "@/components/ui/pagination";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { StatusBadge } from "@/components/dashboard/booking-detail";
+import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 const SEARCH_DEBOUNCE_MS = 350;
 
-const STATUS_TONE: Record<BookingStatus, BadgeTone> = {
-  PENDING_PAYMENT: "warning",
-  CONFIRMED: "info",
-  IN_PROGRESS: "brand",
-  COMPLETED: "success",
-  NO_SHOW: "danger",
-  CANCELLED_BY_CUSTOMER: "neutral",
-  CANCELLED_BY_BRAIDER: "neutral",
-  CANCELLED_NO_PAYMENT: "neutral",
-  EXPIRED: "neutral",
-  DISPUTED: "danger",
-};
-
 type BookingsDict = Dictionary["dashboard"]["bookings"];
-
-function StatusBadge({
-  status,
-  dict,
-}: {
-  status: BookingStatus;
-  dict: BookingsDict["status"];
-}) {
-  return <Badge tone={STATUS_TONE[status]}>{dict[status]}</Badge>;
-}
 
 function DateTimeCell({
   startsAt,
@@ -366,9 +346,9 @@ export function BookingsTable({
   lang: Locale;
   initialData: BookingListResponse;
 }) {
+  const router = useRouter();
   const { data: session } = useSession();
   const accessToken = session?.accessToken;
-  const modalTitleId = useId();
 
   const [status, setStatus] = useState<BookingStatus | "">("");
   const [dateFrom, setDateFrom] = useState("");
@@ -416,24 +396,22 @@ export function BookingsTable({
 
   const bookingsQuery = useQuery({
     queryKey: ["braider-bookings", filterParams],
-    queryFn: () => bookingsApi.list(accessToken!, filterParams),
+    queryFn: () => bookingsApi.list(accessToken!, lang, filterParams),
     enabled: !!accessToken,
     initialData: isDefaultQuery ? initialData : undefined,
     placeholderData: (previous) => previous,
   });
 
-  const bookingDetailQuery = useQuery({
-    queryKey: ["braider-booking", selectedBookingId],
-    queryFn: () => bookingsApi.getById(accessToken!, selectedBookingId!),
-    enabled: !!accessToken && !!selectedBookingId,
-  });
-
   const bookings = bookingsQuery.data?.items ?? [];
   const isLoading = bookingsQuery.isLoading || bookingsQuery.isPlaceholderData;
 
-  const statusOptions: SelectOption<BookingStatus>[] = (
-    Object.keys(dict.status) as BookingStatus[]
-  ).map((value) => ({ value, label: dict.status[value] }));
+  const statusOptions: SelectOption<BookingStatus>[] = [
+    { value: "" as BookingStatus, label: dict.filters.statusAll },
+    ...(Object.keys(dict.status) as BookingStatus[]).map((value) => ({
+      value,
+      label: dict.status[value],
+    })),
+  ];
 
   function resetFilters() {
     setStatus("");
@@ -483,6 +461,27 @@ export function BookingsTable({
       ),
       cellClassName: "font-bold",
     },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      render: (row) => (
+        <DropdownMenu
+          trigger={
+            <button className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-border text-icon-muted transition-colors">
+              <MoreHorizontal className="size-4" />
+            </button>
+          }
+        >
+          <DropdownMenuItem 
+            icon={<Eye className="size-4" />}
+            onClick={() => router.push(`/${lang}/dashboard/bookings/${row.id}`)}
+          >
+            View details
+          </DropdownMenuItem>
+        </DropdownMenu>
+      ),
+    },
   ];
 
   const emptyState = (
@@ -501,7 +500,7 @@ export function BookingsTable({
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 gap-4 border border-border bg-surface p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-[2fr_1.5fr_auto_auto] lg:items-end">
+      <div className="grid grid-cols-1 gap-4 border border-border bg-surface p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-[2fr_1.5fr_1.5fr_auto] lg:items-end">
         <Input
           label={dict.filters.searchLabel}
           showLabel
@@ -537,13 +536,14 @@ export function BookingsTable({
         />
         <Button
           type="button"
-          variant="outline"
-          className="w-full lg:w-auto"
+          variant="ghost"
+          className="h-[46px] w-[46px] shrink-0 p-0 text-muted-foreground hover:bg-border/50 hover:text-foreground transition-all rounded-md flex items-center justify-center disabled:opacity-0 disabled:pointer-events-none"
           onClick={resetFilters}
           disabled={!hasFilters}
+          aria-label={dict.filters.reset}
+          title={dict.filters.reset}
         >
-          <X className="size-4" />
-          {dict.filters.reset}
+          <X className="size-5" />
         </Button>
       </div>
 
@@ -558,13 +558,12 @@ export function BookingsTable({
               columns={columns}
               data={bookings}
               getRowKey={(row) => row.id}
-              onRowClick={(row) => setSelectedBookingId(row.id)}
               renderMobileCard={(row) => (
                 <BookingCard
                   booking={row}
                   lang={lang}
                   dict={dict}
-                  onClick={() => setSelectedBookingId(row.id)}
+                  onClick={() => router.push(`/${lang}/dashboard/bookings/${row.id}`)}
                 />
               )}
               isLoading={isLoading}
@@ -590,52 +589,6 @@ export function BookingsTable({
           </>
         )}
       </div>
-
-      <Modal
-        open={!!selectedBookingId}
-        onClose={() => setSelectedBookingId(null)}
-        labelledBy={modalTitleId}
-        size="lg"
-      >
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <h2 id={modalTitleId} className="text-lg font-bold text-foreground">
-            {dict.detail.title}
-          </h2>
-          <button
-            type="button"
-            onClick={() => setSelectedBookingId(null)}
-            aria-label={dict.detail.close}
-            className="text-icon-muted hover:text-foreground"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-
-        {bookingDetailQuery.isLoading && (
-          <div className="py-12 text-center text-sm text-muted-foreground">
-            {common.loading}
-          </div>
-        )}
-
-        {bookingDetailQuery.isError && (
-          <div className="py-12 text-center text-sm text-muted-foreground">
-            {getAuthErrorMessage(
-              bookingDetailQuery.error instanceof ApiError
-                ? bookingDetailQuery.error.code
-                : undefined,
-              common.errors
-            )}
-          </div>
-        )}
-
-        {bookingDetailQuery.data && (
-          <BookingDetail
-            booking={bookingDetailQuery.data}
-            lang={lang}
-            dict={dict}
-          />
-        )}
-      </Modal>
     </div>
   );
 }

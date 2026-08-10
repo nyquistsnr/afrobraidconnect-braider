@@ -91,7 +91,7 @@ export function AvailabilityForm({
   // Mutations
   const updateSettingsMutation = useMutation({
     mutationFn: async (data: typeof settings) => {
-      return onboardingApi.updateAvailabilitySettings(token, data);
+      return onboardingApi.updateAvailabilitySettings(token, data, lang);
     },
     onSuccess: (data) => {
       setSettings(data);
@@ -114,11 +114,15 @@ export function AvailabilityForm({
 
   const addWindowMutation = useMutation({
     mutationFn: async () => {
-      return onboardingApi.createWeeklyWindow(token, {
-        day_of_week: newWindowDay,
-        start_time: newWindowStart,
-        end_time: newWindowEnd,
-      });
+      return onboardingApi.createWeeklyWindow(
+        token,
+        {
+          day_of_week: newWindowDay,
+          start_time: newWindowStart,
+          end_time: newWindowEnd,
+        },
+        lang
+      );
     },
     onSuccess: (data) => {
       setWindows((prev) => [...prev, data]);
@@ -129,7 +133,7 @@ export function AvailabilityForm({
 
   const deleteWindowMutation = useMutation({
     mutationFn: async (id: string) => {
-      return onboardingApi.deleteWeeklyWindow(token, id);
+      return onboardingApi.deleteWeeklyWindow(token, id, lang);
     },
     onSuccess: (_, id) => {
       setWindows((prev) => prev.filter((w) => w.id !== id));
@@ -140,13 +144,17 @@ export function AvailabilityForm({
 
   const addExceptionMutation = useMutation({
     mutationFn: async () => {
-      return onboardingApi.createException(token, {
-        date: newExceptionDate,
-        exception_type: newExceptionType,
-        start_time: newExceptionType === "CUSTOM_HOURS" ? newExceptionStart : undefined,
-        end_time: newExceptionType === "CUSTOM_HOURS" ? newExceptionEnd : undefined,
-        reason: newExceptionReason || undefined,
-      });
+      return onboardingApi.createException(
+        token,
+        {
+          date: newExceptionDate,
+          exception_type: newExceptionType,
+          start_time: newExceptionType === "CUSTOM_HOURS" ? newExceptionStart : undefined,
+          end_time: newExceptionType === "CUSTOM_HOURS" ? newExceptionEnd : undefined,
+          reason: newExceptionReason || undefined,
+        },
+        lang
+      );
     },
     onSuccess: (data) => {
       setExceptions((prev) => [...prev, data]);
@@ -159,7 +167,7 @@ export function AvailabilityForm({
 
   const deleteExceptionMutation = useMutation({
     mutationFn: async (id: string) => {
-      return onboardingApi.deleteException(token, id);
+      return onboardingApi.deleteException(token, id, lang);
     },
     onSuccess: (_, id) => {
       setExceptions((prev) => prev.filter((e) => e.id !== id));
@@ -174,11 +182,15 @@ export function AvailabilityForm({
       try {
         await Promise.all(
           tempWindows.map(w =>
-            onboardingApi.createWeeklyWindow(token, {
-              day_of_week: w.day_of_week,
-              start_time: w.start_time,
-              end_time: w.end_time,
-            })
+            onboardingApi.createWeeklyWindow(
+              token,
+              {
+                day_of_week: w.day_of_week,
+                start_time: w.start_time,
+                end_time: w.end_time,
+              },
+              lang
+            )
           )
         );
       } catch (err: any) {

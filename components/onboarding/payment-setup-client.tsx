@@ -33,7 +33,7 @@ export function PaymentSetupClient({
 
   const startSetupMutation = useMutation({
     mutationFn: async () => {
-      return onboardingApi.createAccountLink(token);
+      return onboardingApi.createAccountLink(token, lang);
     },
     onSuccess: (data) => {
       toast.success(dict.toasts.started);

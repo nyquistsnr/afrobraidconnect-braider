@@ -38,7 +38,7 @@ export function VeriffForm({
   const [status, setStatus] = useState(initialStatus);
 
   const startMutation = useMutation({
-    mutationFn: () => onboardingApi.startVeriffSession(session!.accessToken),
+    mutationFn: () => onboardingApi.startVeriffSession(session!.accessToken, lang),
     onSuccess: (data) => {
       window.location.href = data.verification_url;
     },
@@ -49,7 +49,7 @@ export function VeriffForm({
   });
 
   const refreshMutation = useMutation({
-    mutationFn: () => onboardingApi.refreshVeriffStatus(session!.accessToken),
+    mutationFn: () => onboardingApi.refreshVeriffStatus(session!.accessToken, lang),
     onSuccess: (data) => {
       setStatus(data);
       toast.success(dict.toasts.refreshed);

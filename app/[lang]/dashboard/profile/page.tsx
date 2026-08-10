@@ -16,7 +16,7 @@ export default async function ProfilePage(props: {
   }
 
   const dict = await getDictionary(lang);
-  const user = await usersApi.getMe(session.accessToken);
+  const user = await usersApi.getMe(session.accessToken, lang);
 
   return (
     <div className="mx-auto max-w-2xl pt-4">

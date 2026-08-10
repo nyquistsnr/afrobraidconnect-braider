@@ -22,7 +22,7 @@ export default async function PortfolioPage({
   const dict = await getDictionary(lang);
 
   const portfolio = await onboardingApi
-    .getPortfolio(session.accessToken)
+    .getPortfolio(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   return (

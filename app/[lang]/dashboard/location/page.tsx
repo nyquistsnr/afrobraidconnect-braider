@@ -20,7 +20,7 @@ export default async function DashboardLocationPage(props: {
   }
 
   // Fetch the location data
-  const locationData = await onboardingApi.getServiceLocation(session.accessToken).catch((error) => {
+  const locationData = await onboardingApi.getServiceLocation(session.accessToken, lang as Locale).catch((error) => {
     console.error("Failed to fetch location data:", error);
     throw error;
   });

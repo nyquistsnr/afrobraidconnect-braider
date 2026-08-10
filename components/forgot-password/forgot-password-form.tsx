@@ -26,7 +26,8 @@ export function ForgotPasswordForm({
   const [email, setEmail] = useState("");
 
   const forgotPasswordMutation = useMutation({
-    mutationFn: authApi.forgotPassword,
+    mutationFn: (body: Parameters<typeof authApi.forgotPassword>[0]) =>
+      authApi.forgotPassword(body, lang),
     onSuccess: () => {
       toast.success(common.toasts.forgotPasswordSuccess);
       router.push(`/${lang}/reset-password?email=${encodeURIComponent(email)}`);

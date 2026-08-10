@@ -81,7 +81,8 @@ export function BusinessInfoForm({
       attempts += 1;
       try {
         const fresh = await onboardingApi.getBusinessInfo(
-          session!.accessToken
+          session!.accessToken,
+          lang
         );
         if (cancelled) return;
         setInfo(fresh);
@@ -151,10 +152,11 @@ export function BusinessInfoForm({
       const accessToken = session!.accessToken;
       const { upload_url, object_key } = await onboardingApi.getLogoUploadUrl(
         accessToken,
-        { content_type: file.type as LogoContentType }
+        { content_type: file.type as LogoContentType },
+        lang
       );
       await onboardingApi.uploadLogoFile(upload_url, file);
-      return onboardingApi.confirmLogo(accessToken, { object_key });
+      return onboardingApi.confirmLogo(accessToken, { object_key }, lang);
     },
     onSuccess: (data) => {
       setInfo(data);

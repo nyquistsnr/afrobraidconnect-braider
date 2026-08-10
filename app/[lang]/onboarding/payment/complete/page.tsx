@@ -15,7 +15,7 @@ export default async function PaymentCompletePage(props: {
 
   try {
     // Refresh to fetch the latest state from Stripe
-    const status = await onboardingApi.refreshPaymentSetupStatus(session.accessToken);
+    const status = await onboardingApi.refreshPaymentSetupStatus(session.accessToken, lang);
     
     // If completed, push to final onboarding view
     if (status.is_complete) {

@@ -25,7 +25,7 @@ export default async function ServiceTypePage({
   const dict = await getDictionary(lang);
 
   const services = await onboardingApi
-    .getServices(session.accessToken)
+    .getServices(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   return (

@@ -22,7 +22,7 @@ export default async function LocationPage({
   const dict = await getDictionary(lang);
 
   const location = await onboardingApi
-    .getServiceLocation(session.accessToken)
+    .getServiceLocation(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   return (

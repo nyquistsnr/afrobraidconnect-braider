@@ -16,7 +16,7 @@ export default async function PaymentSetupPage(props: {
     redirect(`/${lang}/login`);
   }
 
-  const status = await onboardingApi.getPaymentSetupStatus(session.accessToken);
+  const status = await onboardingApi.getPaymentSetupStatus(session.accessToken, lang);
 
   return (
     <PaymentSetupClient

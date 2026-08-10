@@ -32,7 +32,8 @@ export function ResetPasswordForm({
   const router = useRouter();
 
   const resetPasswordMutation = useMutation({
-    mutationFn: authApi.resetPassword,
+    mutationFn: (body: Parameters<typeof authApi.resetPassword>[0]) =>
+      authApi.resetPassword(body, lang),
     onSuccess: () => {
       toast.success(common.toasts.resetPasswordSuccess);
       router.push(`/${lang}/login`);
@@ -44,7 +45,8 @@ export function ResetPasswordForm({
   });
 
   const resendMutation = useMutation({
-    mutationFn: authApi.forgotPassword,
+    mutationFn: (body: Parameters<typeof authApi.forgotPassword>[0]) =>
+      authApi.forgotPassword(body, lang),
     onSuccess: () => toast.success(common.toasts.resendSuccess),
     onError: (error) => {
       const errorCode = error instanceof ApiError ? error.code : undefined;

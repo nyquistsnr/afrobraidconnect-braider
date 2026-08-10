@@ -17,7 +17,7 @@ export default async function PaymentRefreshPage(props: {
 
   try {
     // Attempt to get a new link
-    const link = await onboardingApi.createAccountLink(session.accessToken);
+    const link = await onboardingApi.createAccountLink(session.accessToken, lang);
     url = link.onboarding_url;
   } catch (error) {
     console.error("Failed to refresh Stripe link", error);

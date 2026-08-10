@@ -152,13 +152,17 @@ export function ServiceTypeForm({
           is_required: selection.required,
         }));
 
-      return onboardingApi.addService(session!.accessToken, {
-        style_id: selectedStyle!.id,
-        base_price: Number(basePrice),
-        duration_minutes: duration ? Number(duration) : undefined,
-        variations,
-        addons: selectedAddons,
-      });
+      return onboardingApi.addService(
+        session!.accessToken,
+        {
+          style_id: selectedStyle!.id,
+          base_price: Number(basePrice),
+          duration_minutes: duration ? Number(duration) : undefined,
+          variations,
+          addons: selectedAddons,
+        },
+        lang
+      );
     },
     onSuccess: (data) => {
       setServices((current) => [...current, data]);
@@ -193,13 +197,18 @@ export function ServiceTypeForm({
           is_required: selection.required,
         }));
 
-      return onboardingApi.updateService(session!.accessToken, editingBraiderStyleId, {
-        base_price: Number(basePrice),
-        duration_minutes: duration ? Number(duration) : undefined,
-        is_active: true,
-        variations,
-        addons: selectedAddons,
-      });
+      return onboardingApi.updateService(
+        session!.accessToken,
+        editingBraiderStyleId,
+        {
+          base_price: Number(basePrice),
+          duration_minutes: duration ? Number(duration) : undefined,
+          is_active: true,
+          variations,
+          addons: selectedAddons,
+        },
+        lang
+      );
     },
     onSuccess: (data) => {
       setServices((current) =>
@@ -217,7 +226,7 @@ export function ServiceTypeForm({
 
   const deleteMutation = useMutation({
     mutationFn: (braiderStyleId: string) =>
-      onboardingApi.deleteService(session!.accessToken, braiderStyleId),
+      onboardingApi.deleteService(session!.accessToken, braiderStyleId, lang),
     onSuccess: (_, braiderStyleId) => {
       setServices((current) => current.filter((s) => s.id !== braiderStyleId));
       toast.success(dict.toasts.removed || "Service removed");

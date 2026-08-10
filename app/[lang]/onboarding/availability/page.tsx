@@ -18,9 +18,9 @@ export default async function AvailabilityPage(props: {
 
   // Fetch all required data for the availability form concurrently
   const [settings, windows, exceptions] = await Promise.all([
-    onboardingApi.getAvailabilitySettings(session.accessToken),
-    onboardingApi.getWeeklyWindows(session.accessToken),
-    onboardingApi.getExceptions(session.accessToken),
+    onboardingApi.getAvailabilitySettings(session.accessToken, lang),
+    onboardingApi.getWeeklyWindows(session.accessToken, lang),
+    onboardingApi.getExceptions(session.accessToken, lang),
   ]).catch((error) => {
     // If settings haven't been created yet, they are auto-created, so this shouldn't 404,
     // but we can catch general API errors and redirect/throw.

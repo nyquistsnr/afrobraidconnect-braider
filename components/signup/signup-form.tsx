@@ -29,7 +29,8 @@ export function SignupForm({
   const router = useRouter();
 
   const signupMutation = useMutation({
-    mutationFn: authApi.signup,
+    mutationFn: (body: Parameters<typeof authApi.signup>[0]) =>
+      authApi.signup(body, lang),
     onSuccess: ({ email }) => {
       toast.success(common.toasts.signupSuccess);
       router.push(`/${lang}/verify-email?email=${encodeURIComponent(email)}`);

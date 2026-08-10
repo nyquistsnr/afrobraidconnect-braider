@@ -30,7 +30,7 @@ export default async function OnboardingLayout({
 
   const dict = await getDictionary(lang);
   const status = await onboardingApi
-    .getStatus(session.accessToken)
+    .getStatus(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   if (status.current_step === "COMPLETED") redirect(`/${lang}/dashboard`);

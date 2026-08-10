@@ -25,7 +25,7 @@ export default async function PhoneVerificationPage({
   const dict = await getDictionary(lang);
 
   const phoneStatus = await onboardingApi
-    .getPhoneVerificationStatus(session.accessToken)
+    .getPhoneVerificationStatus(session.accessToken, lang)
     .catch(async () => redirect(await loginPath(lang)));
 
   return (
