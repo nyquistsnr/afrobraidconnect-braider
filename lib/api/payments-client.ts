@@ -23,8 +23,9 @@ export const paymentsApi = {
     if (params?.status) query.set("status", params.status);
     if (params?.date_from) query.set("date_from", params.date_from);
     if (params?.date_to) query.set("date_to", params.date_to);
+    const queryString = query.toString();
     return apiFetch<PaymentStatsResponse>(
-      `${PAYMENTS_PATH}/stats?${query.toString()}`,
+      `${PAYMENTS_PATH}/stats${queryString ? `?${queryString}` : ""}`,
       { accessToken, lang }
     );
   },
@@ -49,8 +50,9 @@ export const paymentsApi = {
     query.set("page", String(params?.page ?? 1));
     query.set("page_size", String(params?.page_size ?? 20));
     
+    const queryString = query.toString();
     return apiFetch<PaymentListResponse>(
-      `${PAYMENTS_PATH}?${query.toString()}`,
+      `${PAYMENTS_PATH}${queryString ? `?${queryString}` : ""}`,
       { accessToken, lang }
     );
   },

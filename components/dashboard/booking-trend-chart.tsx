@@ -17,6 +17,7 @@ interface BookingTrendChartProps {
   data: BookingTimeseriesResponse;
   title?: string;
   subtitle?: string;
+  emptyText?: string;
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -32,7 +33,7 @@ const STATUS_COLORS: Record<string, string> = {
   DISPUTED: "#eab308", // Yellow 500
 };
 
-export function BookingTrendChart({ data, title = "Booking Trends", subtitle }: BookingTrendChartProps) {
+export function BookingTrendChart({ data, title = "Booking Trends", subtitle, emptyText = "No booking data available for this period." }: BookingTrendChartProps) {
   // Flatten data for recharts
   const chartData = useMemo(() => {
     return data.points.map((point) => {
@@ -50,7 +51,7 @@ export function BookingTrendChart({ data, title = "Booking Trends", subtitle }: 
     return (
       <div className="hidden md:flex rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex-col items-center justify-center min-h-[400px]">
         <h3 className="text-lg font-medium">{title}</h3>
-        <p className="text-sm text-muted-foreground mt-2">No booking data available for this period.</p>
+        <p className="text-sm text-muted-foreground mt-2">{emptyText}</p>
       </div>
     );
   }

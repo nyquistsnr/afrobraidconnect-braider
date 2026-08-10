@@ -42,8 +42,9 @@ export const bookingsApi = {
     const query = new URLSearchParams();
     if (params?.date_from) query.set("date_from", params.date_from);
     if (params?.date_to) query.set("date_to", params.date_to);
+    const queryString = query.toString();
     return apiFetch<BookingStatsResponse>(
-      `${BOOKINGS_PATH}/stats?${query.toString()}`,
+      `${BOOKINGS_PATH}/stats${queryString ? `?${queryString}` : ""}`,
       { accessToken, lang }
     );
   },
@@ -65,8 +66,9 @@ export const bookingsApi = {
     if (params?.status) {
       params.status.forEach((s) => query.append("status", s));
     }
+    const queryString = query.toString();
     return apiFetch<BookingTimeseriesResponse>(
-      `${BOOKINGS_PATH}/timeseries?${query.toString()}`,
+      `${BOOKINGS_PATH}/timeseries${queryString ? `?${queryString}` : ""}`,
       { accessToken, lang }
     );
   },

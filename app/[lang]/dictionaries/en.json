@@ -262,11 +262,43 @@
         },
         "createdAt": "Booked on",
         "close": "Close"
+      },
+      "stats": {
+        "totalBookings": "Total Bookings",
+        "completed": "Completed",
+        "upcoming": "Upcoming",
+        "declined": "Declined"
       }
     }
   },
   "payment": {
-    "title": "Payment"
+    "title": "Payment",
+    "subtitle": "Track your earnings and payment history",
+    "stats": {
+      "netRevenue": "Net Revenue",
+      "totalReceived": "Total Received",
+      "totalRefunded": "Total Refunded",
+      "pending": "Pending Payments"
+    },
+    "trendChart": {
+      "title": "Booking Trends",
+      "subtitle": "Past 90 days",
+      "empty": "No booking data available for this period."
+    },
+    "table": {
+      "title": "Recent Payments",
+      "emptyTitle": "No payments",
+      "emptySubtitle": "You haven't received any payments yet.",
+      "columns": {
+        "date": "Date",
+        "bookingRef": "Booking Ref",
+        "purpose": "Purpose",
+        "amount": "Amount",
+        "status": "Status"
+      },
+      "refunded": "Refunded",
+      "pagination": "Showing {start} to {end} of {total} results"
+    }
   },
   "settings": {
     "title": "Settings"

@@ -262,11 +262,43 @@
         },
         "createdAt": "Réservé le",
         "close": "Fermer"
+      },
+      "stats": {
+        "totalBookings": "Total des réservations",
+        "completed": "Terminé",
+        "upcoming": "À venir",
+        "declined": "Refusé"
       }
     }
   },
   "payment": {
-    "title": "Paiement"
+    "title": "Paiement",
+    "subtitle": "Suivez vos revenus et l'historique de vos paiements",
+    "stats": {
+      "netRevenue": "Revenu net",
+      "totalReceived": "Total reçu",
+      "totalRefunded": "Total remboursé",
+      "pending": "Paiements en attente"
+    },
+    "trendChart": {
+      "title": "Tendances des réservations",
+      "subtitle": "90 derniers jours",
+      "empty": "Aucune donnée de réservation disponible pour cette période."
+    },
+    "table": {
+      "title": "Paiements récents",
+      "emptyTitle": "Aucun paiement",
+      "emptySubtitle": "Vous n'avez pas encore reçu de paiements.",
+      "columns": {
+        "date": "Date",
+        "bookingRef": "Réf. réservation",
+        "purpose": "Motif",
+        "amount": "Montant",
+        "status": "Statut"
+      },
+      "refunded": "Remboursé",
+      "pagination": "Affichage de {start} à {end} sur {total} résultats"
+    }
   },
   "settings": {
     "title": "Paramètres"

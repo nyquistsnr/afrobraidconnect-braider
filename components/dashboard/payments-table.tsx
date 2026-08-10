@@ -1,12 +1,19 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import type { PaymentListResponse, PaymentListItemResponse } from "@/lib/api/types";
 import { Locale } from "@/lib/i18n";
 import { CheckCircle2, Clock, XCircle, AlertCircle, RefreshCw } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { paymentsApi } from "@/lib/api/payments-client";
+import { useSession } from "next-auth/react";
 
 interface PaymentsTableProps {
   initialData: PaymentListResponse;
   lang: Locale;
+  dict?: any; // Add dict prop
+  dateFrom?: string;
+  dateTo?: string;
 }
 
 const STATUS_ICONS = {
@@ -23,9 +30,36 @@ const STATUS_COLORS = {
   CANCELED: "bg-slate-50 text-slate-700 border-slate-200",
 };
 
-export function PaymentsTable({ initialData, lang }: PaymentsTableProps) {
-  // Simple table without interactive pagination for now, similar to how it would be structured initially
-  const { items } = initialData;
+export function PaymentsTable({ initialData, lang, dict, dateFrom, dateTo }: PaymentsTableProps) {
+  const { data: session } = useSession();
+  const accessToken = session?.accessToken;
+
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+
+  const isDefaultQuery = page === 1;
+
+  const filterParams = useMemo(
+    () => ({
+      page,
+      page_size: pageSize,
+      date_from: dateFrom,
+      date_to: dateTo,
+    }),
+    [page, pageSize, dateFrom, dateTo]
+  );
+
+  const paymentsQuery = useQuery({
+    queryKey: ["braider-payments", filterParams],
+    queryFn: () => paymentsApi.list(accessToken!, lang, filterParams),
+    enabled: !!accessToken,
+    initialData: isDefaultQuery ? initialData : undefined,
+    placeholderData: (previous) => previous,
+  });
+
+  const data = paymentsQuery.data || initialData;
+  const items = data.items || [];
+  const isLoading = paymentsQuery.isLoading || paymentsQuery.isPlaceholderData;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString(lang, {
@@ -47,8 +81,8 @@ export function PaymentsTable({ initialData, lang }: PaymentsTableProps) {
   if (!items || items.length === 0) {
     return (
       <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-8 text-center">
-        <h3 className="text-lg font-medium">No payments</h3>
-        <p className="text-sm text-muted-foreground mt-1">You haven't received any payments yet.</p>
+        <h3 className="text-lg font-medium">{dict?.emptyTitle || "No payments"}</h3>
+        <p className="text-sm text-muted-foreground mt-1">{dict?.emptySubtitle || "You haven't received any payments yet."}</p>
       </div>
     );
   }
@@ -56,18 +90,18 @@ export function PaymentsTable({ initialData, lang }: PaymentsTableProps) {
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
       <div className="p-6 pb-4">
-        <h3 className="text-lg font-medium">Recent Payments</h3>
+        <h3 className="text-lg font-medium">{dict?.title || "Recent Payments"}</h3>
       </div>
       
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
           <thead className="text-xs text-muted-foreground bg-muted/50 uppercase border-y">
             <tr>
-              <th scope="col" className="px-6 py-3 font-medium">Date</th>
-              <th scope="col" className="px-6 py-3 font-medium">Booking Ref</th>
-              <th scope="col" className="px-6 py-3 font-medium">Purpose</th>
-              <th scope="col" className="px-6 py-3 font-medium">Amount</th>
-              <th scope="col" className="px-6 py-3 font-medium">Status</th>
+              <th scope="col" className="px-6 py-3 font-medium">{dict?.columns?.date || "Date"}</th>
+              <th scope="col" className="px-6 py-3 font-medium">{dict?.columns?.bookingRef || "Booking Ref"}</th>
+              <th scope="col" className="px-6 py-3 font-medium">{dict?.columns?.purpose || "Purpose"}</th>
+              <th scope="col" className="px-6 py-3 font-medium">{dict?.columns?.amount || "Amount"}</th>
+              <th scope="col" className="px-6 py-3 font-medium">{dict?.columns?.status || "Status"}</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -92,7 +126,7 @@ export function PaymentsTable({ initialData, lang }: PaymentsTableProps) {
                     {payment.is_refunded && (
                       <span className="text-xs text-red-500 flex items-center mt-1">
                         <RefreshCw className="h-3 w-3 mr-1" />
-                        Refunded {formatCurrency(payment.amount_refunded, payment.currency)}
+                        {dict?.refunded || "Refunded"} {formatCurrency(payment.amount_refunded, payment.currency)}
                       </span>
                     )}
                   </div>
@@ -112,19 +146,26 @@ export function PaymentsTable({ initialData, lang }: PaymentsTableProps) {
       {/* Pagination summary */}
       <div className="flex items-center justify-between border-t px-6 py-4 text-sm text-muted-foreground">
         <div>
-          Showing <span className="font-medium text-foreground">{(initialData.page - 1) * initialData.page_size + 1}</span> to <span className="font-medium text-foreground">{Math.min(initialData.page * initialData.page_size, initialData.total_items)}</span> of <span className="font-medium text-foreground">{initialData.total_items}</span> results
+          {dict?.pagination 
+            ? dict.pagination
+                .replace('{start}', String((data.page - 1) * data.page_size + 1))
+                .replace('{end}', String(Math.min(data.page * data.page_size, data.total_items)))
+                .replace('{total}', String(data.total_items))
+            : `Showing ${(data.page - 1) * data.page_size + 1} to ${Math.min(data.page * data.page_size, data.total_items)} of ${data.total_items} results`
+          }
         </div>
         <div className="flex space-x-2">
-          {/* Real pagination controls would go here */}
           <button 
-            disabled={!initialData.has_previous}
-            className="rounded-md border px-3 py-1 text-sm disabled:opacity-50"
+            disabled={!data.has_previous || isLoading}
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            className="rounded-md border px-3 py-1 text-sm disabled:opacity-50 hover:bg-muted transition-colors"
           >
             Previous
           </button>
           <button 
-            disabled={!initialData.has_next}
-            className="rounded-md border px-3 py-1 text-sm disabled:opacity-50"
+            disabled={!data.has_next || isLoading}
+            onClick={() => setPage((p) => p + 1)}
+            className="rounded-md border px-3 py-1 text-sm disabled:opacity-50 hover:bg-muted transition-colors"
           >
             Next
           </button>

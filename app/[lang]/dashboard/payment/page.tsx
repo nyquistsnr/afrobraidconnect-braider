@@ -7,6 +7,7 @@ import { bookingsApi } from "@/lib/api/bookings-client";
 import { StatsCards } from "@/components/dashboard/stats-cards";
 import { BookingTrendChart } from "@/components/dashboard/booking-trend-chart";
 import { PaymentsTable } from "@/components/dashboard/payments-table";
+import { PaymentFilters } from "@/components/dashboard/payment-filters";
 import { DollarSign, ArrowDownRight, Activity, Clock } from "lucide-react";
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -14,8 +15,10 @@ export function generateStaticParams() {
 
 export default async function PaymentPage(props: {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<{ date_from?: string; date_to?: string }>;
 }) {
   const { lang } = await props.params;
+  const searchParams = await props.searchParams;
 
   if (!hasLocale(lang)) notFound();
 
@@ -26,23 +29,26 @@ export default async function PaymentPage(props: {
 
   const dict = await getDictionary(lang);
 
-  // Default past 90 days for trend graph
-  const today = new Date();
-  const ninetyDaysAgo = new Date();
-  ninetyDaysAgo.setDate(today.getDate() - 90);
-  
-  const dateTo = today.toISOString();
-  const dateFrom = ninetyDaysAgo.toISOString();
+  const dateFrom = searchParams.date_from;
+  const dateTo = searchParams.date_to;
 
   // Fetch all payment data in parallel
   const [paymentStatsRes, timeseriesRes, paymentsListRes] = await Promise.all([
-    paymentsApi.getStats(session.accessToken, lang),
+    paymentsApi.getStats(session.accessToken, lang, {
+      date_from: dateFrom,
+      date_to: dateTo,
+    }),
     bookingsApi.getTimeseries(session.accessToken, lang, {
       date_from: dateFrom,
       date_to: dateTo,
       interval: "day",
     }),
-    paymentsApi.list(session.accessToken, lang, { page: 1, page_size: 20 })
+    paymentsApi.list(session.accessToken, lang, { 
+      page: 1, 
+      page_size: 20,
+      date_from: dateFrom,
+      date_to: dateTo,
+    })
   ]);
 
   const pStats = paymentStatsRes;
@@ -58,22 +64,22 @@ export default async function PaymentPage(props: {
 
   const statCardsData = pStats ? [
     {
-      title: "Net Revenue",
+      title: dict.payment.stats.netRevenue,
       value: formatCurrency(pStats.net_revenue, pStats.currency),
       icon: <Activity />,
     },
     {
-      title: "Total Received",
+      title: dict.payment.stats.totalReceived,
       value: formatCurrency(pStats.total_received, pStats.currency),
       icon: <DollarSign />,
     },
     {
-      title: "Total Refunded",
+      title: dict.payment.stats.totalRefunded,
       value: formatCurrency(pStats.total_refunded, pStats.currency),
       icon: <ArrowDownRight />,
     },
     {
-      title: "Pending Payments",
+      title: dict.payment.stats.pending,
       value: formatCurrency(pStats.pending, pStats.currency),
       icon: <Clock />,
     },
@@ -81,13 +87,20 @@ export default async function PaymentPage(props: {
 
   return (
     <div className="w-full">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          {dict.payment.title}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Track your earnings and payment history
-        </p>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            {dict.payment.title}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {dict.payment.subtitle}
+          </p>
+        </div>
+
+        <PaymentFilters 
+          lang={lang as Locale}
+          dict={dict.dashboard.bookings.filters}
+        />
       </div>
 
       {pStats && <StatsCards cards={statCardsData} />}
@@ -95,8 +108,9 @@ export default async function PaymentPage(props: {
       {timeseries && (
         <BookingTrendChart 
           data={timeseries} 
-          title="Booking Trends" 
-          subtitle="Past 90 days"
+          title={dict.payment.trendChart.title} 
+          subtitle={dict.payment.trendChart.subtitle}
+          emptyText={dict.payment.trendChart.empty}
         />
       )}
 
@@ -104,6 +118,9 @@ export default async function PaymentPage(props: {
         <PaymentsTable 
           initialData={paymentsList} 
           lang={lang as Locale} 
+          dict={dict.payment.table}
+          dateFrom={dateFrom}
+          dateTo={dateTo}
         />
       )}
     </div>

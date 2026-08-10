@@ -262,11 +262,43 @@
         },
         "createdAt": "Gebucht am",
         "close": "Schließen"
+      },
+      "stats": {
+        "totalBookings": "Buchungen insgesamt",
+        "completed": "Abgeschlossen",
+        "upcoming": "Anstehend",
+        "declined": "Abgelehnt"
       }
     }
   },
   "payment": {
-    "title": "Zahlung"
+    "title": "Zahlung",
+    "subtitle": "Verfolgen Sie Ihre Einnahmen und Ihren Zahlungsverlauf",
+    "stats": {
+      "netRevenue": "Nettoumsatz",
+      "totalReceived": "Gesamteinnahmen",
+      "totalRefunded": "Gesamtrückerstattungen",
+      "pending": "Ausstehende Zahlungen"
+    },
+    "trendChart": {
+      "title": "Buchungstrends",
+      "subtitle": "Letzte 90 Tage",
+      "empty": "Keine Buchungsdaten für diesen Zeitraum verfügbar."
+    },
+    "table": {
+      "title": "Letzte Zahlungen",
+      "emptyTitle": "Keine Zahlungen",
+      "emptySubtitle": "Sie haben noch keine Zahlungen erhalten.",
+      "columns": {
+        "date": "Datum",
+        "bookingRef": "Buchungs-Ref",
+        "purpose": "Zweck",
+        "amount": "Betrag",
+        "status": "Status"
+      },
+      "refunded": "Erstattet",
+      "pagination": "Zeige {start} bis {end} von {total} Ergebnissen"
+    }
   },
   "settings": {
     "title": "Einstellungen"

@@ -9,10 +9,12 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export default async function BookingsPage({
-  params,
-}: PageProps<"/[lang]/dashboard/bookings">) {
-  const { lang } = await params;
+export default async function BookingsPage(props: {
+  params: Promise<{ lang: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const { lang } = await props.params;
+  const searchParams = await props.searchParams;
 
   if (!hasLocale(lang)) notFound();
 
@@ -22,33 +24,49 @@ export default async function BookingsPage({
   }
 
   const dict = await getDictionary(lang);
+
+  const status = searchParams.status as any;
+  const dateFrom = searchParams.date_from;
+  const dateTo = searchParams.date_to;
+  const search = searchParams.search;
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
   
   // Fetch data in parallel
   const [initialData, statsResponse] = await Promise.all([
-    bookingsApi.list(session.accessToken, lang),
-    bookingsApi.getStats(session.accessToken, lang)
+    bookingsApi.list(session.accessToken, lang, {
+      status,
+      date_from: dateFrom,
+      date_to: dateTo,
+      search,
+      page,
+      page_size: 20
+    }),
+    bookingsApi.getStats(session.accessToken, lang, {
+      date_from: dateFrom,
+      date_to: dateTo,
+    })
   ]);
   
   const stats = statsResponse;
 
   const statCardsData = stats ? [
     {
-      title: "Total Bookings",
+      title: dict.dashboard.bookings.stats.totalBookings,
       value: stats.total_bookings,
       icon: <CalendarDays />,
     },
     {
-      title: "Completed",
+      title: dict.dashboard.bookings.stats.completed,
       value: stats.completed,
       icon: <CheckCircle />,
     },
     {
-      title: "Upcoming",
+      title: dict.dashboard.bookings.stats.upcoming,
       value: stats.upcoming,
       icon: <Clock />,
     },
     {
-      title: "Declined",
+      title: dict.dashboard.bookings.stats.declined,
       value: stats.declined,
       icon: <XCircle />,
     },

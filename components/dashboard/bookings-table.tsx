@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -12,7 +12,7 @@ import {
   MoreHorizontal,
   Eye,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type {
@@ -120,23 +120,58 @@ export function BookingsTable({
   initialData: BookingListResponse;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { data: session } = useSession();
   const accessToken = session?.accessToken;
 
-  const [status, setStatus] = useState<BookingStatus | "">("");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [searchInput, setSearchInput] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [searchInput, setSearchInput] = useState(searchParams.get("search") || "");
+  const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get("search") || "");
+  const [status, setStatus] = useState<BookingStatus | "">(
+    (searchParams.get("status") as BookingStatus) || ""
+  );
+  const [dateFrom, setDateFrom] = useState(searchParams.get("date_from") || "");
+  const [dateTo, setDateTo] = useState(searchParams.get("date_to") || "");
+  const [page, setPage] = useState(
+    searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1
+  );
+
+  const initialMount = useRef(true);
+
+  // Sync to URL whenever states change (except searchInput, we wait for debouncedSearch)
+  useEffect(() => {
+    if (initialMount.current) {
+      initialMount.current = false;
+      return;
+    }
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (debouncedSearch) params.set("search", debouncedSearch);
+    else params.delete("search");
+    
+    if (status) params.set("status", status);
+    else params.delete("status");
+    
+    if (dateFrom) params.set("date_from", dateFrom);
+    else params.delete("date_from");
+    
+    if (dateTo) params.set("date_to", dateTo);
+    else params.delete("date_to");
+    
+    params.set("page", page.toString());
+    
+    router.push(`${pathname}?${params.toString()}`);
+  }, [debouncedSearch, status, dateFrom, dateTo, page, pathname, router]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setDebouncedSearch(searchInput.trim());
-      setPage(1);
+      if (debouncedSearch !== searchInput.trim()) {
+        setDebouncedSearch(searchInput.trim());
+        setPage(1);
+      }
     }, SEARCH_DEBOUNCE_MS);
     return () => clearTimeout(timeout);
-  }, [searchInput]);
+  }, [searchInput, debouncedSearch]);
 
   function handleStatusChange(value: BookingStatus) {
     setStatus(value);
