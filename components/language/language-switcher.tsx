@@ -37,7 +37,7 @@ export function LanguageSwitcher({
     setOpen(false);
     const segments = pathname.split("/");
     segments[1] = nextLang;
-    router.push(segments.join("/") || "/");
+    router.replace(segments.join("/") || "/");
   }
 
   const CurrentFlag = flags[lang];
