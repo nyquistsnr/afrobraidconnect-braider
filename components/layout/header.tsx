@@ -9,6 +9,7 @@ import { LanguageSwitcher } from "@/components/language/language-switcher";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { type Locale } from "@/lib/i18n";
 
 export function Header({ dict, lang }: { dict: any; lang: string }) {
   const { data: session } = useSession();
@@ -54,7 +55,7 @@ export function Header({ dict, lang }: { dict: any; lang: string }) {
         </div>
         
         <div className="flex items-center gap-2 sm:gap-4">
-          <LanguageSwitcher lang={lang} dropDirection="down" />
+          <LanguageSwitcher lang={lang as Locale} dropDirection="down" />
           <ThemeToggle labels={dict.common.theme} dropDirection="down" />
           
           <div className="hidden md:flex">

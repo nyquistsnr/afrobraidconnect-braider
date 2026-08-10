@@ -14,7 +14,8 @@ export class ApiError extends Error {
     public code: string,
     message: string,
     public status: number,
-    public details?: unknown[]
+    public details?: unknown[],
+    public headers?: Headers
   ) {
     super(message);
     this.name = "ApiError";
@@ -73,7 +74,7 @@ export async function apiFetch<TRes>(
       code: "UNKNOWN_ERROR",
       message: "Something went wrong.",
     };
-    throw new ApiError(error.code, error.message, res.status, error.details);
+    throw new ApiError(error.code, error.message, res.status, error.details, res.headers);
   }
 
   return json.data;

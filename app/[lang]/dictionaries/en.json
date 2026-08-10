@@ -12,7 +12,39 @@
     "ctaFind": "Find a braider",
     "ctaJoin": "Join as a professional",
     "badgeTitle": "Top Rated",
-    "badgeSubtitle": "Professionals"
+    "badgeSubtitle": "Professionals",
+    "benefits": {
+      "title": "Why Braide with Us?",
+      "subtitle": "Join Afrobraid Connect and take your braiding business to the next level.",
+      "cards": [
+        {
+          "title": "Make Good Money",
+          "description": "Set your own rates and keep more of what you earn with our transparent fee structure."
+        },
+        {
+          "title": "Flexible Schedule",
+          "description": "Work when you want, where you want. You are your own boss."
+        },
+        {
+          "title": "Grow Your Client Base",
+          "description": "Get discovered by hundreds of clients looking for top-tier Afro braiding in your area."
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Get started in 8 simple steps.",
+      "steps": {
+        "step1": { "title": "Business Info", "description": "Tell us about your brand." },
+        "step2": { "title": "Phone Verification", "description": "Secure your account." },
+        "step3": { "title": "ID Verification", "description": "Powered by Veriff for trusted identity checks." },
+        "step4": { "title": "Service Type", "description": "Select the styles you offer." },
+        "step5": { "title": "Portfolio", "description": "Showcase your best work." },
+        "step6": { "title": "Location", "description": "Set where you work from." },
+        "step7": { "title": "Availability", "description": "Choose your working hours." },
+        "step8": { "title": "Payment Setup", "description": "Connect with Stripe to receive secure payouts." }
+      }
+    }
   },
   "footer": {
     "copyright": "© {{year}} Afrobraid Connect. All rights reserved.",
@@ -563,5 +595,27 @@
       "title": "Coming soon",
       "subtitle": "This step isn't ready yet — check back shortly."
     }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you. Send us a message and we'll get back to you as soon as possible.",
+    "firstNameLabel": "First Name",
+    "firstNamePlaceholder": "e.g., Ada",
+    "lastNameLabel": "Last Name",
+    "lastNamePlaceholder": "e.g., Nwosu",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "ada@example.com",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "+15551234567",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "e.g., Question about pricing",
+    "purposeLabel": "Reason for contacting us",
+    "purposeGeneral": "General Inquiry",
+    "purposePartner": "Partnership",
+    "purposePricing": "Pricing",
+    "purposeFaqs": "FAQs",
+    "messageLabel": "Message",
+    "messagePlaceholder": "How can we help you?",
+    "submit": "Send Message"
   }
 }

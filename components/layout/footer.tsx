@@ -60,6 +60,11 @@ export function Footer({ dict, lang }: { dict: any; lang: string }) {
                   {dict.footer.links.terms}
                 </Link>
               </li>
+              <li>
+                <Link href={`/${lang}/contact`} className="hover:text-brand transition-colors">
+                  {dict.contact?.title || "Contact Us"}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

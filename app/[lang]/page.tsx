@@ -2,6 +2,8 @@ import { getDictionary } from "./dictionaries";
 import type { Locale } from "@/lib/i18n";
 import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/home/hero";
+import { Benefits } from "@/components/home/benefits";
+import { HowItWorks } from "@/components/home/how-it-works";
 import { Footer } from "@/components/layout/footer";
 
 export default async function Home({
@@ -17,6 +19,8 @@ export default async function Home({
       <Header dict={dict} lang={lang} />
       <main className="flex-1 flex flex-col">
         <Hero dict={dict} lang={lang} />
+        <Benefits dict={dict.home} />
+        <HowItWorks dict={dict.home} />
       </main>
       <Footer dict={dict} lang={lang} />
     </div>

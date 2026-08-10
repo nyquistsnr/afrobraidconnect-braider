@@ -1,12 +1,15 @@
 import { forwardRef, type ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "primary" | "outline" | "ghost";
+type ButtonVariant = "default" | "primary" | "outline" | "ghost";
+type ButtonSize = "default" | "sm" | "lg" | "icon" | string;
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
+  size?: ButtonSize;
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
+  default: "bg-brand text-brand-foreground hover:bg-brand-hover",
   primary: "bg-brand text-brand-foreground hover:bg-brand-hover",
   outline:
     "border border-border bg-input text-foreground hover:bg-border/40",
@@ -14,7 +17,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button({ variant = "primary", className = "", ...props }, ref) {
+  function Button({ variant = "primary", size, className = "", ...props }, ref) {
     return (
       <button
         ref={ref}

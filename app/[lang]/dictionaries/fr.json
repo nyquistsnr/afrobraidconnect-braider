@@ -12,7 +12,39 @@
     "ctaFind": "Trouver une tresseuse",
     "ctaJoin": "Rejoindre en tant que professionnel",
     "badgeTitle": "Les Mieux Notés",
-    "badgeSubtitle": "Professionnels"
+    "badgeSubtitle": "Professionnels",
+    "benefits": {
+      "title": "Pourquoi Tresser avec Nous ?",
+      "subtitle": "Rejoignez Afrobraid Connect et propulsez votre activité de coiffure.",
+      "cards": [
+        {
+          "title": "Gagnez Bien Votre Vie",
+          "description": "Fixez vos propres tarifs et conservez une plus grande part de ce que vous gagnez grâce à notre structure tarifaire transparente."
+        },
+        {
+          "title": "Horaires Flexibles",
+          "description": "Travaillez quand vous voulez, où vous voulez. Vous êtes votre propre patron."
+        },
+        {
+          "title": "Développez Votre Clientèle",
+          "description": "Faites-vous découvrir par des centaines de clients à la recherche de tresses afro de qualité dans votre région."
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "Comment Ça Marche",
+      "subtitle": "Commencez en 8 étapes simples.",
+      "steps": {
+        "step1": { "title": "Informations Commerciales", "description": "Parlez-nous de votre marque." },
+        "step2": { "title": "Vérification Téléphonique", "description": "Sécurisez votre compte." },
+        "step3": { "title": "Vérification d'Identité", "description": "Propulsé par Veriff pour des contrôles d'identité fiables." },
+        "step4": { "title": "Type de Service", "description": "Sélectionnez les styles que vous proposez." },
+        "step5": { "title": "Portfolio", "description": "Présentez votre meilleur travail." },
+        "step6": { "title": "Emplacement", "description": "Indiquez où vous travaillez." },
+        "step7": { "title": "Disponibilité", "description": "Choisissez vos heures de travail." },
+        "step8": { "title": "Configuration du Paiement", "description": "Connectez-vous avec Stripe pour recevoir des paiements sécurisés." }
+      }
+    }
   },
   "footer": {
     "copyright": "© {{year}} Afrobraid Connect. Tous droits réservés.",
@@ -563,5 +595,27 @@
       "title": "Bientôt disponible",
       "subtitle": "Cette étape n'est pas encore prête — revenez bientôt."
     }
+  },
+  "contact": {
+    "title": "Nous contacter",
+    "subtitle": "Nous aimerions avoir de vos nouvelles. Envoyez-nous un message et nous vous répondrons dans les plus brefs délais.",
+    "firstNameLabel": "Prénom",
+    "firstNamePlaceholder": "ex., Ada",
+    "lastNameLabel": "Nom de famille",
+    "lastNamePlaceholder": "ex., Nwosu",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "ada@example.com",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "+15551234567",
+    "subjectLabel": "Sujet",
+    "subjectPlaceholder": "ex., Question sur les tarifs",
+    "purposeLabel": "Raison de nous contacter",
+    "purposeGeneral": "Demande générale",
+    "purposePartner": "Partenariat",
+    "purposePricing": "Tarification",
+    "purposeFaqs": "FAQ",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Comment pouvons-nous vous aider ?",
+    "submit": "Envoyer le message"
   }
 }
