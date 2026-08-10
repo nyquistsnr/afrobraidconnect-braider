@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function Cta({ dict, lang }: { dict: Dictionary["home"]; lang: string }) {
   return (
@@ -17,11 +16,12 @@ export function Cta({ dict, lang }: { dict: Dictionary["home"]; lang: string }) 
         <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
           {dict.cta.subtitle}
         </p>
-        <Link href={`/${lang}/signup`} passHref legacyBehavior>
-          <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-brand px-8 py-6 text-lg font-bold">
-            {dict.cta.button}
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+        <Link 
+          href={`/${lang}/signup`} 
+          className="inline-flex items-center justify-center gap-2 border border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-brand px-8 py-4 text-lg font-bold transition-colors"
+        >
+          {dict.cta.button}
+          <ArrowRight className="ml-2 h-5 w-5" />
         </Link>
       </div>
     </section>
