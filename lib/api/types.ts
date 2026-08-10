@@ -787,3 +787,62 @@ export type RealtimeEvent =
   | RealtimeChatMessageEvent
   | RealtimeChatMessageTranslatedEvent
   | RealtimeNotificationEvent;
+
+// ---------------------------------------------------------------------------
+// Braider Dashboard
+// ---------------------------------------------------------------------------
+
+export interface DashboardOverviewResponse {
+  total_bookings: number;
+  completed_bookings: number;
+  upcoming_bookings: number;
+  cancelled_bookings: number;
+  no_show_bookings: number;
+  completion_rate: string;
+  cancellation_rate: string;
+  total_revenue: string;
+  average_booking_value: string;
+  unique_customers: number;
+  repeat_customers: number;
+  repeat_customer_rate: string;
+  average_rating: string;
+  rating_count: number;
+  currency: Currency;
+}
+
+export interface DashboardRevenueTimeseriesPoint {
+  bucket: string;
+  revenue: string;
+  bookings_count: number;
+}
+
+export interface DashboardRevenueTimeseriesResponse {
+  interval: "day" | "week" | "month";
+  currency: Currency;
+  points: DashboardRevenueTimeseriesPoint[];
+}
+
+export interface DashboardBusiestDaysPoint {
+  weekday: number;
+  bookings_count: number;
+  revenue: string;
+}
+
+export interface DashboardBookingsByWeekdayResponse {
+  currency: Currency;
+  points: DashboardBusiestDaysPoint[];
+}
+
+export interface DashboardStyleSlice {
+  style_id: string | null;
+  style_name: string;
+  bookings_count: number;
+  revenue: string;
+  revenue_share: string;
+}
+
+export interface DashboardStyleBreakdownResponse {
+  currency: Currency;
+  total_revenue: string;
+  slices: DashboardStyleSlice[];
+}

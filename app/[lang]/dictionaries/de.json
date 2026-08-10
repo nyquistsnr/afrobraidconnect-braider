@@ -307,7 +307,27 @@
       "confirm": "Abmelden"
     },
     "home": {
-      "greeting": "Hallo"
+      "greeting": "Hallo",
+      "stats": {
+        "totalBookings": "Gesamtbuchungen",
+        "totalRevenue": "Gesamteinnahmen",
+        "completionRate": "Abschlussrate",
+        "uniqueCustomers": "Einzigartige Kunden"
+      },
+      "revenueChart": {
+        "title": "Einnahmen"
+      },
+      "busiestDaysChart": {
+        "title": "Verkehrsreichste Tage"
+      },
+      "topStylesChart": {
+        "title": "Top-Styles",
+        "other": "Andere"
+      },
+      "recentBookings": {
+        "title": "Aktuelle Buchungen",
+        "viewAll": "Alle Buchungen anzeigen"
+      }
     },
     "profile": {
       "title": "Profileinstellungen",

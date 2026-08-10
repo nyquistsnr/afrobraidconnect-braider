@@ -307,7 +307,27 @@
       "confirm": "Log Out"
     },
     "home": {
-      "greeting": "Hello There"
+      "greeting": "Hello There",
+      "stats": {
+        "totalBookings": "Total Bookings",
+        "totalRevenue": "Total Revenue",
+        "completionRate": "Completion Rate",
+        "uniqueCustomers": "Unique Customers"
+      },
+      "revenueChart": {
+        "title": "Revenue"
+      },
+      "busiestDaysChart": {
+        "title": "Busiest Days"
+      },
+      "topStylesChart": {
+        "title": "Top Styles",
+        "other": "Other"
+      },
+      "recentBookings": {
+        "title": "Recent Bookings",
+        "viewAll": "View all bookings"
+      }
     },
     "profile": {
       "title": "Profile Settings",

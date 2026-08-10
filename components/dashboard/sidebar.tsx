@@ -79,12 +79,7 @@ export function Sidebar({
       icon: CreditCard,
       active: pathname === `/${lang}/dashboard/payment`,
     },
-    {
-      href: `/${lang}/dashboard/settings`,
-      label: dict.settings || "Settings",
-      icon: Settings,
-      active: pathname === `/${lang}/dashboard/settings`,
-    },
+
     {
       href: `/${lang}/dashboard/chat`,
       label: dict.chat || "Chat",

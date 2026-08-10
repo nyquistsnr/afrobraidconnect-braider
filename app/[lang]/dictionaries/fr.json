@@ -307,7 +307,27 @@
       "confirm": "Se déconnecter"
     },
     "home": {
-      "greeting": "Bonjour"
+      "greeting": "Bonjour",
+      "stats": {
+        "totalBookings": "Réservations totales",
+        "totalRevenue": "Revenu total",
+        "completionRate": "Taux de complétion",
+        "uniqueCustomers": "Clients uniques"
+      },
+      "revenueChart": {
+        "title": "Revenus"
+      },
+      "busiestDaysChart": {
+        "title": "Jours les plus chargés"
+      },
+      "topStylesChart": {
+        "title": "Meilleurs styles",
+        "other": "Autres"
+      },
+      "recentBookings": {
+        "title": "Réservations récentes",
+        "viewAll": "Voir toutes les réservations"
+      }
     },
     "profile": {
       "title": "Paramètres du profil",
