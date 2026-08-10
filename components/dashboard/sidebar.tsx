@@ -10,7 +10,6 @@ import {
   LogOut, 
   X,
   CreditCard,
-  Settings,
   MessageSquare,
   Clock,
   MapPin,
@@ -32,7 +31,6 @@ export function Sidebar({
   lang: Locale;
   dict: Dictionary["dashboard"]["sidebar"] & { 
     payment?: string; 
-    settings?: string; 
     chat?: string; 
     availability?: string; 
     location?: string; 
