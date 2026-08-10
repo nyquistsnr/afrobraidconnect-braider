@@ -7,13 +7,14 @@ interface DropdownMenuProps {
   trigger: ReactNode;
   children: ReactNode;
   align?: "left" | "right";
+  className?: string;
 }
 
-export function DropdownMenu({ trigger, children, align = "right" }: DropdownMenuProps) {
+export function DropdownMenu({ trigger, children, align = "right", className = "w-48" }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState({ top: 0, left: 0, right: 0, bottom: 0, spaceBelow: 0 });
+  const [coords, setCoords] = useState({ top: 0, left: 0, right: 0, bottom: 0, spaceBelow: 0, windowWidth: 0 });
 
   const updatePosition = () => {
     if (containerRef.current) {
@@ -24,6 +25,7 @@ export function DropdownMenu({ trigger, children, align = "right" }: DropdownMen
         right: window.innerWidth - rect.right,
         bottom: window.innerHeight - rect.top,
         spaceBelow: window.innerHeight - rect.bottom,
+        windowWidth: window.innerWidth,
       });
     }
   };
@@ -53,21 +55,39 @@ export function DropdownMenu({ trigger, children, align = "right" }: DropdownMen
     };
   }, [isOpen]);
 
+  const [dropdownWidth, setDropdownWidth] = useState(0);
+
+  useEffect(() => {
+    if (isOpen && dropdownRef.current) {
+      setDropdownWidth(dropdownRef.current.offsetWidth);
+    } else {
+      setDropdownWidth(0);
+    }
+  }, [isOpen, coords.windowWidth]);
+
+  const clampedRight = dropdownWidth > 0 
+    ? Math.max(16, Math.min(coords.right, coords.windowWidth - dropdownWidth - 16))
+    : Math.max(16, coords.right);
+
+  const clampedLeft = dropdownWidth > 0
+    ? Math.max(16, Math.min(coords.left, coords.windowWidth - dropdownWidth - 16))
+    : Math.max(16, coords.left);
+
   const dropdownMenu = isOpen && typeof document !== "undefined" ? (
     createPortal(
       <div
         ref={dropdownRef}
-        className={`fixed z-[100] w-48 rounded-md bg-surface border border-border shadow-lg animate-in fade-in zoom-in-95 duration-100 ${
+        className={`fixed z-[100] rounded-md bg-surface border border-border shadow-lg animate-in fade-in zoom-in-95 duration-100 ${className} ${
           align === "right" ? "origin-top-right" : "origin-top-left"
         }`}
         style={{
-          // If there is not enough space below, open upwards
+          maxWidth: "calc(100vw - 32px)",
           ...(coords.spaceBelow < 150 
             ? { bottom: coords.bottom + 8 } 
             : { top: coords.top + 8 }),
           ...(align === "right" 
-            ? { right: coords.right } 
-            : { left: coords.left }),
+            ? { right: clampedRight } 
+            : { left: clampedLeft }),
         }}
       >
         <div className="py-1" role="menu" aria-orientation="vertical">

@@ -97,6 +97,7 @@ export function NotificationBell({
 
   return (
     <DropdownMenu
+      className="w-80 sm:w-96"
       trigger={
         <button
           type="button"
@@ -116,7 +117,7 @@ export function NotificationBell({
         <span className="text-sm font-semibold text-foreground">{dict.notifications}</span>
       </div>
 
-      <div className="max-h-80 overflow-y-auto">
+      <div className="max-h-80 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {recentQuery.isError ? (
           <p className="px-4 py-6 text-center text-xs text-muted-foreground">
             {dict.notificationsLoadError}
