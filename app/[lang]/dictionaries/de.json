@@ -103,9 +103,52 @@
   },
   "footer": {
     "copyright": "© {{year}} Afrobraid Connect. Alle Rechte vorbehalten.",
+    "company": "Unternehmen",
     "links": {
+      "aboutUs": "Über Uns",
       "privacy": "Datenschutzrichtlinie",
       "terms": "Nutzungsbedingungen"
+    }
+  },
+  "about": {
+    "title": "Über Afrobraid Connect",
+    "missionTitle": "Unsere Mission",
+    "missionText": "Unsere Mission ist es, talentierte Afro-Flechterinnen zu stärken, indem wir ihnen die Werkzeuge an die Hand geben, die sie benötigen, um ein erfolgreiches, unabhängiges Unternehmen zu führen, und gleichzeitig den Kunden ein nahtloses, vertrauenswürdiges Buchungserlebnis bieten.",
+    "storyTitle": "Unsere Geschichte",
+    "storyText": "Afrobraid Connect entstand aus einer einfachen Beobachtung: Es war zu schwierig, eine kompetente, zuverlässige Afro-Haarflechterin zu finden, und für die Flechterinnen war die Verwaltung von Buchungen, Anzahlungen und Terminen chaotisch. Wir haben diese Plattform gebaut, um diese Lücke zu schließen. Wir feiern das kulturelle Erbe und bringen gleichzeitig modernen Komfort in die Haarflechtbranche."
+  },
+  "privacy": {
+    "title": "Datenschutzrichtlinie",
+    "lastUpdated": "Zuletzt aktualisiert: August 2026",
+    "intro": "Bei Afrobraid Connect nehmen wir Ihren Datenschutz ernst. Diese Richtlinie erklärt, wie wir Ihre personenbezogenen Daten erfassen, verwenden und schützen.",
+    "dataCollection": {
+      "title": "1. Datenerfassung",
+      "text": "Wir erfassen Informationen, die Sie uns direkt zur Verfügung stellen, wenn Sie ein Konto erstellen, Ihr Profil aktualisieren oder unsere Dienste nutzen. Dazu gehören Ihr Name, Ihre E-Mail-Adresse, Ihre Telefonnummer und Ihre Standortdaten."
+    },
+    "dataUsage": {
+      "title": "2. Wie wir Ihre Daten verwenden",
+      "text": "Ihre Daten werden verwendet, um unsere Dienste bereitzustellen, aufrechtzuerhalten und zu verbessern, Transaktionen abzuwickeln, Supportnachrichten zu senden und mit Ihnen über Produkte und Dienste zu kommunizieren."
+    },
+    "dataSharing": {
+      "title": "3. Datenweitergabe",
+      "text": "Wir verkaufen Ihre personenbezogenen Daten nicht. Wir können Daten an vertrauenswürdige Drittanbieter (wie Stripe für Zahlungen oder Veriff für die Identitätsprüfung) weitergeben, jedoch nur zur Bereitstellung unserer Dienste."
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert: August 2026",
+    "intro": "Willkommen bei Afrobraid Connect. Durch den Zugriff auf unsere Plattform stimmen Sie diesen Bedingungen zu.",
+    "account": {
+      "title": "1. Kontoverantwortlichkeiten",
+      "text": "Sie sind dafür verantwortlich, die Vertraulichkeit Ihrer Kontodaten zu wahren und für alle Aktivitäten, die unter Ihrem Konto stattfinden."
+    },
+    "services": {
+      "title": "2. Flechtdienste",
+      "text": "Flechterinnen arbeiten als unabhängige Auftragnehmer. Afrobraid Connect ist eine Technologieplattform, die Kunden mit Flechterinnen verbindet und Flechtdienste nicht direkt anbietet."
+    },
+    "payments": {
+      "title": "3. Zahlungen und Gebühren",
+      "text": "Alle Zahlungen müssen über die Plattform abgewickelt werden. Afrobraid Connect erhebt eine transparente Servicegebühr auf abgeschlossene Buchungen, wie in Ihrem Dashboard beschrieben."
     }
   },
   "common": {

@@ -5,7 +5,7 @@ export function Footer({ dict, lang }: { dict: any; lang: string }) {
   return (
     <footer className="border-t border-border bg-surface text-muted-foreground py-12">
       <div className="container mx-auto px-4 sm:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           <div className="md:col-span-2">
             <Link href={`/${lang}`} className="inline-block font-bold text-xl text-brand mb-4">
               Afrobraid Connect
@@ -42,6 +42,17 @@ export function Footer({ dict, lang }: { dict: any; lang: string }) {
               <li>
                 <Link href={`/${lang}/login`} className="hover:text-brand transition-colors">
                   {dict.header.signIn}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">{dict.footer.company}</h3>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <Link href={`/${lang}/about`} className="hover:text-brand transition-colors">
+                  {dict.footer.links.aboutUs}
                 </Link>
               </li>
             </ul>

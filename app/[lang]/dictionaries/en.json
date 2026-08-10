@@ -103,9 +103,52 @@
   },
   "footer": {
     "copyright": "© {{year}} Afrobraid Connect. All rights reserved.",
+    "company": "Company",
     "links": {
+      "aboutUs": "About Us",
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"
+    }
+  },
+  "about": {
+    "title": "About Afrobraid Connect",
+    "missionTitle": "Our Mission",
+    "missionText": "We are on a mission to empower talented Afro braiders by providing them with the tools they need to run a successful, independent business, while giving clients a seamless, trusted booking experience.",
+    "storyTitle": "Our Story",
+    "storyText": "Afrobraid Connect was born out of a simple observation: finding a skilled, reliable Afro hair braider was too difficult, and for braiders, managing bookings, deposits, and schedules was chaotic. We built this platform to bridge that gap. We celebrate cultural heritage while bringing modern convenience to the hair braiding industry."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated: August 2026",
+    "intro": "At Afrobraid Connect, we take your privacy seriously. This policy explains how we collect, use, and protect your personal information.",
+    "dataCollection": {
+      "title": "1. Data Collection",
+      "text": "We collect information you provide directly to us when you create an account, update your profile, or use our services. This includes your name, email address, phone number, and location data."
+    },
+    "dataUsage": {
+      "title": "2. How We Use Your Data",
+      "text": "Your data is used to provide, maintain, and improve our services, process transactions, send support messages, and communicate with you about products and services."
+    },
+    "dataSharing": {
+      "title": "3. Data Sharing",
+      "text": "We do not sell your personal data. We may share data with trusted third-party vendors (such as Stripe for payments or Veriff for identity verification) solely to provide our services."
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last Updated: August 2026",
+    "intro": "Welcome to Afrobraid Connect. By accessing our platform, you agree to these terms.",
+    "account": {
+      "title": "1. Account Responsibilities",
+      "text": "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account."
+    },
+    "services": {
+      "title": "2. Braider Services",
+      "text": "Braiders operate as independent contractors. Afrobraid Connect is a technology platform that connects clients with braiders and does not directly provide braiding services."
+    },
+    "payments": {
+      "title": "3. Payments and Fees",
+      "text": "All payments must be processed through the platform. Afrobraid Connect charges a transparent service fee on completed bookings as outlined in your dashboard."
     }
   },
   "common": {
