@@ -8,6 +8,7 @@ import { StatsCards } from "@/components/dashboard/stats-cards";
 import { BookingTrendChart } from "@/components/dashboard/booking-trend-chart";
 import { PaymentsTable } from "@/components/dashboard/payments-table";
 import { PaymentFilters } from "@/components/dashboard/payment-filters";
+import { StripeDashboardButton } from "@/components/dashboard/stripe-dashboard-button";
 import { DollarSign, ArrowDownRight, Activity, Clock } from "lucide-react";
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -87,8 +88,8 @@ export default async function PaymentPage(props: {
 
   return (
     <div className="w-full">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+      <div className="mb-8 flex flex-row flex-wrap items-end justify-between gap-6">
+        <div className="min-w-[280px] max-w-full">
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
             {dict.payment.title}
           </h1>
@@ -97,10 +98,18 @@ export default async function PaymentPage(props: {
           </p>
         </div>
 
-        <PaymentFilters 
-          lang={lang as Locale}
-          dict={dict.dashboard.bookings.filters}
-        />
+        <div className="flex flex-row flex-wrap items-end gap-4 w-full xl:w-auto">
+          <div className="w-full sm:w-auto flex-shrink-0">
+            <StripeDashboardButton lang={lang as Locale} dict={dict.payment} />
+          </div>
+          
+          <div className="w-full sm:w-auto flex-shrink-0">
+            <PaymentFilters 
+              lang={lang as Locale}
+              dict={dict.dashboard.bookings.filters}
+            />
+          </div>
+        </div>
       </div>
 
       {pStats && <StatsCards cards={statCardsData} />}
