@@ -1,4 +1,26 @@
 {
+  "header": {
+    "joinBraider": "Als Flechterin anmelden",
+    "findBraider": "Flechterin finden",
+    "dashboard": "Armaturenbrett",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren"
+  },
+  "home": {
+    "heroHeadline": "Finden Sie die besten Afro-Flechterinnen in Ihrer Nähe",
+    "heroSubheadline": "Buchen Sie talentierte Profis für Ihre nächste Flechtfrisur.",
+    "ctaFind": "Flechterin finden",
+    "ctaJoin": "Als Profi anmelden",
+    "badgeTitle": "Bestbewertet",
+    "badgeSubtitle": "Profis"
+  },
+  "footer": {
+    "copyright": "© {{year}} Afrobraid Connect. Alle Rechte vorbehalten.",
+    "links": {
+      "privacy": "Datenschutzrichtlinie",
+      "terms": "Nutzungsbedingungen"
+    }
+  },
   "common": {
     "supportEmail": "support@afrobraidconnect.de",
     "heroImageAlt": "Lächelnde Frau mit geflochtenem Haar",
@@ -9,7 +31,7 @@
     },
     "loading": "Wird geladen…",
     "backToLogin": "Zurück zur Anmeldung",
-    "backToDashboard": "Zurück zum Dashboard",
+    "backToDashboard": "Zurück zum Armaturenbrett",
     "back": "Zurück",
     "countrySearchPlaceholder": "Land suchen",
     "noCountriesFound": "Keine Länder gefunden",
@@ -122,7 +144,7 @@
   },
   "dashboard": {
     "sidebar": {
-      "dashboard": "Dashboard",
+      "dashboard": "Armaturenbrett",
       "bookings": "Buchungen",
       "payment": "Zahlung",
       "settings": "Einstellungen",

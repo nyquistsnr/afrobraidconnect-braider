@@ -1,4 +1,26 @@
 {
+  "header": {
+    "joinBraider": "Devenir tresseuse",
+    "findBraider": "Trouver une tresseuse",
+    "dashboard": "Tableau de bord",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire"
+  },
+  "home": {
+    "heroHeadline": "Trouvez les meilleures tresseuses afro près de chez vous",
+    "heroSubheadline": "Réservez des professionnels talentueux pour votre prochaine coiffure.",
+    "ctaFind": "Trouver une tresseuse",
+    "ctaJoin": "Rejoindre en tant que professionnel",
+    "badgeTitle": "Les Mieux Notés",
+    "badgeSubtitle": "Professionnels"
+  },
+  "footer": {
+    "copyright": "© {{year}} Afrobraid Connect. Tous droits réservés.",
+    "links": {
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation"
+    }
+  },
   "common": {
     "supportEmail": "support@afrobraidconnect.de",
     "heroImageAlt": "Femme souriante portant des cheveux tressés",

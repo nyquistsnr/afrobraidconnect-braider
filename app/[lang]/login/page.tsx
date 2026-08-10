@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
 import { sanitizeCallbackUrl } from "@/lib/callback-url";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { LoginForm } from "@/components/login/login-form";
+import { auth } from "@/auth";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -16,6 +17,11 @@ export default async function LoginPage({
   const { callbackUrl } = await searchParams;
 
   if (!hasLocale(lang)) notFound();
+
+  const session = await auth();
+  if (session) {
+    redirect(`/${lang}/dashboard`);
+  }
 
   const dict = await getDictionary(lang);
   const safeCallbackUrl = sanitizeCallbackUrl(

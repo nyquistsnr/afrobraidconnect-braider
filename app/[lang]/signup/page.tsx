@@ -1,7 +1,8 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { SignupForm } from "@/components/signup/signup-form";
+import { auth } from "@/auth";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -13,6 +14,11 @@ export default async function SignupPage({
   const { lang } = await params;
 
   if (!hasLocale(lang)) notFound();
+
+  const session = await auth();
+  if (session) {
+    redirect(`/${lang}/dashboard`);
+  }
 
   const dict = await getDictionary(lang);
 

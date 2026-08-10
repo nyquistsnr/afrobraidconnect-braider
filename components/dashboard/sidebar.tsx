@@ -15,7 +15,8 @@ import {
   Clock,
   MapPin,
   Scissors,
-  ListChecks
+  ListChecks,
+  Home
 } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
@@ -38,6 +39,7 @@ export function Sidebar({
     location?: string; 
     serviceStyle?: string; 
     onboardingStatus?: string; 
+    home?: string;
   };
   userName: string;
   userLogo: string | null;
@@ -60,6 +62,12 @@ export function Sidebar({
   }, [open, onClose]);
 
   const navItems = [
+    {
+      href: `/${lang}`,
+      label: dict.home || "Home",
+      icon: Home,
+      active: pathname === `/${lang}`,
+    },
     {
       href: `/${lang}/dashboard`,
       label: dict.dashboard,
@@ -132,14 +140,16 @@ export function Sidebar({
         }`}
       >
         <div className="flex items-center justify-between px-6 py-6">
-          <Image
-            src="/logo/logo.webp"
-            alt="Afrobraid Connect"
-            width={126}
-            height={32}
-            className="theme-invert"
-            priority
-          />
+          <Link href={`/${lang}`}>
+            <Image
+              src="/logo/logo.webp"
+              alt="Afrobraid Connect"
+              width={126}
+              height={32}
+              className="theme-invert transition-opacity hover:opacity-80"
+              priority
+            />
+          </Link>
           <button
             type="button"
             onClick={onClose}

@@ -1,4 +1,26 @@
 {
+  "header": {
+    "joinBraider": "Join as a braider",
+    "findBraider": "Find a braider",
+    "dashboard": "Dashboard",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "home": {
+    "heroHeadline": "Find the best Afro braiders near you",
+    "heroSubheadline": "Book talented professionals for your next braided style.",
+    "ctaFind": "Find a braider",
+    "ctaJoin": "Join as a professional",
+    "badgeTitle": "Top Rated",
+    "badgeSubtitle": "Professionals"
+  },
+  "footer": {
+    "copyright": "© {{year}} Afrobraid Connect. All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    }
+  },
   "common": {
     "supportEmail": "support@afrobraidconnect.de",
     "heroImageAlt": "Smiling woman wearing braided hair",

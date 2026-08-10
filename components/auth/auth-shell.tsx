@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Mail } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language/language-switcher";
@@ -20,7 +21,18 @@ export function AuthShell({
   return (
     <div className="flex min-h-screen flex-1 bg-background">
       <div className="flex w-full flex-col justify-between px-6 py-10 sm:px-10 lg:w-1/2 lg:px-16 xl:px-24">
-        <div />
+        <div className="mx-auto w-full max-w-sm mb-6">
+          <Link href={`/${lang}`} className="inline-block">
+            <Image
+              src="/logo/logo.webp"
+              alt="Afrobraid Connect"
+              width={180}
+              height={46}
+              className="theme-invert transition-opacity hover:opacity-80"
+              priority
+            />
+          </Link>
+        </div>
 
         <div className="mx-auto w-full max-w-sm">{children}</div>
 
