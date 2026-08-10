@@ -71,14 +71,17 @@ export function DropdownMenu({ trigger, children, align = "right" }: DropdownMen
         }}
       >
         <div className="py-1" role="menu" aria-orientation="vertical">
-          {React.Children.map(children, child => {
-            if (React.isValidElement(child)) {
+          {React.Children.map(children, (child) => {
+            if (
+              React.isValidElement<{ onClick?: (e: React.MouseEvent) => void }>(
+                child
+              )
+            ) {
               return React.cloneElement(child, {
-                // @ts-ignore
-                onClick: (e: any) => {
-                  if (child.props.onClick) child.props.onClick(e);
+                onClick: (e: React.MouseEvent) => {
+                  child.props.onClick?.(e);
                   setIsOpen(false);
-                }
+                },
               });
             }
             return child;

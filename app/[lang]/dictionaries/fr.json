@@ -399,8 +399,13 @@
       "menuTitle": "Votre carte",
       "emptyMenu": "Vous n'avez encore ajouté aucun style.",
       "continue": "Continuer",
+      "dashboardTitle": "Votre carte de prix",
+      "dashboardSubtitle": "Gérez les styles que vous proposez et leurs prix.",
+      "saveChanges": "Enregistrer",
       "toasts": {
-        "added": "Ajouté à votre carte."
+        "added": "Ajouté à votre carte.",
+        "saved": "Service mis à jour.",
+        "removed": "Service supprimé."
       }
     },
     "portfolio": {
@@ -441,6 +446,9 @@
       "travelRadiusLabel": "Rayon de déplacement (km)",
       "travelFeeLabel": "Frais de déplacement (€, facultatif)",
       "continue": "Enregistrer et continuer",
+      "dashboardTitle": "Votre emplacement",
+      "dashboardSubtitle": "Mettez à jour votre lieu de travail et vos paramètres de déplacement.",
+      "saveChanges": "Enregistrer",
       "toasts": {
         "saved": "Emplacement enregistré.",
         "incomplete": "Veuillez remplir tous les détails d'emplacement requis."

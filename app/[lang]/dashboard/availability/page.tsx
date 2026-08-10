@@ -33,10 +33,10 @@ export default async function DashboardAvailabilityPage(props: {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          {dict.availability?.title || dict.onboarding.availability.title}
+          {dict.onboarding.availability.title}
         </h1>
         <p className="text-muted-foreground">
-          {dict.availability?.subtitle || dict.onboarding.availability.subtitle}
+          {dict.onboarding.availability.subtitle}
         </p>
       </div>
       

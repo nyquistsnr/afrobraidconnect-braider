@@ -3,7 +3,8 @@ import { getDictionary, hasLocale, locales } from "../../dictionaries";
 import { auth } from "@/auth";
 import { bookingsApi } from "@/lib/api/bookings-client";
 import { BookingsTable } from "@/components/dashboard/bookings-table";
-
+import { StatsCards } from "@/components/dashboard/stats-cards";
+import { CalendarDays, CheckCircle, XCircle, Clock } from "lucide-react";
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
@@ -21,7 +22,37 @@ export default async function BookingsPage({
   }
 
   const dict = await getDictionary(lang);
-  const initialData = await bookingsApi.list(session.accessToken, lang);
+  
+  // Fetch data in parallel
+  const [initialData, statsResponse] = await Promise.all([
+    bookingsApi.list(session.accessToken, lang),
+    bookingsApi.getStats(session.accessToken, lang)
+  ]);
+  
+  const stats = statsResponse;
+
+  const statCardsData = stats ? [
+    {
+      title: "Total Bookings",
+      value: stats.total_bookings,
+      icon: <CalendarDays />,
+    },
+    {
+      title: "Completed",
+      value: stats.completed,
+      icon: <CheckCircle />,
+    },
+    {
+      title: "Upcoming",
+      value: stats.upcoming,
+      icon: <Clock />,
+    },
+    {
+      title: "Declined",
+      value: stats.declined,
+      icon: <XCircle />,
+    },
+  ] : [];
 
   return (
     <div className="w-full">
@@ -33,6 +64,8 @@ export default async function BookingsPage({
           {dict.dashboard.bookings.subtitle}
         </p>
       </div>
+
+      {stats && <StatsCards cards={statCardsData} />}
 
       <BookingsTable
         dict={dict.dashboard.bookings}

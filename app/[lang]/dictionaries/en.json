@@ -399,8 +399,13 @@
       "menuTitle": "Your menu",
       "emptyMenu": "You haven't added any styles yet.",
       "continue": "Continue",
+      "dashboardTitle": "Your Price Menu",
+      "dashboardSubtitle": "Manage the styles you offer and their prices.",
+      "saveChanges": "Save Changes",
       "toasts": {
-        "added": "Added to your menu."
+        "added": "Added to your menu.",
+        "saved": "Service updated.",
+        "removed": "Service removed."
       }
     },
     "portfolio": {
@@ -441,6 +446,9 @@
       "travelRadiusLabel": "Travel radius (km)",
       "travelFeeLabel": "Travel fee (€, optional)",
       "continue": "Save & Continue",
+      "dashboardTitle": "Your Location",
+      "dashboardSubtitle": "Update where you work and your travel settings.",
+      "saveChanges": "Save Changes",
       "toasts": {
         "saved": "Location saved.",
         "incomplete": "Please fill out all required location details."

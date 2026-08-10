@@ -618,3 +618,56 @@ export interface BookingDetailResponse {
   payments: BookingPaymentResponse[];
   created_at: string;
 }
+
+// ---------------------------------------------------------------------------
+// Braider Stats & Payments
+// ---------------------------------------------------------------------------
+
+export interface BookingStatsResponse {
+  total_bookings: number;
+  completed: number;
+  declined: number;
+  upcoming: number;
+}
+
+export interface TimeseriesPoint {
+  bucket: string;
+  counts: Partial<Record<BookingStatus, number>>;
+}
+
+export interface BookingTimeseriesResponse {
+  interval: "day" | "week" | "month";
+  statuses: BookingStatus[];
+  points: TimeseriesPoint[];
+}
+
+export interface PaymentStatsResponse {
+  total_received: string;
+  total_refunded: string;
+  net_revenue: string;
+  pending: string;
+  currency: Currency;
+}
+
+export interface PaymentListItemResponse {
+  id: string;
+  booking_id: string;
+  booking_reference: string;
+  purpose: PaymentPurpose;
+  status: PaymentStatus;
+  amount: string;
+  amount_refunded: string;
+  is_refunded: boolean;
+  currency: Currency;
+  created_at: string;
+}
+
+export interface PaymentListResponse {
+  items: PaymentListItemResponse[];
+  page: number;
+  page_size: number;
+  total_items: number;
+  total_pages: number;
+  has_next: boolean;
+  has_previous: boolean;
+}

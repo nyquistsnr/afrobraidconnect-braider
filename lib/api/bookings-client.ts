@@ -4,6 +4,9 @@ import type {
   BookingDetailResponse,
   BookingListParams,
   BookingListResponse,
+  BookingStatsResponse,
+  BookingTimeseriesResponse,
+  BookingStatus,
 } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n";
 import { apiFetch } from "@/lib/api/http";
@@ -30,4 +33,41 @@ export const bookingsApi = {
       accessToken,
       lang,
     }),
+
+  getStats: (
+    accessToken: string,
+    lang: Locale,
+    params?: { date_from?: string; date_to?: string }
+  ) => {
+    const query = new URLSearchParams();
+    if (params?.date_from) query.set("date_from", params.date_from);
+    if (params?.date_to) query.set("date_to", params.date_to);
+    return apiFetch<BookingStatsResponse>(
+      `${BOOKINGS_PATH}/stats?${query.toString()}`,
+      { accessToken, lang }
+    );
+  },
+
+  getTimeseries: (
+    accessToken: string,
+    lang: Locale,
+    params?: {
+      date_from?: string;
+      date_to?: string;
+      interval?: "day" | "week" | "month";
+      status?: BookingStatus[];
+    }
+  ) => {
+    const query = new URLSearchParams();
+    if (params?.date_from) query.set("date_from", params.date_from);
+    if (params?.date_to) query.set("date_to", params.date_to);
+    if (params?.interval) query.set("interval", params.interval);
+    if (params?.status) {
+      params.status.forEach((s) => query.append("status", s));
+    }
+    return apiFetch<BookingTimeseriesResponse>(
+      `${BOOKINGS_PATH}/timeseries?${query.toString()}`,
+      { accessToken, lang }
+    );
+  },
 };

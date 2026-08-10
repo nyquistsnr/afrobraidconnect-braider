@@ -399,8 +399,13 @@
       "menuTitle": "Ihr Angebot",
       "emptyMenu": "Sie haben noch keine Stile hinzugefügt.",
       "continue": "Weiter",
+      "dashboardTitle": "Ihre Preisliste",
+      "dashboardSubtitle": "Verwalten Sie die von Ihnen angebotenen Stile und deren Preise.",
+      "saveChanges": "Änderungen speichern",
       "toasts": {
-        "added": "Zum Angebot hinzugefügt."
+        "added": "Zum Angebot hinzugefügt.",
+        "saved": "Leistung aktualisiert.",
+        "removed": "Leistung entfernt."
       }
     },
     "portfolio": {
@@ -441,6 +446,9 @@
       "travelRadiusLabel": "Reiseradius (km)",
       "travelFeeLabel": "Reisegebühr (€, optional)",
       "continue": "Speichern & Weiter",
+      "dashboardTitle": "Ihr Standort",
+      "dashboardSubtitle": "Aktualisieren Sie, wo Sie arbeiten, und Ihre Reiseeinstellungen.",
+      "saveChanges": "Änderungen speichern",
       "toasts": {
         "saved": "Standort gespeichert.",
         "incomplete": "Bitte füllen Sie alle erforderlichen Standortdetails aus."
