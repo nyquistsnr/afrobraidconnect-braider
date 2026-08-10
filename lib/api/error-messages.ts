@@ -32,6 +32,8 @@ const CODE_TO_KEY: Record<string, keyof ErrorsDict> = {
   BRAIDER_STYLE_ALREADY_EXISTS: "styleAlreadyAdded",
   INVALID_STYLE_VARIATION: "invalidStyleVariation",
   INVALID_ADDON: "invalidAddon",
+  BOOKING_NOT_FOUND: "bookingNotFound",
+  INVALID_BOOKING_DATE_RANGE: "invalidBookingDateRange",
 };
 
 // `code` here is whatever error.code the backend returned (see ApiError),

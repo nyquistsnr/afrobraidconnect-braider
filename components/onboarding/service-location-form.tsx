@@ -68,11 +68,13 @@ export function ServiceLocationForm({
   common,
   lang,
   initialData,
+  isDashboard,
 }: {
   dict: Dictionary["onboarding"]["serviceLocation"];
   common: Dictionary["common"];
   lang: Locale;
   initialData: ServiceLocationResponse;
+  isDashboard?: boolean;
 }) {
   const { data: session } = useSession();
   const router = useRouter();
@@ -109,11 +111,13 @@ export function ServiceLocationForm({
       });
     },
     onSuccess: (data) => {
-      toast.success(dict.toasts.saved);
-      if (data.is_complete) {
-        router.push(`/${lang}/onboarding`);
-      } else {
-        toast.error(dict.toasts.incomplete);
+      toast.success(dict.toasts.saved || "Saved successfully");
+      if (!isDashboard) {
+        if (data.is_complete) {
+          router.push(`/${lang}/onboarding`);
+        } else {
+          toast.error(dict.toasts.incomplete);
+        }
       }
     },
     onError: (error) => {
@@ -139,7 +143,7 @@ export function ServiceLocationForm({
       travelRadiusKm !== (initialData.travel_radius_km?.toString() ?? "") ||
       travelFee !== (initialData.travel_fee?.toString() ?? "");
 
-    if (!hasChanged && initialData.is_complete) {
+    if (!hasChanged && initialData.is_complete && !isDashboard) {
       router.push(`/${lang}/onboarding`);
       return;
     }
@@ -156,8 +160,12 @@ export function ServiceLocationForm({
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}>
       <div className="w-full">
-        <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{dict.subtitle}</p>
+        <h1 className="text-3xl font-bold text-foreground">
+          {isDashboard ? dict.dashboardTitle || dict.title : dict.title}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {isDashboard ? dict.dashboardSubtitle || dict.subtitle : dict.subtitle}
+        </p>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           
@@ -307,7 +315,7 @@ export function ServiceLocationForm({
             disabled={saveMutation.isPending}
             className="w-full"
           >
-            {saveMutation.isPending ? common.loading : dict.continue}
+            {saveMutation.isPending ? common.loading : (isDashboard ? dict.saveChanges || "Save Changes" : dict.continue)}
           </Button>
         </form>
       </div>

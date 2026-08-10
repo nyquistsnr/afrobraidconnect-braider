@@ -29,6 +29,7 @@ interface AvailabilityFormProps {
   initialSettings: AvailabilitySettingsResponse;
   initialWindows: WeeklyWindowResponse[];
   initialExceptions: AvailabilityExceptionResponse[];
+  isDashboard?: boolean;
 }
 
 const DAYS_OF_WEEK: DayOfWeek[] = [
@@ -48,6 +49,7 @@ export function AvailabilityForm({
   initialSettings,
   initialWindows,
   initialExceptions,
+  isDashboard,
 }: AvailabilityFormProps) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -184,16 +186,20 @@ export function AvailabilityForm({
         return; // Halt navigation if saving fails
       }
     }
-    router.push(`/${lang}/onboarding`);
+    if (isDashboard) {
+      toast.success(dict.toasts?.settingsSaved || "Saved successfully");
+    } else {
+      router.push(`/${lang}/onboarding`);
+    }
   }
 
   return (
     <div className="mx-auto max-w-3xl space-y-10">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          {dict.title}
+          {isDashboard ? dict.dashboardTitle || dict.title : dict.title}
         </h1>
-        <p className="text-muted-foreground">{dict.subtitle}</p>
+        <p className="text-muted-foreground">{isDashboard ? dict.dashboardSubtitle || dict.subtitle : dict.subtitle}</p>
       </div>
 
       {/* Settings Section */}
@@ -419,7 +425,7 @@ export function AvailabilityForm({
 
       <div className="flex justify-end pt-4">
         <Button onClick={handleContinue} className="w-full md:w-auto md:px-8">
-          {dict.continue}
+          {isDashboard ? dict.saveChanges || "Save Changes" : dict.continue}
         </Button>
       </div>
     </div>

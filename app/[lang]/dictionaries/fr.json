@@ -41,6 +41,8 @@
       "styleAlreadyAdded": "Vous avez déjà ajouté ce style à votre offre.",
       "invalidStyleVariation": "L'une des variantes sélectionnées n'est pas valide pour ce style.",
       "invalidAddon": "L'un des suppléments sélectionnés n'est pas valide.",
+      "bookingNotFound": "Cette réservation est introuvable.",
+      "invalidBookingDateRange": "La date de fin doit être postérieure ou égale à la date de début.",
       "generic": "Une erreur s'est produite. Veuillez réessayer."
     },
     "toasts": {
@@ -155,10 +157,113 @@
       "phoneLabel": "Numéro de téléphone",
       "saveButton": "Enregistrer",
       "successToast": "Profil mis à jour avec succès."
+    },
+    "bookings": {
+      "title": "Réservations",
+      "subtitle": "Consultez et gérez vos rendez-vous à venir et passés.",
+      "filters": {
+        "searchLabel": "Rechercher",
+        "searchPlaceholder": "Rechercher par client ou style…",
+        "statusLabel": "Statut",
+        "statusAll": "Tous les statuts",
+        "dateFromLabel": "Du",
+        "dateToLabel": "Au",
+        "dateRangeLabel": "Période",
+        "dateRangePlaceholder": "Filtrer par date",
+        "dateRangePresets": "Raccourcis",
+        "dateRangeToday": "Aujourd'hui",
+        "dateRangeLast7Days": "7 derniers jours",
+        "dateRangeThisMonth": "Ce mois-ci",
+        "dateRangeLastMonth": "Le mois dernier",
+        "dateRangeClear": "Effacer",
+        "dateRangeApply": "Appliquer",
+        "dateRangePreviousMonth": "Mois précédent",
+        "dateRangeNextMonth": "Mois suivant",
+        "reset": "Réinitialiser les filtres"
+      },
+      "status": {
+        "PENDING_PAYMENT": "Paiement en attente",
+        "CONFIRMED": "Confirmée",
+        "IN_PROGRESS": "En cours",
+        "COMPLETED": "Terminée",
+        "NO_SHOW": "Absence du client",
+        "CANCELLED_BY_CUSTOMER": "Annulée par le client",
+        "CANCELLED_BY_BRAIDER": "Annulée par vous",
+        "CANCELLED_NO_PAYMENT": "Annulée (non payée)",
+        "EXPIRED": "Expirée",
+        "DISPUTED": "Contestée"
+      },
+      "table": {
+        "styleColumn": "Style",
+        "customerColumn": "Client",
+        "dateColumn": "Date et heure",
+        "statusColumn": "Statut",
+        "totalColumn": "Total"
+      },
+      "empty": {
+        "title": "Aucune réservation pour le moment",
+        "description": "Vos réservations apparaîtront ici dès que des clients réserveront vos services."
+      },
+      "noResults": "Aucune réservation ne correspond à vos filtres.",
+      "loadError": "Impossible de charger vos réservations. Veuillez réessayer.",
+      "pagination": {
+        "summary": "Page {page} sur {totalPages} · {totalItems} réservations",
+        "previous": "Précédent",
+        "next": "Suivant"
+      },
+      "detail": {
+        "title": "Détails de la réservation",
+        "reference": "Référence",
+        "customer": "Client",
+        "style": "Style",
+        "duration": "Durée",
+        "durationMinutes": "{minutes} min",
+        "location": "Lieu",
+        "mobileService": "Service à domicile — vous vous déplacez chez le client",
+        "studioService": "À votre emplacement",
+        "schedule": "Horaire",
+        "itemsTitle": "Détail du prix",
+        "itemTypes": {
+          "SERVICE": "Service",
+          "VARIATION": "Variante",
+          "ADDON": "Supplément",
+          "TRAVEL": "Frais de déplacement",
+          "PLATFORM_FEE": "Frais de plateforme",
+          "VAT_SERVICE": "TVA (service)",
+          "VAT_PLATFORM_FEE": "TVA (frais de plateforme)"
+        },
+        "serviceSubtotal": "Sous-total du service",
+        "travelFee": "Frais de déplacement",
+        "subtotal": "Sous-total",
+        "platformFee": "Frais de plateforme",
+        "vatOnService": "TVA sur le service",
+        "vatOnPlatformFee": "TVA sur les frais de plateforme",
+        "vatTotal": "TVA totale",
+        "total": "Total",
+        "depositAmount": "Acompte",
+        "balanceAmount": "Solde",
+        "paymentSchedule": "Échéancier de paiement",
+        "paymentScheduleValues": {
+          "FULL_UPFRONT": "Paiement intégral à l'avance",
+          "DEPOSIT_THEN_BALANCE": "Acompte, puis solde"
+        },
+        "cancellationCutoff": "Annulation gratuite jusqu'au",
+        "paymentsTitle": "Paiements",
+        "paymentPurpose": {
+          "FULL": "Paiement intégral",
+          "DEPOSIT": "Acompte",
+          "BALANCE": "Solde"
+        },
+        "paymentStatus": {
+          "PENDING": "En attente",
+          "SUCCEEDED": "Payé",
+          "FAILED": "Échoué",
+          "CANCELED": "Annulé"
+        },
+        "createdAt": "Réservé le",
+        "close": "Fermer"
+      }
     }
-  },
-  "bookings": {
-    "title": "Page de réservation"
   },
   "payment": {
     "title": "Paiement"

@@ -36,7 +36,8 @@ export function DashboardShell({
     try {
       await fetch("/api/auth/logout", { method: "POST" });
       toast.success(logoutSuccessMessage);
-      router.push(`/${lang}/login`);
+      const currentUrl = window.location.pathname + window.location.search;
+      router.push(`/${lang}/login?callbackUrl=${encodeURIComponent(currentUrl)}`);
     } finally {
       setLoggingOut(false);
       setLogoutModalOpen(false);

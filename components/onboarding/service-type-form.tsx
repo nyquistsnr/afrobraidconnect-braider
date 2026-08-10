@@ -3,9 +3,9 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { ImageOff, Search } from "lucide-react";
+import { ImageOff, Search, Pencil, Trash2 } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type {
@@ -56,15 +56,21 @@ export function ServiceTypeForm({
   common,
   lang,
   initialServices,
+  isDashboard,
 }: {
   dict: Dictionary["onboarding"]["serviceType"];
   common: Dictionary["common"];
   lang: Locale;
   initialServices: BraiderStyleResponse[];
+  isDashboard?: boolean;
 }) {
   const { data: session } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const modalTitleId = useId();
+
+  const [editingBraiderStyleId, setEditingBraiderStyleId] = useState<string | null>(null);
+  const [isFetchingEdit, setIsFetchingEdit] = useState(false);
 
   const [services, setServices] = useState(initialServices);
   const [categoryId, setCategoryId] = useState("");
@@ -165,8 +171,66 @@ export function ServiceTypeForm({
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: () => {
+      if (!editingBraiderStyleId) throw new Error("No style ID to update");
+      const variations: BraiderStyleVariationInput[] = Object.entries(
+        variationSelections
+      )
+        .filter(([, selection]) => selection.checked)
+        .map(([styleVariationId, selection]) => ({
+          style_variation_id: styleVariationId,
+          price: Number(selection.price),
+        }));
+
+      const selectedAddons: BraiderStyleAddonInput[] = Object.entries(
+        addonSelections
+      )
+        .filter(([, selection]) => selection.checked)
+        .map(([addonId, selection]) => ({
+          addon_id: addonId,
+          price: Number(selection.price),
+          is_required: selection.required,
+        }));
+
+      return onboardingApi.updateService(session!.accessToken, editingBraiderStyleId, {
+        base_price: Number(basePrice),
+        duration_minutes: duration ? Number(duration) : undefined,
+        is_active: true,
+        variations,
+        addons: selectedAddons,
+      });
+    },
+    onSuccess: (data) => {
+      setServices((current) =>
+        current.map((s) => (s.id === data.id ? data : s))
+      );
+      toast.success(dict.toasts.saved || "Service updated");
+      setSelectedStyle(null);
+      setEditingBraiderStyleId(null);
+    },
+    onError: (error) => {
+      const code = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(code, common.errors));
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (braiderStyleId: string) =>
+      onboardingApi.deleteService(session!.accessToken, braiderStyleId),
+    onSuccess: (_, braiderStyleId) => {
+      setServices((current) => current.filter((s) => s.id !== braiderStyleId));
+      toast.success(dict.toasts.removed || "Service removed");
+    },
+    onError: (error) => {
+      const code = error instanceof ApiError ? error.code : undefined;
+      toast.error(getAuthErrorMessage(code, common.errors));
+    },
+  });
+
   function openStyle(style: StylePublicResponse) {
     setSelectedStyle(style);
+    setEditingBraiderStyleId(null);
     setBasePrice("");
     setDuration("");
     setVariationSelections(
@@ -191,6 +255,53 @@ export function ServiceTypeForm({
     );
   }
 
+  async function handleEditStyle(braiderStyle: BraiderStyleResponse) {
+    try {
+      setIsFetchingEdit(true);
+      const stylePublic = await queryClient.fetchQuery({
+        queryKey: ["style", braiderStyle.style_id, lang],
+        queryFn: () => catalogApi.getStyle(braiderStyle.style_id, lang),
+      });
+
+      setSelectedStyle(stylePublic);
+      setEditingBraiderStyleId(braiderStyle.id);
+      setBasePrice(braiderStyle.base_price.toString());
+      setDuration(braiderStyle.duration_minutes?.toString() ?? "");
+
+      const vSelections: Record<string, VariationSelection> = {};
+      for (const v of stylePublic.variations) {
+        const existing = braiderStyle.variations.find(
+          (bv) => bv.style_variation_id === v.id
+        );
+        vSelections[v.id] = {
+          checked: !!existing,
+          price: existing ? existing.price.toString() : "",
+        };
+      }
+      setVariationSelections(vSelections);
+
+      const aSelections: Record<string, AddonSelection> = {};
+      for (const a of addons) {
+        const existing = braiderStyle.addons.find(
+          (ba) => ba.addon_id === a.id
+        );
+        aSelections[a.id] = {
+          checked: !!existing,
+          price: existing
+            ? existing.price.toString()
+            : (a.suggested_price?.toString() ?? ""),
+          required: existing ? existing.is_required : false,
+        };
+      }
+      setAddonSelections(aSelections);
+    } catch (error) {
+      console.error(error);
+      toast.error("Could not fetch style details");
+    } finally {
+      setIsFetchingEdit(false);
+    }
+  }
+
   function handleContinue() {
     router.push(`/${lang}/onboarding`);
   }
@@ -210,9 +321,18 @@ export function ServiceTypeForm({
   }));
 
   return (
-    <div className="w-full">
-      <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
-      <p className="mt-2 text-sm text-muted-foreground">{dict.subtitle}</p>
+    <div className="w-full relative">
+      {(isFetchingEdit || deleteMutation.isPending) && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/50 backdrop-blur-sm">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand border-t-transparent" />
+        </div>
+      )}
+      <h1 className="text-3xl font-bold text-foreground">
+        {isDashboard ? dict.dashboardTitle || dict.title : dict.title}
+      </h1>
+      <p className="mt-2 text-sm text-muted-foreground">
+        {isDashboard ? dict.dashboardSubtitle || dict.subtitle : dict.subtitle}
+      </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         <Select
@@ -316,19 +436,40 @@ export function ServiceTypeForm({
                 key={service.id}
                 className="flex items-center justify-between px-4 py-3 text-sm"
               >
-                <span className="text-foreground">
-                  {addedStyleName(service, lang)}
-                </span>
-                <span className="text-muted-foreground">
-                  {Number(service.base_price).toFixed(2)} €
-                </span>
+                <div>
+                  <span className="block text-foreground font-medium">
+                    {addedStyleName(service, lang)}
+                  </span>
+                  <span className="block text-muted-foreground">
+                    {Number(service.base_price).toFixed(2)} €
+                    {service.duration_minutes ? ` • ${service.duration_minutes} min` : ""}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    title="Edit"
+                    onClick={() => handleEditStyle(service)}
+                    className="flex size-8 items-center justify-center rounded-md text-icon-muted transition-colors hover:bg-border hover:text-foreground"
+                  >
+                    <Pencil className="size-4" />
+                  </button>
+                  <button
+                    type="button"
+                    title="Delete"
+                    onClick={() => deleteMutation.mutate(service.id)}
+                    className="flex size-8 items-center justify-center rounded-md text-icon-muted transition-colors hover:bg-red-500/10 hover:text-red-500"
+                  >
+                    <Trash2 className="size-4" />
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      {services.length > 0 && (
+      {!isDashboard && services.length > 0 && (
         <Button type="button" className="mt-6" onClick={handleContinue}>
           {dict.continue}
         </Button>
@@ -336,7 +477,10 @@ export function ServiceTypeForm({
 
       <Modal
         open={!!selectedStyle}
-        onClose={() => setSelectedStyle(null)}
+        onClose={() => {
+          setSelectedStyle(null);
+          setEditingBraiderStyleId(null);
+        }}
         labelledBy={modalTitleId}
         size="lg"
       >
@@ -531,10 +675,20 @@ export function ServiceTypeForm({
               <Button
                 type="button"
                 className="flex-1"
-                disabled={!canSubmit || addMutation.isPending}
-                onClick={() => addMutation.mutate()}
+                disabled={!canSubmit || addMutation.isPending || updateMutation.isPending}
+                onClick={() => {
+                  if (editingBraiderStyleId) {
+                    updateMutation.mutate();
+                  } else {
+                    addMutation.mutate();
+                  }
+                }}
               >
-                {addMutation.isPending ? common.loading : dict.addButton}
+                {addMutation.isPending || updateMutation.isPending
+                  ? common.loading
+                  : editingBraiderStyleId
+                  ? dict.saveChanges || "Save Changes"
+                  : dict.addButton}
               </Button>
             </div>
           </>

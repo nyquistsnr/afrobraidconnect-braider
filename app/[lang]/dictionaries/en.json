@@ -41,6 +41,8 @@
       "styleAlreadyAdded": "You've already added that style to your menu.",
       "invalidStyleVariation": "One of the selected variations isn't valid for this style.",
       "invalidAddon": "One of the selected add-ons isn't valid.",
+      "bookingNotFound": "That booking couldn't be found.",
+      "invalidBookingDateRange": "The end date must be on or after the start date.",
       "generic": "Something went wrong. Please try again."
     },
     "toasts": {
@@ -155,10 +157,113 @@
       "phoneLabel": "Phone Number",
       "saveButton": "Save Changes",
       "successToast": "Profile updated successfully."
+    },
+    "bookings": {
+      "title": "Bookings",
+      "subtitle": "View and manage your upcoming and past appointments.",
+      "filters": {
+        "searchLabel": "Search",
+        "searchPlaceholder": "Search by client or style…",
+        "statusLabel": "Status",
+        "statusAll": "All statuses",
+        "dateFromLabel": "From",
+        "dateToLabel": "To",
+        "dateRangeLabel": "Date range",
+        "dateRangePlaceholder": "Filter by date",
+        "dateRangePresets": "Presets",
+        "dateRangeToday": "Today",
+        "dateRangeLast7Days": "Last 7 days",
+        "dateRangeThisMonth": "This month",
+        "dateRangeLastMonth": "Last month",
+        "dateRangeClear": "Clear",
+        "dateRangeApply": "Apply range",
+        "dateRangePreviousMonth": "Previous month",
+        "dateRangeNextMonth": "Next month",
+        "reset": "Reset filters"
+      },
+      "status": {
+        "PENDING_PAYMENT": "Pending payment",
+        "CONFIRMED": "Confirmed",
+        "IN_PROGRESS": "In progress",
+        "COMPLETED": "Completed",
+        "NO_SHOW": "No-show",
+        "CANCELLED_BY_CUSTOMER": "Cancelled by client",
+        "CANCELLED_BY_BRAIDER": "Cancelled by you",
+        "CANCELLED_NO_PAYMENT": "Cancelled (unpaid)",
+        "EXPIRED": "Expired",
+        "DISPUTED": "Disputed"
+      },
+      "table": {
+        "styleColumn": "Style",
+        "customerColumn": "Client",
+        "dateColumn": "Date & time",
+        "statusColumn": "Status",
+        "totalColumn": "Total"
+      },
+      "empty": {
+        "title": "No bookings yet",
+        "description": "Bookings will show up here once clients start booking your services."
+      },
+      "noResults": "No bookings match your filters.",
+      "loadError": "We couldn't load your bookings. Please try again.",
+      "pagination": {
+        "summary": "Page {page} of {totalPages} · {totalItems} bookings",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "detail": {
+        "title": "Booking details",
+        "reference": "Reference",
+        "customer": "Client",
+        "style": "Style",
+        "duration": "Duration",
+        "durationMinutes": "{minutes} min",
+        "location": "Location",
+        "mobileService": "Mobile service — travels to the client",
+        "studioService": "At your location",
+        "schedule": "Schedule",
+        "itemsTitle": "Price breakdown",
+        "itemTypes": {
+          "SERVICE": "Service",
+          "VARIATION": "Variation",
+          "ADDON": "Add-on",
+          "TRAVEL": "Travel fee",
+          "PLATFORM_FEE": "Platform fee",
+          "VAT_SERVICE": "VAT (service)",
+          "VAT_PLATFORM_FEE": "VAT (platform fee)"
+        },
+        "serviceSubtotal": "Service subtotal",
+        "travelFee": "Travel fee",
+        "subtotal": "Subtotal",
+        "platformFee": "Platform fee",
+        "vatOnService": "VAT on service",
+        "vatOnPlatformFee": "VAT on platform fee",
+        "vatTotal": "Total VAT",
+        "total": "Total",
+        "depositAmount": "Deposit",
+        "balanceAmount": "Balance",
+        "paymentSchedule": "Payment schedule",
+        "paymentScheduleValues": {
+          "FULL_UPFRONT": "Full payment upfront",
+          "DEPOSIT_THEN_BALANCE": "Deposit, then balance"
+        },
+        "cancellationCutoff": "Free cancellation until",
+        "paymentsTitle": "Payments",
+        "paymentPurpose": {
+          "FULL": "Full payment",
+          "DEPOSIT": "Deposit",
+          "BALANCE": "Balance"
+        },
+        "paymentStatus": {
+          "PENDING": "Pending",
+          "SUCCEEDED": "Paid",
+          "FAILED": "Failed",
+          "CANCELED": "Canceled"
+        },
+        "createdAt": "Booked on",
+        "close": "Close"
+      }
     }
-  },
-  "bookings": {
-    "title": "Booking Page"
   },
   "payment": {
     "title": "Payment"

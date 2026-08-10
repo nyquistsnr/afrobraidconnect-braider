@@ -41,6 +41,8 @@
       "styleAlreadyAdded": "Sie haben diesen Stil bereits zu Ihrem Angebot hinzugefügt.",
       "invalidStyleVariation": "Eine der ausgewählten Varianten ist für diesen Stil nicht gültig.",
       "invalidAddon": "Eines der ausgewählten Extras ist nicht gültig.",
+      "bookingNotFound": "Diese Buchung konnte nicht gefunden werden.",
+      "invalidBookingDateRange": "Das Enddatum muss am oder nach dem Startdatum liegen.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "toasts": {
@@ -155,10 +157,113 @@
       "phoneLabel": "Telefonnummer",
       "saveButton": "Änderungen speichern",
       "successToast": "Profil erfolgreich aktualisiert."
+    },
+    "bookings": {
+      "title": "Buchungen",
+      "subtitle": "Sehen und verwalten Sie Ihre bevorstehenden und vergangenen Termine.",
+      "filters": {
+        "searchLabel": "Suche",
+        "searchPlaceholder": "Nach Kunde oder Stil suchen…",
+        "statusLabel": "Status",
+        "statusAll": "Alle Status",
+        "dateFromLabel": "Von",
+        "dateToLabel": "Bis",
+        "dateRangeLabel": "Zeitraum",
+        "dateRangePlaceholder": "Nach Datum filtern",
+        "dateRangePresets": "Schnellauswahl",
+        "dateRangeToday": "Heute",
+        "dateRangeLast7Days": "Letzte 7 Tage",
+        "dateRangeThisMonth": "Dieser Monat",
+        "dateRangeLastMonth": "Letzter Monat",
+        "dateRangeClear": "Löschen",
+        "dateRangeApply": "Übernehmen",
+        "dateRangePreviousMonth": "Vorheriger Monat",
+        "dateRangeNextMonth": "Nächster Monat",
+        "reset": "Filter zurücksetzen"
+      },
+      "status": {
+        "PENDING_PAYMENT": "Zahlung ausstehend",
+        "CONFIRMED": "Bestätigt",
+        "IN_PROGRESS": "In Bearbeitung",
+        "COMPLETED": "Abgeschlossen",
+        "NO_SHOW": "Nicht erschienen",
+        "CANCELLED_BY_CUSTOMER": "Vom Kunden storniert",
+        "CANCELLED_BY_BRAIDER": "Von Ihnen storniert",
+        "CANCELLED_NO_PAYMENT": "Storniert (unbezahlt)",
+        "EXPIRED": "Abgelaufen",
+        "DISPUTED": "Angefochten"
+      },
+      "table": {
+        "styleColumn": "Stil",
+        "customerColumn": "Kunde",
+        "dateColumn": "Datum & Uhrzeit",
+        "statusColumn": "Status",
+        "totalColumn": "Gesamt"
+      },
+      "empty": {
+        "title": "Noch keine Buchungen",
+        "description": "Buchungen erscheinen hier, sobald Kunden Ihre Leistungen buchen."
+      },
+      "noResults": "Keine Buchungen entsprechen Ihren Filtern.",
+      "loadError": "Ihre Buchungen konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+      "pagination": {
+        "summary": "Seite {page} von {totalPages} · {totalItems} Buchungen",
+        "previous": "Zurück",
+        "next": "Weiter"
+      },
+      "detail": {
+        "title": "Buchungsdetails",
+        "reference": "Referenz",
+        "customer": "Kunde",
+        "style": "Stil",
+        "duration": "Dauer",
+        "durationMinutes": "{minutes} Min.",
+        "location": "Ort",
+        "mobileService": "Mobiler Service — Sie fahren zum Kunden",
+        "studioService": "An Ihrem Standort",
+        "schedule": "Zeitplan",
+        "itemsTitle": "Preisaufschlüsselung",
+        "itemTypes": {
+          "SERVICE": "Leistung",
+          "VARIATION": "Variante",
+          "ADDON": "Extra",
+          "TRAVEL": "Reisegebühr",
+          "PLATFORM_FEE": "Plattformgebühr",
+          "VAT_SERVICE": "MwSt. (Leistung)",
+          "VAT_PLATFORM_FEE": "MwSt. (Plattformgebühr)"
+        },
+        "serviceSubtotal": "Zwischensumme Leistung",
+        "travelFee": "Reisegebühr",
+        "subtotal": "Zwischensumme",
+        "platformFee": "Plattformgebühr",
+        "vatOnService": "MwSt. auf Leistung",
+        "vatOnPlatformFee": "MwSt. auf Plattformgebühr",
+        "vatTotal": "MwSt. gesamt",
+        "total": "Gesamt",
+        "depositAmount": "Anzahlung",
+        "balanceAmount": "Restbetrag",
+        "paymentSchedule": "Zahlungsplan",
+        "paymentScheduleValues": {
+          "FULL_UPFRONT": "Vollständige Vorauszahlung",
+          "DEPOSIT_THEN_BALANCE": "Anzahlung, dann Restbetrag"
+        },
+        "cancellationCutoff": "Kostenlose Stornierung bis",
+        "paymentsTitle": "Zahlungen",
+        "paymentPurpose": {
+          "FULL": "Vollzahlung",
+          "DEPOSIT": "Anzahlung",
+          "BALANCE": "Restbetrag"
+        },
+        "paymentStatus": {
+          "PENDING": "Ausstehend",
+          "SUCCEEDED": "Bezahlt",
+          "FAILED": "Fehlgeschlagen",
+          "CANCELED": "Storniert"
+        },
+        "createdAt": "Gebucht am",
+        "close": "Schließen"
+      }
     }
-  },
-  "bookings": {
-    "title": "Buchungsseite"
   },
   "payment": {
     "title": "Zahlung"

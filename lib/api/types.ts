@@ -497,3 +497,124 @@ export interface BraiderStyleResponse {
   variations: BraiderStyleVariationResponse[];
   addons: BraiderStyleAddonResponse[];
 }
+
+// ---------------------------------------------------------------------------
+// Braider Bookings
+// ---------------------------------------------------------------------------
+
+export type BookingStatus =
+  | "PENDING_PAYMENT"
+  | "CONFIRMED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "NO_SHOW"
+  | "CANCELLED_BY_CUSTOMER"
+  | "CANCELLED_BY_BRAIDER"
+  | "CANCELLED_NO_PAYMENT"
+  | "EXPIRED"
+  | "DISPUTED";
+
+export type PaymentSchedule = "FULL_UPFRONT" | "DEPOSIT_THEN_BALANCE";
+
+export type PaymentPurpose = "FULL" | "DEPOSIT" | "BALANCE";
+
+export type PaymentStatus = "PENDING" | "SUCCEEDED" | "FAILED" | "CANCELED";
+
+export type BookingItemType =
+  | "SERVICE"
+  | "VARIATION"
+  | "ADDON"
+  | "TRAVEL"
+  | "PLATFORM_FEE"
+  | "VAT_SERVICE"
+  | "VAT_PLATFORM_FEE";
+
+export type Currency = "EUR";
+
+export interface BookingListItemResponse {
+  id: string;
+  reference: string;
+  status: BookingStatus;
+  braider_id: string;
+  braider_name: string;
+  customer_name: string;
+  style_name: string;
+  starts_at: string;
+  ends_at: string;
+  total: string;
+  currency: Currency;
+}
+
+// Note: pagination fields are flat here, not nested under `pagination` like
+// PaginatedData<T> — this endpoint's envelope shape differs from the catalog
+// endpoints.
+export interface BookingListResponse {
+  items: BookingListItemResponse[];
+  page: number;
+  page_size: number;
+  total_items: number;
+  total_pages: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
+
+export interface BookingListParams {
+  status?: BookingStatus;
+  date_from?: string;
+  date_to?: string;
+  search?: string;
+  page?: number;
+  page_size?: number;
+}
+
+export interface BookingLineItemResponse {
+  item_type: BookingItemType;
+  name: string | null;
+  quantity: number;
+  unit_amount: string;
+  line_amount: string;
+  is_required: boolean;
+}
+
+export interface BookingPaymentResponse {
+  purpose: PaymentPurpose;
+  status: PaymentStatus;
+  amount: string;
+  currency: Currency;
+  client_secret?: string | null;
+}
+
+export interface BookingDetailResponse {
+  id: string;
+  reference: string;
+  status: BookingStatus;
+  braider_id: string;
+  braider_name: string;
+  customer_name: string;
+  style_id: string;
+  style_name: string;
+  duration_minutes: number;
+  is_mobile: boolean;
+  client_address: string | null;
+  client_latitude: string | null;
+  client_longitude: string | null;
+  country: string;
+  currency: Currency;
+  starts_at: string;
+  ends_at: string;
+  items: BookingLineItemResponse[];
+  service_subtotal: string;
+  travel_fee: string;
+  subtotal: string;
+  platform_fee: string;
+  vat_on_service: string;
+  vat_on_platform_fee: string;
+  vat_total: string;
+  total: string;
+  deposit_amount: string;
+  balance_amount: string;
+  payment_schedule: PaymentSchedule;
+  cancellation_cutoff_at: string;
+  payments: BookingPaymentResponse[];
+  created_at: string;
+}

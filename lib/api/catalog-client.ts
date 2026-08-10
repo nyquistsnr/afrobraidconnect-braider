@@ -68,6 +68,9 @@ export const catalogApi = {
     );
   },
 
+  getStyle: (styleId: string, lang?: Locale) =>
+    get<StylePublicResponse>(`/styles/${styleId}`, lang),
+
   getAddons: (lang?: Locale) =>
     get<AddOnPublicResponse[]>("/addons", lang),
 };

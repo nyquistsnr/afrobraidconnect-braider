@@ -214,6 +214,12 @@ export const onboardingApi = {
       accessToken,
     }),
 
+  deleteService: (accessToken: string, braiderStyleId: string) =>
+    request<void>(`/services/${braiderStyleId}`, {
+      method: "DELETE",
+      accessToken,
+    }),
+
   getPortfolio: (accessToken: string) =>
     request<PortfolioResponse>("/portfolio", { accessToken }),
 
