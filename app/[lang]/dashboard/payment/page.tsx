@@ -26,8 +26,17 @@ export default async function PaymentPage(props: {
 
   const dict = await getDictionary(lang);
 
-  const dateFrom = searchParams.date_from;
-  const dateTo = searchParams.date_to;
+  // Default to past 90 days if no date filter is applied
+  let dateFrom = searchParams.date_from;
+  let dateTo = searchParams.date_to;
+
+  if (!dateFrom || !dateTo) {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(end.getDate() - 90);
+    dateFrom = start.toISOString().split('T')[0];
+    dateTo = end.toISOString().split('T')[0];
+  }
 
   // Fetch all payment data in parallel
   const [paymentStatsRes, timeseriesRes, paymentsListRes] = await Promise.all([

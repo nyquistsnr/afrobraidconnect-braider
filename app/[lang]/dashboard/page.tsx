@@ -29,8 +29,17 @@ export default async function DashboardPage(props: {
   const dict = await getDictionary(lang);
   const homeDict = dict.dashboard.home as any;
   
-  const dateFrom = searchParams.date_from;
-  const dateTo = searchParams.date_to;
+  // Default to past 90 days if no date filter is applied
+  let dateFrom = searchParams.date_from;
+  let dateTo = searchParams.date_to;
+
+  if (!dateFrom || !dateTo) {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(end.getDate() - 90);
+    dateFrom = start.toISOString().split('T')[0];
+    dateTo = end.toISOString().split('T')[0];
+  }
 
   // Fetch all dashboard data concurrently
   const [

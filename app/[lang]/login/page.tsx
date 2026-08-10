@@ -15,7 +15,7 @@ export default async function LoginPage({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (session) {
+  if (session && session.error !== "RefreshAccessTokenError") {
     redirect(`/${lang}/dashboard`);
   }
 

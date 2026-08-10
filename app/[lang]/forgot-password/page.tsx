@@ -12,7 +12,7 @@ export default async function ForgotPasswordPage({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (session) {
+  if (session && session.error !== "RefreshAccessTokenError") {
     redirect(`/${lang}/dashboard`);
   }
 

@@ -14,7 +14,7 @@ export default async function VerifyEmailPage({
   if (!hasLocale(lang)) notFound();
 
   const session = await auth();
-  if (session) {
+  if (session && session.error !== "RefreshAccessTokenError") {
     redirect(`/${lang}/dashboard`);
   }
 

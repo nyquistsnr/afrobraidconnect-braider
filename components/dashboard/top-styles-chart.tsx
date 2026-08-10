@@ -30,12 +30,38 @@ const COLORS = [
 
 export function TopStylesChart({ data, title }: TopStylesChartProps) {
   const chartData = useMemo(() => {
-    return data.slices.map((slice, index) => ({
+    const MAX_STYLES = 5;
+
+    if (data.slices.length <= MAX_STYLES) {
+      return data.slices.map((slice, index) => ({
+        name: slice.style_name,
+        value: parseFloat(slice.revenue),
+        percentage: parseFloat(slice.revenue_share),
+        fill: slice.style_id === null ? "#94a3b8" : COLORS[index % (COLORS.length - 1)],
+      }));
+    }
+
+    const topSlices = data.slices.slice(0, MAX_STYLES);
+    const otherSlices = data.slices.slice(MAX_STYLES);
+
+    const chartItems = topSlices.map((slice, index) => ({
       name: slice.style_name,
       value: parseFloat(slice.revenue),
       percentage: parseFloat(slice.revenue_share),
       fill: slice.style_id === null ? "#94a3b8" : COLORS[index % (COLORS.length - 1)],
     }));
+
+    const otherRevenue = otherSlices.reduce((sum, slice) => sum + parseFloat(slice.revenue), 0);
+    const otherPercentage = otherSlices.reduce((sum, slice) => sum + parseFloat(slice.revenue_share), 0);
+
+    chartItems.push({
+      name: `+${otherSlices.length} others`,
+      value: otherRevenue,
+      percentage: Number(otherPercentage.toFixed(1)),
+      fill: "#94a3b8",
+    });
+
+    return chartItems;
   }, [data]);
 
   const currencySymbol = data.currency === "EUR" ? "€" : data.currency;
@@ -54,7 +80,7 @@ export function TopStylesChart({ data, title }: TopStylesChartProps) {
       <div className="mb-6">
         <h3 className="text-lg font-medium">{title}</h3>
       </div>
-      <div className="h-[300px] w-full">
+      <div className="h-[350px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -78,7 +104,7 @@ export function TopStylesChart({ data, title }: TopStylesChartProps) {
               ]}
               contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />
-            <Legend verticalAlign="bottom" height={36} iconType="circle" />
+            <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
           </PieChart>
         </ResponsiveContainer>
       </div>
