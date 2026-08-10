@@ -1,12 +1,19 @@
 "use client";
 
 import React from "react";
-import { Clock3, CreditCard, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { Clock3, CreditCard, MapPin, MessageSquare } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type { BookingDetailResponse, BookingStatus } from "@/lib/api/types";
 import { formatCurrency, formatDate, formatTime } from "@/lib/format";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { chatApi } from "@/lib/api/chat-client";
+import { getAuthErrorMessage } from "@/lib/api/error-messages";
 
 type BookingsDict = Dictionary["dashboard"]["bookings"];
 
@@ -46,13 +53,28 @@ export function BookingDetail({
   booking,
   lang,
   dict,
+  common,
 }: {
   booking: BookingDetailResponse;
   lang: Locale;
   dict: BookingsDict;
+  common: Dictionary["common"];
 }) {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const accessToken = session?.accessToken;
   const d = dict.detail;
   const hasDeposit = booking.payment_schedule === "DEPOSIT_THEN_BALANCE";
+  // Chat opens once a successful payment exists — stays available even if
+  // the booking is later cancelled — so gate on payment history rather than
+  // surfacing the backend's CHAT_NOT_AVAILABLE error.
+  const canChat = booking.payments.some((payment) => payment.status === "SUCCEEDED");
+
+  const openChatMutation = useMutation({
+    mutationFn: () => chatApi.getBookingThread(accessToken!, booking.id, lang),
+    onSuccess: (thread) => router.push(`/${lang}/dashboard/chat/${thread.id}`),
+    onError: (error: Error) => toast.error(getAuthErrorMessage(error.message, common.errors)),
+  });
 
   return (
     <div className="space-y-6">
@@ -63,7 +85,21 @@ export function BookingDetail({
             {booking.reference}
           </p>
         </div>
-        <StatusBadge status={booking.status} dict={dict.status} />
+        <div className="flex items-center gap-2">
+          <StatusBadge status={booking.status} dict={dict.status} />
+          {canChat && (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-auto"
+              disabled={openChatMutation.isPending}
+              onClick={() => openChatMutation.mutate()}
+            >
+              <MessageSquare className="size-4" />
+              {d.chatButton}
+            </Button>
+          )}
+        </div>
       </div>
 
       <section className="border border-border">

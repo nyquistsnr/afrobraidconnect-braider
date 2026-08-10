@@ -48,7 +48,12 @@ export default async function BookingDetailPage({
       </div>
 
       <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
-        <BookingDetail booking={booking} lang={lang} dict={dict.dashboard.bookings} />
+        <BookingDetail
+          booking={booking}
+          lang={lang}
+          dict={dict.dashboard.bookings}
+          common={dict.common}
+        />
       </div>
     </div>
   );

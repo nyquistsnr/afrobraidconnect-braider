@@ -8,6 +8,7 @@ import type { Dictionary } from "@/app/[lang]/dictionaries";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { LogoutConfirmModal } from "@/components/dashboard/logout-confirm-modal";
+import { RealtimeProvider } from "@/lib/realtime/realtime-provider";
 
 export function DashboardShell({
   lang,
@@ -46,6 +47,8 @@ export function DashboardShell({
 
   return (
     <div className="flex h-screen">
+      <RealtimeProvider />
+
       <Sidebar
         lang={lang}
         dict={dict.sidebar}

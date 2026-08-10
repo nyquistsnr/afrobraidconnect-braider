@@ -195,6 +195,13 @@
       "invalidAddon": "L'un des suppléments sélectionnés n'est pas valide.",
       "bookingNotFound": "Cette réservation est introuvable.",
       "invalidBookingDateRange": "La date de fin doit être postérieure ou égale à la date de début.",
+      "invalidChatLocale": "Cette langue n'est pas prise en charge.",
+      "chatNotAvailable": "Le chat s'ouvre une fois le paiement de cette réservation effectué.",
+      "chatThreadNotFound": "Cette conversation est introuvable.",
+      "chatAccessDenied": "Vous n'avez pas accès à cette conversation.",
+      "chatMessageNotFound": "Ce message est introuvable.",
+      "notificationNotFound": "Cette notification est introuvable.",
+      "invalidDateRange": "La date de fin doit être postérieure ou égale à la date de début.",
       "generic": "Une erreur s'est produite. Veuillez réessayer."
     },
     "toasts": {
@@ -288,7 +295,10 @@
     "header": {
       "notifications": "Notifications",
       "messages": "Messages",
-      "logout": "Déconnexion"
+      "logout": "Déconnexion",
+      "notificationsEmpty": "Aucune notification pour le moment.",
+      "notificationsLoadError": "Impossible de charger vos notifications.",
+      "markAllRead": "Tout marquer comme lu"
     },
     "logoutModal": {
       "title": "Déconnexion ?",
@@ -308,7 +318,10 @@
       "lastNamePlaceholder": "ex: Nwosu",
       "phoneLabel": "Numéro de téléphone",
       "saveButton": "Enregistrer",
-      "successToast": "Profil mis à jour avec succès."
+      "successToast": "Profil mis à jour avec succès.",
+      "chatLocaleLabel": "Langue du chat",
+      "chatLocaleHint": "Utilisée pour traduire automatiquement les messages entre vous et vos clients.",
+      "chatLocaleUnset": "Non définie"
     },
     "bookings": {
       "title": "Réservations",
@@ -413,7 +426,8 @@
           "CANCELED": "Annulé"
         },
         "createdAt": "Réservé le",
-        "close": "Fermer"
+        "close": "Fermer",
+        "chatButton": "Discuter avec le client"
       },
       "stats": {
         "totalBookings": "Total des réservations",
@@ -456,7 +470,56 @@
     "title": "Paramètres"
   },
   "chat": {
-    "title": "Chat"
+    "title": "Chat",
+    "inbox": {
+      "subtitle": "Conversations avec vos clients.",
+      "empty": "Aucune conversation pour le moment.",
+      "emptyDescription": "Les conversations s'ouvrent automatiquement une fois la réservation d'un client payée.",
+      "loadError": "Impossible de charger vos conversations. Veuillez réessayer.",
+      "flaggedPreview": "Message retenu",
+      "paginationSummary": "Page {page} sur {totalPages}",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "thread": {
+      "backToInbox": "Retour aux conversations",
+      "loadError": "Impossible de charger cette conversation. Veuillez réessayer.",
+      "loadEarlier": "Charger les messages précédents",
+      "composerPlaceholder": "Écrire un message…",
+      "send": "Envoyer",
+      "sendError": "Votre message n'a pas pu être envoyé. Veuillez réessayer.",
+      "charLimit": "{count}/2000",
+      "translatedFrom": "Traduit depuis le {locale} · ",
+      "seeOriginal": "voir l'original",
+      "seeTranslation": "voir la traduction",
+      "reportAction": "Signaler",
+      "you": "Vous"
+    },
+    "report": {
+      "title": "Signaler cette conversation",
+      "reasonLabel": "Motif",
+      "reasons": {
+        "HARASSMENT": "Harcèlement",
+        "INAPPROPRIATE_CONTENT": "Contenu inapproprié",
+        "SPAM": "Spam",
+        "SCAM_OR_FRAUD": "Arnaque ou fraude",
+        "OFF_PLATFORM_SOLICITATION": "Demande de paiement ou de communication hors application",
+        "OTHER": "Autre"
+      },
+      "detailsLabel": "Détails supplémentaires (facultatif)",
+      "detailsPlaceholder": "Tout ce qui pourrait aider notre équipe à examiner ceci…",
+      "cancel": "Annuler",
+      "submit": "Envoyer le signalement",
+      "success": "Merci — notre équipe va examiner cette conversation.",
+      "error": "Votre signalement n'a pas pu être envoyé. Veuillez réessayer."
+    },
+    "localeBanner": {
+      "title": "Définissez votre langue de chat",
+      "description": "Nous traduirons automatiquement les messages lorsque vous et votre client écrivez dans des langues différentes.",
+      "placeholder": "Choisir une langue",
+      "save": "Enregistrer",
+      "success": "Langue du chat mise à jour."
+    }
   },
   "availability": {
     "title": "Disponibilité"

@@ -1,14 +1,17 @@
 "use client";
 
-import { Bell, MessageSquare, LogOut, Menu } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { MessageSquare, LogOut, Menu, type LucideIcon } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
+import { chatApi } from "@/lib/api/chat-client";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { LanguageSwitcher } from "@/components/language/language-switcher";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
-// Placeholder counts until notifications/messages are wired up to real data.
-const NOTIFICATION_COUNT = 3;
-const MESSAGE_COUNT = 5;
+const THREADS_LOOKUP_PAGE_SIZE = 100;
 
 function IconButton({
   icon: Icon,
@@ -16,7 +19,7 @@ function IconButton({
   count,
   onClick,
 }: {
-  icon: typeof Bell;
+  icon: LucideIcon;
   label: string;
   count?: number;
   onClick?: () => void;
@@ -51,6 +54,21 @@ export function DashboardHeader({
   onMenuClick: () => void;
   onLogoutClick: () => void;
 }) {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const accessToken = session?.accessToken;
+
+  // Approximation, not an exact total — there's no dedicated aggregate-count
+  // endpoint, so this sums unread_count across the first page of threads.
+  const threadsQuery = useQuery({
+    queryKey: ["chat-threads", { page: 1, page_size: THREADS_LOOKUP_PAGE_SIZE }],
+    queryFn: () =>
+      chatApi.listThreads(accessToken!, lang, { page: 1, page_size: THREADS_LOOKUP_PAGE_SIZE }),
+    enabled: !!accessToken,
+  });
+  const unreadMessageCount =
+    threadsQuery.data?.items.reduce((sum, thread) => sum + thread.unread_count, 0) ?? 0;
+
   return (
     <header className="flex h-16 shrink-0 items-center gap-1 border-b border-border bg-surface px-3 sm:gap-2 sm:px-6">
       <button
@@ -65,8 +83,13 @@ export function DashboardHeader({
       <div className="flex-1" />
 
       <div className="flex items-center gap-0.5 sm:gap-2">
-        <IconButton icon={Bell} label={dict.notifications} count={NOTIFICATION_COUNT} />
-        <IconButton icon={MessageSquare} label={dict.messages} count={MESSAGE_COUNT} />
+        <NotificationBell lang={lang} dict={dict} />
+        <IconButton
+          icon={MessageSquare}
+          label={dict.messages}
+          count={unreadMessageCount}
+          onClick={() => router.push(`/${lang}/dashboard/chat`)}
+        />
 
         <div className="mx-1 h-6 w-px bg-border sm:mx-2" />
 

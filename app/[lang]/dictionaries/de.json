@@ -195,6 +195,13 @@
       "invalidAddon": "Eines der ausgewählten Extras ist nicht gültig.",
       "bookingNotFound": "Diese Buchung konnte nicht gefunden werden.",
       "invalidBookingDateRange": "Das Enddatum muss am oder nach dem Startdatum liegen.",
+      "invalidChatLocale": "Diese Sprache wird nicht unterstützt.",
+      "chatNotAvailable": "Der Chat wird verfügbar, sobald die Zahlung für diese Buchung eingegangen ist.",
+      "chatThreadNotFound": "Diese Unterhaltung konnte nicht gefunden werden.",
+      "chatAccessDenied": "Sie haben keinen Zugriff auf diese Unterhaltung.",
+      "chatMessageNotFound": "Diese Nachricht konnte nicht gefunden werden.",
+      "notificationNotFound": "Diese Benachrichtigung konnte nicht gefunden werden.",
+      "invalidDateRange": "Das Enddatum muss am oder nach dem Startdatum liegen.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "toasts": {
@@ -288,7 +295,10 @@
     "header": {
       "notifications": "Benachrichtigungen",
       "messages": "Nachrichten",
-      "logout": "Abmelden"
+      "logout": "Abmelden",
+      "notificationsEmpty": "Noch keine Benachrichtigungen.",
+      "notificationsLoadError": "Ihre Benachrichtigungen konnten nicht geladen werden.",
+      "markAllRead": "Alle als gelesen markieren"
     },
     "logoutModal": {
       "title": "Abmelden?",
@@ -308,7 +318,10 @@
       "lastNamePlaceholder": "z.B. Nwosu",
       "phoneLabel": "Telefonnummer",
       "saveButton": "Änderungen speichern",
-      "successToast": "Profil erfolgreich aktualisiert."
+      "successToast": "Profil erfolgreich aktualisiert.",
+      "chatLocaleLabel": "Chat-Sprache",
+      "chatLocaleHint": "Wird verwendet, um Chat-Nachrichten zwischen Ihnen und Kunden automatisch zu übersetzen.",
+      "chatLocaleUnset": "Nicht festgelegt"
     },
     "bookings": {
       "title": "Buchungen",
@@ -413,7 +426,8 @@
           "CANCELED": "Storniert"
         },
         "createdAt": "Gebucht am",
-        "close": "Schließen"
+        "close": "Schließen",
+        "chatButton": "Mit Kunde chatten"
       },
       "stats": {
         "totalBookings": "Buchungen insgesamt",
@@ -456,7 +470,56 @@
     "title": "Einstellungen"
   },
   "chat": {
-    "title": "Chat"
+    "title": "Chat",
+    "inbox": {
+      "subtitle": "Unterhaltungen mit Ihren Kunden.",
+      "empty": "Noch keine Unterhaltungen.",
+      "emptyDescription": "Unterhaltungen werden automatisch eröffnet, sobald die Buchung eines Kunden bezahlt ist.",
+      "loadError": "Ihre Unterhaltungen konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+      "flaggedPreview": "Nachricht zurückgehalten",
+      "paginationSummary": "Seite {page} von {totalPages}",
+      "previous": "Zurück",
+      "next": "Weiter"
+    },
+    "thread": {
+      "backToInbox": "Zurück zu den Unterhaltungen",
+      "loadError": "Diese Unterhaltung konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
+      "loadEarlier": "Frühere Nachrichten laden",
+      "composerPlaceholder": "Nachricht schreiben…",
+      "send": "Senden",
+      "sendError": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+      "charLimit": "{count}/2000",
+      "translatedFrom": "Übersetzt aus dem {locale} · ",
+      "seeOriginal": "Original anzeigen",
+      "seeTranslation": "Übersetzung anzeigen",
+      "reportAction": "Melden",
+      "you": "Sie"
+    },
+    "report": {
+      "title": "Diese Unterhaltung melden",
+      "reasonLabel": "Grund",
+      "reasons": {
+        "HARASSMENT": "Belästigung",
+        "INAPPROPRIATE_CONTENT": "Unangemessene Inhalte",
+        "SPAM": "Spam",
+        "SCAM_OR_FRAUD": "Betrug",
+        "OFF_PLATFORM_SOLICITATION": "Aufforderung zu Zahlung oder Kommunikation außerhalb der App",
+        "OTHER": "Sonstiges"
+      },
+      "detailsLabel": "Weitere Details (optional)",
+      "detailsPlaceholder": "Alles, was unserem Team bei der Prüfung hilft…",
+      "cancel": "Abbrechen",
+      "submit": "Meldung senden",
+      "success": "Danke — unser Team wird diese Unterhaltung prüfen.",
+      "error": "Ihre Meldung konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    },
+    "localeBanner": {
+      "title": "Legen Sie Ihre Chat-Sprache fest",
+      "description": "Wir übersetzen Nachrichten automatisch, wenn Sie und Ihr Kunde in unterschiedlichen Sprachen schreiben.",
+      "placeholder": "Sprache wählen",
+      "save": "Speichern",
+      "success": "Chat-Sprache aktualisiert."
+    }
   },
   "availability": {
     "title": "Verfügbarkeit"

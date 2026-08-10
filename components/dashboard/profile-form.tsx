@@ -7,12 +7,14 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
+import { locales, localeNames } from "@/lib/i18n";
 import type { UserPublic, UserProfileUpdateRequest } from "@/lib/api/types";
 import { usersApi } from "@/lib/api/users-client";
 import { getAuthErrorMessage } from "@/lib/api/error-messages";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { Select, type SelectOption } from "@/components/ui/select";
 
 export function ProfileForm({
   user,
@@ -31,6 +33,9 @@ export function ProfileForm({
 }) {
   const router = useRouter();
   const [phone, setPhone] = useState<string | undefined>(user.phone_number || undefined);
+  const [chatLocale, setChatLocale] = useState<Locale | "">(
+    (user.chat_locale as Locale) || ""
+  );
 
   const updateMutation = useMutation({
     mutationFn: async (updates: UserProfileUpdateRequest) => {
@@ -69,6 +74,10 @@ export function ProfileForm({
       updates.phone_number = formattedPhone || null;
     }
 
+    if (chatLocale !== (user.chat_locale ?? "")) {
+      updates.chat_locale = chatLocale;
+    }
+
     if (Object.keys(updates).length > 0) {
       updateMutation.mutate(updates);
     } else {
@@ -76,6 +85,11 @@ export function ProfileForm({
       toast.success(dict.successToast);
     }
   }
+
+  const chatLocaleOptions: SelectOption<Locale>[] = locales.map((locale) => ({
+    value: locale,
+    label: localeNames[locale],
+  }));
 
   return (
     <form className="space-y-8" onSubmit={handleSubmit}>
@@ -137,6 +151,20 @@ export function ProfileForm({
             disabled
             className="opacity-70 cursor-not-allowed"
           />
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <Select
+              label={dict.chatLocaleLabel}
+              showLabel
+              value={chatLocale}
+              onChange={setChatLocale}
+              placeholder={dict.chatLocaleUnset}
+              options={chatLocaleOptions}
+            />
+            <p className="mt-1.5 text-xs text-muted-foreground">{dict.chatLocaleHint}</p>
+          </div>
         </div>
       </div>
 
