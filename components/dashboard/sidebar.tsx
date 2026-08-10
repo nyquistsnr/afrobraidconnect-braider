@@ -15,8 +15,7 @@ import {
   Clock,
   MapPin,
   Scissors,
-  ListChecks,
-  Home
+  ListChecks
 } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
@@ -62,12 +61,6 @@ export function Sidebar({
   }, [open, onClose]);
 
   const navItems = [
-    {
-      href: `/${lang}`,
-      label: dict.home || "Home",
-      icon: Home,
-      active: pathname === `/${lang}`,
-    },
     {
       href: `/${lang}/dashboard`,
       label: dict.dashboard,
