@@ -44,6 +44,61 @@
         "step7": { "title": "Disponibilité", "description": "Choisissez vos heures de travail." },
         "step8": { "title": "Configuration du Paiement", "description": "Connectez-vous avec Stripe pour recevoir des paiements sécurisés." }
       }
+    },
+    "statistics": {
+      "stats": [
+        { "value": "500+", "label": "Tresseuses Actives" },
+        { "value": "50+", "label": "Villes Couvertes" },
+        { "value": "10k+", "label": "Clients Satisfaits" }
+      ]
+    },
+    "testimonials": {
+      "title": "Apprécié par les Tresseuses",
+      "subtitle": "Découvrez ce que les professionnelles disent d'Afrobraid Connect.",
+      "cards": [
+        {
+          "name": "Aisha T.",
+          "location": "Berlin",
+          "quote": "Afrobraid Connect a complètement transformé mon activité. J'ai plus de clients que jamais, et j'adore avoir le contrôle de mon propre emploi du temps."
+        },
+        {
+          "name": "Sarah K.",
+          "location": "Paris",
+          "quote": "La plateforme rend la gestion des réservations et des paiements très simple. Je n'ai plus à courir après les clients pour les acomptes !"
+        },
+        {
+          "name": "Joy M.",
+          "location": "Munich",
+          "quote": "J'ai rejoint il y a trois mois, et mes revenus ont doublé. Les clients que j'obtiens ici respectent mon travail et mon temps."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Foire Aux Questions",
+      "subtitle": "Tout ce que vous devez savoir avant de rejoindre la plateforme.",
+      "items": [
+        {
+          "question": "Combien coûte l'inscription ?",
+          "answer": "S'inscrire et lister vos services est totalement gratuit. Nous ne prenons qu'une petite commission transparente lorsque vous effectuez une réservation."
+        },
+        {
+          "question": "Comment suis-je payée ?",
+          "answer": "Les paiements sont traités en toute sécurité via Stripe. Une fois le service terminé, les fonds sont automatiquement transférés sur votre compte bancaire."
+        },
+        {
+          "question": "Puis-je définir mes propres horaires ?",
+          "answer": "Oui ! Vous avez le contrôle total de votre calendrier. Vous décidez quand vous êtes disponible et pouvez le modifier à tout moment."
+        },
+        {
+          "question": "Que se passe-t-il si un client annule ?",
+          "answer": "Vous définissez votre propre politique d'annulation. Si un client annule tardivement, vous recevrez une partie du paiement selon vos règles."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Prête à développer votre activité de coiffure ?",
+      "subtitle": "Rejoignez des centaines de professionnelles qui gagnent bien leur vie selon leurs propres conditions.",
+      "button": "Rejoindre Afrobraid Connect"
     }
   },
   "footer": {

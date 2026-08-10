@@ -44,6 +44,61 @@
         "step7": { "title": "Availability", "description": "Choose your working hours." },
         "step8": { "title": "Payment Setup", "description": "Connect with Stripe to receive secure payouts." }
       }
+    },
+    "statistics": {
+      "stats": [
+        { "value": "500+", "label": "Active Braiders" },
+        { "value": "50+", "label": "Cities Covered" },
+        { "value": "10k+", "label": "Happy Clients" }
+      ]
+    },
+    "testimonials": {
+      "title": "Loved by Braiders",
+      "subtitle": "See what professionals are saying about Afrobraid Connect.",
+      "cards": [
+        {
+          "name": "Aisha T.",
+          "location": "Berlin",
+          "quote": "Afrobraid Connect completely transformed my business. I have more clients than ever, and I love having control over my own schedule."
+        },
+        {
+          "name": "Sarah K.",
+          "location": "Paris",
+          "quote": "The platform makes managing bookings and payments effortless. I don't have to chase clients for deposits anymore!"
+        },
+        {
+          "name": "Joy M.",
+          "location": "Munich",
+          "quote": "I joined three months ago, and my revenue has doubled. The clients I get from here respect my work and time."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about joining the platform.",
+      "items": [
+        {
+          "question": "How much does it cost to join?",
+          "answer": "Signing up and listing your services is completely free. We only take a small transparent commission when you complete a booking."
+        },
+        {
+          "question": "How do I get paid?",
+          "answer": "Payments are processed securely via Stripe. Once a service is completed, funds are automatically transferred to your connected bank account."
+        },
+        {
+          "question": "Can I set my own hours?",
+          "answer": "Yes! You have complete control over your calendar. You decide when you are available for bookings and can update it anytime."
+        },
+        {
+          "question": "What if a client cancels?",
+          "answer": "You can define your own cancellation policy. If a client cancels late, you'll still receive a portion of the payment according to your rules."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Ready to grow your braiding business?",
+      "subtitle": "Join hundreds of top professionals making great money on their own terms.",
+      "button": "Join Afrobraid Connect Today"
     }
   },
   "footer": {

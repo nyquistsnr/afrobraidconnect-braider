@@ -4,6 +4,10 @@ import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/home/hero";
 import { Benefits } from "@/components/home/benefits";
 import { HowItWorks } from "@/components/home/how-it-works";
+import { Statistics } from "@/components/home/statistics";
+import { Testimonials } from "@/components/home/testimonials";
+import { Faq } from "@/components/home/faq";
+import { Cta } from "@/components/home/cta";
 import { Footer } from "@/components/layout/footer";
 
 export default async function Home({
@@ -21,6 +25,10 @@ export default async function Home({
         <Hero dict={dict} lang={lang} />
         <Benefits dict={dict.home} />
         <HowItWorks dict={dict.home} />
+        <Statistics dict={dict.home} />
+        <Testimonials dict={dict.home} />
+        <Faq dict={dict.home} />
+        <Cta dict={dict.home} lang={lang} />
       </main>
       <Footer dict={dict} lang={lang} />
     </div>

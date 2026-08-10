@@ -44,6 +44,61 @@
         "step7": { "title": "Verfügbarkeit", "description": "Wählen Sie Ihre Arbeitszeiten." },
         "step8": { "title": "Zahlungseinrichtung", "description": "Verbinden Sie sich mit Stripe, um sichere Auszahlungen zu erhalten." }
       }
+    },
+    "statistics": {
+      "stats": [
+        { "value": "500+", "label": "Aktive Flechterinnen" },
+        { "value": "50+", "label": "Städte" },
+        { "value": "10k+", "label": "Zufriedene Kunden" }
+      ]
+    },
+    "testimonials": {
+      "title": "Von Flechterinnen geliebt",
+      "subtitle": "Sehen Sie, was Profis über Afrobraid Connect sagen.",
+      "cards": [
+        {
+          "name": "Aisha T.",
+          "location": "Berlin",
+          "quote": "Afrobraid Connect hat mein Geschäft völlig verändert. Ich habe mehr Kunden als je zuvor und liebe es, die Kontrolle über meinen eigenen Zeitplan zu haben."
+        },
+        {
+          "name": "Sarah K.",
+          "location": "Paris",
+          "quote": "Die Plattform macht die Verwaltung von Buchungen und Zahlungen mühelos. Ich muss Kunden nicht mehr wegen Anzahlungen hinterherlaufen!"
+        },
+        {
+          "name": "Joy M.",
+          "location": "München",
+          "quote": "Ich bin vor drei Monaten beigetreten und mein Umsatz hat sich verdoppelt. Die Kunden, die ich hierher bekomme, respektieren meine Arbeit und meine Zeit."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "subtitle": "Alles, was Sie über den Beitritt zur Plattform wissen müssen.",
+      "items": [
+        {
+          "question": "Wie viel kostet die Anmeldung?",
+          "answer": "Die Anmeldung und die Auflistung Ihrer Dienste sind völlig kostenlos. Wir berechnen nur eine kleine, transparente Provision, wenn Sie eine Buchung abschließen."
+        },
+        {
+          "question": "Wie werde ich bezahlt?",
+          "answer": "Zahlungen werden sicher über Stripe abgewickelt. Sobald ein Dienst abgeschlossen ist, wird das Geld automatisch auf Ihr verknüpftes Bankkonto überwiesen."
+        },
+        {
+          "question": "Kann ich meine eigenen Arbeitszeiten festlegen?",
+          "answer": "Ja! Sie haben die volle Kontrolle über Ihren Kalender. Sie entscheiden, wann Sie für Buchungen verfügbar sind, und können dies jederzeit aktualisieren."
+        },
+        {
+          "question": "Was passiert, wenn ein Kunde absagt?",
+          "answer": "Sie können Ihre eigene Stornierungsrichtlinie festlegen. Wenn ein Kunde zu spät absagt, erhalten Sie gemäß Ihren Regeln dennoch einen Teil der Zahlung."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Bereit, Ihr Flechtgeschäft auszubauen?",
+      "subtitle": "Schließen Sie sich Hunderten von Top-Profis an, die zu ihren eigenen Bedingungen gutes Geld verdienen.",
+      "button": "Heute Afrobraid Connect beitreten"
     }
   },
   "footer": {
