@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { onboardingStepPath } from "@/lib/onboarding";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 // Hub route: always recomputes current_step live (rather than trusting the
 // possibly-stale session.braider snapshot from login) and forwards into the
 // right wizard screen — mirrors the API doc's recommended routing function.

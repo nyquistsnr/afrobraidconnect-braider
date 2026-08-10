@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { ServiceTypeForm } from "@/components/onboarding/service-type-form";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function ServiceTypePage({
   params,
 }: PageProps<"/[lang]/onboarding/service-type">) {

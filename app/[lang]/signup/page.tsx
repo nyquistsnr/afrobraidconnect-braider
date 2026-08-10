@@ -4,10 +4,6 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { SignupForm } from "@/components/signup/signup-form";
 import { auth } from "@/auth";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function SignupPage({
   params,
 }: PageProps<"/[lang]/signup">) {

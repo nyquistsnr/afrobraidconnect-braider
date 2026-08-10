@@ -5,10 +5,6 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ContactForm } from "@/components/contact/contact-form";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function ContactPage({
   params,
 }: {

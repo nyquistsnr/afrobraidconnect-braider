@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { ServiceLocationForm } from "@/components/onboarding/service-location-form";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function LocationPage({
   params,
 }: PageProps<"/[lang]/onboarding/location">) {

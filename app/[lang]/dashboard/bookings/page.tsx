@@ -5,10 +5,6 @@ import { bookingsApi } from "@/lib/api/bookings-client";
 import { BookingsTable } from "@/components/dashboard/bookings-table";
 import { StatsCards } from "@/components/dashboard/stats-cards";
 import { CalendarDays, CheckCircle, XCircle, Clock } from "lucide-react";
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function BookingsPage(props: {
   params: Promise<{ lang: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;

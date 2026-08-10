@@ -7,10 +7,6 @@ import { ApiError } from "@/lib/api/http";
 import { ThreadView } from "@/components/dashboard/chat/thread-view";
 import { ChatLocaleBanner } from "@/components/dashboard/chat/chat-locale-banner";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 const THREADS_LOOKUP_PAGE_SIZE = 100;
 
 export default async function ChatThreadPage(props: {

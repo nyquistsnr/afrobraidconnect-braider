@@ -6,10 +6,6 @@ import { usersApi } from "@/lib/api/users-client";
 import { ThreadList } from "@/components/dashboard/chat/thread-list";
 import { ChatLocaleBanner } from "@/components/dashboard/chat/chat-locale-banner";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function ChatPage(props: {
   params: Promise<{ lang: string }>;
 }) {

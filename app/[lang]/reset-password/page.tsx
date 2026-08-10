@@ -4,10 +4,6 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { ResetPasswordForm } from "@/components/reset-password/reset-password-form";
 import { auth } from "@/auth";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function ResetPasswordPage({
   params,
   searchParams,

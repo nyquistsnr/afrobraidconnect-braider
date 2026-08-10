@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 // The single auth/status gate for every onboarding route, and the mount
 // point for OnboardingShell — since it lives here rather than in each page,
 // the header and stepper persist across step navigations instead of

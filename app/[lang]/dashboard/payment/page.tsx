@@ -10,10 +10,6 @@ import { PaymentsTable } from "@/components/dashboard/payments-table";
 import { PaymentFilters } from "@/components/dashboard/payment-filters";
 import { StripeDashboardButton } from "@/components/dashboard/stripe-dashboard-button";
 import { DollarSign, ArrowDownRight, Activity, Clock } from "lucide-react";
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function PaymentPage(props: {
   params: Promise<{ lang: string }>;
   searchParams: Promise<{ date_from?: string; date_to?: string }>;

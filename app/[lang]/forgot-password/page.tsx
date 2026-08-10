@@ -4,10 +4,6 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { ForgotPasswordForm } from "@/components/forgot-password/forgot-password-form";
 import { auth } from "@/auth";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function ForgotPasswordPage({
   params,
 }: PageProps<"/[lang]/forgot-password">) {

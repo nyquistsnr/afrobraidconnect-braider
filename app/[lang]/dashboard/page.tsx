@@ -1,10 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function DashboardPage({
   params,
 }: PageProps<"/[lang]/dashboard">) {

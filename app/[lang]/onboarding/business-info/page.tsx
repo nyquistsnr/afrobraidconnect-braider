@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { BusinessInfoForm } from "@/components/onboarding/business-info-form";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function BusinessInfoPage({
   params,
 }: PageProps<"/[lang]/onboarding/business-info">) {

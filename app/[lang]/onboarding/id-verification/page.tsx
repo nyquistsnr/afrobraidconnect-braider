@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { VeriffForm } from "@/components/onboarding/veriff-form";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function IdVerificationPage({
   params,
 }: PageProps<"/[lang]/onboarding/id-verification">) {

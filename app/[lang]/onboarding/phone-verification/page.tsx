@@ -5,10 +5,6 @@ import { onboardingApi } from "@/lib/api/onboarding-client";
 import { loginPath } from "@/lib/auth-redirect";
 import { PhoneVerificationForm } from "@/components/onboarding/phone-verification-form";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function PhoneVerificationPage({
   params,
 }: PageProps<"/[lang]/onboarding/phone-verification">) {

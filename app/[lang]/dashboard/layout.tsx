@@ -4,10 +4,6 @@ import { getDictionary, hasLocale, locales } from "../dictionaries";
 import { loginPath } from "@/lib/auth-redirect";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function DashboardLayout({
   children,
   params,

@@ -5,10 +5,6 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { LoginForm } from "@/components/login/login-form";
 import { auth } from "@/auth";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
 export default async function LoginPage({
   params,
   searchParams,
