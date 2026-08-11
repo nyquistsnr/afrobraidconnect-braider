@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Bell, CheckCheck } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
@@ -115,6 +116,9 @@ export function NotificationBell({
     >
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
         <span className="text-sm font-semibold text-foreground">{dict.notifications}</span>
+        <Link href={`/${lang}/dashboard/notifications`} className="text-xs font-medium text-brand hover:underline">
+          View All
+        </Link>
       </div>
 
       <div className="max-h-80 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
