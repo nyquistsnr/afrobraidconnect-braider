@@ -132,6 +132,7 @@ export function PortfolioForm({
   }
 
   function handleContinue() {
+    router.refresh();
     router.push(`/${lang}/onboarding`);
   }
 

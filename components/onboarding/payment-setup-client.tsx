@@ -49,6 +49,7 @@ export function PaymentSetupClient({
   });
 
   const handleContinue = () => {
+    router.refresh();
     router.push(`/${lang}/onboarding`);
   };
 

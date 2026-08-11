@@ -275,7 +275,7 @@ export function DashboardServiceStyle({
   const canSubmit = isValidPrice(basePrice) && !hasInvalidVariationPrice && !hasInvalidAddonPrice;
 
   const categoryOptions = [
-    { value: "", label: "All Categories" },
+    { value: "", label: dict.allCategories },
     ...(categoriesQuery.data ?? []).map((category) => ({ value: category.id, label: category.name }))
   ];
 
@@ -366,7 +366,7 @@ export function DashboardServiceStyle({
         <div className="w-full xl:w-3/5 flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <Compass className="size-5 text-brand" />
-            <h2 className="text-lg font-semibold text-foreground">Discover Catalog</h2>
+            <h2 className="text-lg font-semibold text-foreground">{dict.discoverCatalog}</h2>
           </div>
           
           <div className="rounded-xl border border-border bg-surface shadow-sm flex flex-col min-h-[600px] max-h-[800px]">
@@ -474,7 +474,7 @@ export function DashboardServiceStyle({
         {selectedStyle && (
           <>
             <h2 id={modalTitleId} className="text-xl font-bold text-foreground tracking-tight">
-              {editingBraiderStyleId ? "Edit Service" : selectedStyle.name}
+              {editingBraiderStyleId ? dict.editService : selectedStyle.name}
             </h2>
             {selectedStyle.description && !editingBraiderStyleId && (
               <p className="mt-1 text-sm text-muted-foreground">
@@ -683,10 +683,10 @@ export function DashboardServiceStyle({
         {serviceToDelete && (
           <div className="p-2">
             <h2 id={`${modalTitleId}-delete`} className="text-xl font-bold text-foreground tracking-tight">
-              Delete Service
+              {dict.deleteService}
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              Are you sure you want to remove <span className="font-semibold text-foreground">{addedStyleName(serviceToDelete, lang)}</span> from your menu?
+              {dict.deleteConfirmMessage.replace('{styleName}', addedStyleName(serviceToDelete, lang))}
             </p>
             <div className="mt-8 flex justify-end gap-3">
               <Button
@@ -704,7 +704,7 @@ export function DashboardServiceStyle({
                 onClick={() => deleteMutation.mutate(serviceToDelete.id)}
                 disabled={deleteMutation.isPending}
               >
-                {deleteMutation.isPending ? common.loading : "Delete"}
+                {deleteMutation.isPending ? common.loading : dict.deleteButton}
               </Button>
             </div>
           </div>

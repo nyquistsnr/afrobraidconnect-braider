@@ -61,6 +61,7 @@ export function VeriffForm({
   });
 
   function handleContinue() {
+    router.refresh();
     router.push(`/${lang}/onboarding`);
   }
 

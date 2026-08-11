@@ -24,10 +24,6 @@ export function OnboardingStepper({
   const total = ONBOARDING_STEP_ORDER.length;
   const stepper = dict.stepper as Record<string, string>;
 
-  const viewedIndex = viewedStep ? ONBOARDING_STEP_ORDER.indexOf(viewedStep) : -1;
-  const stepNumber = viewedIndex === -1 ? total : viewedIndex + 1;
-  const stepLabel = viewedStep ? stepper[STEP_DICT_KEYS[viewedStep]] : undefined;
-
   // Where the backend would actually resume the wizard — distinct from
   // viewedStep whenever the visitor has navigated back to review or edit an
   // earlier, already-completed step.
@@ -35,6 +31,12 @@ export function OnboardingStepper({
     status.current_step !== "COMPLETED"
       ? (status.current_step as ActiveStep)
       : undefined;
+
+  const effectiveStep = viewedStep ?? resumeStep;
+  const viewedIndex = effectiveStep ? ONBOARDING_STEP_ORDER.indexOf(effectiveStep) : -1;
+  const stepNumber = viewedIndex === -1 ? total : viewedIndex + 1;
+  const stepLabel = effectiveStep ? stepper[STEP_DICT_KEYS[effectiveStep]] : undefined;
+
   const showResumeHint = resumeStep && viewedStep && resumeStep !== viewedStep;
 
   return (

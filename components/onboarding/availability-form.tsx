@@ -238,6 +238,7 @@ export function AvailabilityForm({
     if (isDashboard) {
       toast.success(dict.toasts?.settingsSaved || "Saved successfully");
     } else {
+      router.refresh();
       router.push(`/${lang}/onboarding`);
     }
   }
@@ -494,10 +495,10 @@ export function AvailabilityForm({
 
       <Modal open={!!editingWindow} onClose={() => setEditingWindow(null)} labelledBy="edit-window-title">
         <div className="space-y-5">
-          <h2 id="edit-window-title" className="text-xl font-semibold text-foreground">Edit Working Hours</h2>
+          <h2 id="edit-window-title" className="text-xl font-semibold text-foreground">{dict.editWindow}</h2>
           <div className="grid gap-4">
             <Select
-              label="Day"
+              label={dict.dayLabel}
               showLabel
               options={DAYS_OF_WEEK.map(d => ({ value: d, label: dict.days[d] }))}
               value={editWindowDay}
@@ -521,10 +522,10 @@ export function AvailabilityForm({
             </div>
           </div>
           <div className="flex justify-end gap-3 mt-6">
-            <Button variant="outline" onClick={() => setEditingWindow(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setEditingWindow(null)}>{dict.cancel}</Button>
             <Button onClick={() => editWindowMutation.mutate()} disabled={editWindowMutation.isPending}>
               {editWindowMutation.isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : null}
-              Update
+              {dict.update}
             </Button>
           </div>
         </div>

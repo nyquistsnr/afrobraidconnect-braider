@@ -30,6 +30,7 @@ export default async function PhoneVerificationPage({
       common={dict.common}
       lang={lang}
       defaultPhoneNumber={phoneStatus.phone_number}
+      initialIsVerified={phoneStatus.is_verified}
     />
   );
 }

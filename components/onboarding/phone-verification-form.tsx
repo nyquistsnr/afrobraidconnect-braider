@@ -13,17 +13,20 @@ import { getAuthErrorMessage } from "@/lib/api/error-messages";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { OtpInput } from "@/components/ui/otp-input";
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 
 export function PhoneVerificationForm({
   dict,
   common,
   lang,
   defaultPhoneNumber,
+  initialIsVerified,
 }: {
   dict: Dictionary["onboarding"]["phoneVerification"];
   common: Dictionary["common"];
   lang: Locale;
   defaultPhoneNumber: string | null;
+  initialIsVerified?: boolean;
 }) {
   const { data: session } = useSession();
   const router = useRouter();
@@ -31,7 +34,9 @@ export function PhoneVerificationForm({
   const [phone, setPhone] = useState<string | undefined>(
     defaultPhoneNumber ?? undefined
   );
-  const [step, setStep] = useState<"phone" | "code">("phone");
+  const [step, setStep] = useState<"phone" | "code" | "verified">(
+    initialIsVerified ? "verified" : "phone"
+  );
   const [code, setCode] = useState("");
 
   const sendCodeMutation = useMutation({
@@ -60,6 +65,7 @@ export function PhoneVerificationForm({
       ),
     onSuccess: () => {
       toast.success(dict.toasts.verified);
+      router.refresh();
       router.push(`/${lang}/onboarding`);
     },
     onError: (error) => {
@@ -83,7 +89,36 @@ export function PhoneVerificationForm({
       <h1 className="text-3xl font-bold text-foreground">{dict.title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">{dict.subtitle}</p>
 
-      {step === "phone" ? (
+      {step === "verified" ? (
+        <div className="mt-8 space-y-6">
+          <div className="flex flex-col items-center justify-center space-y-4 rounded-xl border border-border bg-card p-6 text-center">
+            <div className="flex size-12 items-center justify-center rounded-full bg-green-500/10">
+              <Check className="size-6 text-green-500" />
+            </div>
+            <div>
+              <p className="font-medium text-foreground">{dict.toasts.verified || "Phone number verified"}</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {phone}
+              </p>
+            </div>
+          </div>
+          
+          <Button onClick={() => router.push(`/${lang}/onboarding`)} className="w-full">
+            Continue
+          </Button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setPhone(undefined);
+              setStep("phone");
+            }}
+            className="w-full text-center text-sm font-medium text-brand hover:text-brand-hover"
+          >
+            {dict.changeNumber}
+          </button>
+        </div>
+      ) : step === "phone" ? (
         <form className="mt-8 space-y-4" onSubmit={handleSendCode}>
           <PhoneInput
             label={dict.phoneLabel}

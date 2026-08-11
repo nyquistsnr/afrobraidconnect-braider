@@ -53,6 +53,8 @@ export function OnboardingShell({
 
   const previous = viewedStep ? previousStep(viewedStep) : undefined;
 
+  const isWideStep = viewedStep === "SERVICE_TYPE";
+
   return (
     <div className="min-h-screen bg-background">
       <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-surface px-4 sm:px-8">
@@ -98,13 +100,15 @@ export function OnboardingShell({
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-xl px-4 py-10 sm:px-6">
-        <OnboardingStepper
-          dict={dict.onboarding}
-          status={status}
-          lang={lang}
-          viewedStep={viewedStep}
-        />
+      <main className={`mx-auto w-full ${isWideStep ? "max-w-7xl" : "max-w-xl"} px-4 py-10 sm:px-6`}>
+        <div className={isWideStep ? "max-w-xl mx-auto" : ""}>
+          <OnboardingStepper
+            dict={dict.onboarding}
+            status={status}
+            lang={lang}
+            viewedStep={viewedStep}
+          />
+        </div>
         {children}
       </main>
 

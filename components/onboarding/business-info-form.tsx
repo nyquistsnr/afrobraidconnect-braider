@@ -214,6 +214,7 @@ export function BusinessInfoForm({
 
   function handleContinueWithoutWaiting() {
     setPolling(false);
+    router.refresh();
     router.push(`/${lang}/onboarding`);
   }
 
