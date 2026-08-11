@@ -47,17 +47,17 @@ export function ChatLocaleBanner({
   }));
 
   return (
-    <div className="mb-4 flex flex-col gap-3 border border-border bg-brand/5 p-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="flex items-start gap-3">
+    <div className="mb-4 flex flex-col gap-4 rounded-xl border border-border bg-brand/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-1 items-start gap-3 sm:pr-4">
         <Languages className="mt-0.5 size-5 shrink-0 text-brand" />
         <div>
           <p className="text-sm font-semibold text-foreground">{dict.title}</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">{dict.description}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{dict.description}</p>
         </div>
       </div>
 
-      <div className="flex items-end gap-2">
-        <div className="w-40">
+      <div className="flex w-full shrink-0 items-center gap-3 sm:w-auto">
+        <div className="flex-1 sm:w-48 sm:flex-none">
           <Select
             label={dict.placeholder}
             value={value}
@@ -68,7 +68,7 @@ export function ChatLocaleBanner({
         </div>
         <Button
           type="button"
-          className="w-auto shrink-0"
+          className="!w-auto shrink-0"
           disabled={!value || saveMutation.isPending}
           onClick={() => saveMutation.mutate()}
         >
