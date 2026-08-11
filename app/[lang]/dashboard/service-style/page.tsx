@@ -3,7 +3,7 @@ import { getDictionary, hasLocale } from "../../dictionaries";
 import { Locale } from "@/lib/i18n";
 import { auth } from "@/auth";
 import { onboardingApi } from "@/lib/api/onboarding-client";
-import { ServiceTypeForm } from "@/components/onboarding/service-type-form";
+import { DashboardServiceStyle } from "@/components/dashboard/service-style/dashboard-service-style";
 
 export default async function DashboardServiceStylePage(props: {
   params: Promise<{ lang: string }>;
@@ -29,16 +29,13 @@ export default async function DashboardServiceStylePage(props: {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
-        <ServiceTypeForm
-          dict={dict.onboarding.serviceType}
-          common={dict.common}
-          lang={lang as Locale}
-          initialServices={servicesData.items}
-          isDashboard={true}
-        />
-      </div>
+    <div className="w-full">
+      <DashboardServiceStyle
+        dict={dict.onboarding.serviceType}
+        common={dict.common}
+        lang={lang as Locale}
+        initialServices={servicesData.items}
+      />
     </div>
   );
 }
