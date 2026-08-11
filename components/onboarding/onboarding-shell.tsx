@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChevronLeft, LogOut } from "lucide-react";
@@ -64,9 +66,16 @@ export function OnboardingShell({
             {dict.common.back}
           </button>
         ) : (
-          <span className="text-lg font-bold text-foreground">
-            Afrobraid Connect
-          </span>
+          <Link href={`/${lang}`}>
+            <Image
+              src="/logo/logo.webp"
+              alt="Afrobraid Connect"
+              width={126}
+              height={32}
+              className="theme-invert transition-opacity hover:opacity-80"
+              priority
+            />
+          </Link>
         )}
 
         <div className="flex items-center gap-0.5 sm:gap-2">
