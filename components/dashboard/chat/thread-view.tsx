@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { AlertTriangle, ArrowLeft, Flag } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Flag, Send } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type { ChatMessage, PaginatedData } from "@/lib/api/types";
@@ -38,8 +38,7 @@ function MessageBubble({
   const canShowTranslation =
     message.status === "SENT" &&
     !!message.translated_body &&
-    !!viewerChatLocale &&
-    message.translated_locale === viewerChatLocale;
+    message.body !== message.translated_body;
 
   const displayBody =
     canShowTranslation && !showOriginal ? message.translated_body : message.body;
@@ -48,12 +47,12 @@ function MessageBubble({
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className={`max-w-[80%] sm:max-w-[65%] ${isMine ? "items-end" : "items-start"} flex flex-col`}>
         <div
-          className={`px-3.5 py-2.5 text-sm ${
+          className={`px-4 py-2.5 text-sm shadow-sm rounded-2xl ${
             message.status === "FLAGGED"
               ? "border border-dashed border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-400"
               : isMine
-                ? "bg-brand text-brand-foreground"
-                : "border border-border bg-surface text-foreground"
+                ? "bg-brand text-brand-foreground rounded-br-sm"
+                : "border border-border bg-surface text-foreground rounded-bl-sm"
           }`}
         >
           {message.status === "FLAGGED" ? (
@@ -196,7 +195,7 @@ export function ThreadView({
   const timeline = [...olderMessages, ...[...newestFirst].reverse()];
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] flex-col border border-border bg-surface shadow-sm">
+    <div className="flex flex-1 flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
       <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-3">
         <div className="flex items-center gap-2 min-w-0">
           <button
@@ -254,15 +253,15 @@ export function ThreadView({
         )}
       </div>
 
-      <form onSubmit={handleSend} className="border-t border-border p-3">
-        <div className="flex items-end gap-2">
+      <form onSubmit={handleSend} className="border-t border-border bg-surface p-3 sm:p-4">
+        <div className="flex items-end gap-3">
           <textarea
             value={draft}
             onChange={(event) => setDraft(event.target.value.slice(0, MAX_MESSAGE_LENGTH))}
             placeholder={dict.thread.composerPlaceholder}
-            rows={2}
+            rows={1}
             maxLength={MAX_MESSAGE_LENGTH}
-            className="flex-1 resize-none border border-border bg-input px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-brand"
+            className="max-h-32 min-h-[44px] min-w-0 flex-1 resize-none rounded-xl border border-border bg-input px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-brand focus:ring-1 focus:ring-brand"
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
@@ -272,13 +271,13 @@ export function ThreadView({
           />
           <Button
             type="submit"
-            className="w-auto shrink-0"
+            className="!h-11 !w-11 shrink-0 !rounded-full !p-0"
             disabled={!draft.trim() || sendMutation.isPending}
           >
-            {dict.thread.send}
+            <Send className="size-5" />
           </Button>
         </div>
-        <p className="mt-1 text-right text-[11px] text-muted-foreground">
+        <p className="mt-2 text-right text-[11px] text-muted-foreground">
           {dict.thread.charLimit.replace("{count}", String(draft.length))}
         </p>
       </form>

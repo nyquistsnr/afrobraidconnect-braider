@@ -133,6 +133,8 @@ function CalendarContent({
       startStr = toDateString(last7.getFullYear(), last7.getMonth(), last7.getDate());
     } else if (preset === "thisMonth") {
       startStr = toDateString(today.getFullYear(), today.getMonth(), 1);
+      const lastDay = getDaysInMonth(today.getFullYear(), today.getMonth());
+      endStr = toDateString(today.getFullYear(), today.getMonth(), lastDay);
     } else if (preset === "lastMonth") {
       const lastMonthDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
       startStr = toDateString(lastMonthDate.getFullYear(), lastMonthDate.getMonth(), 1);

@@ -54,7 +54,7 @@ export default async function ChatThreadPage(props: {
     threadsLookup?.items.find((thread) => thread.id === threadId)?.other_participant_name ?? null;
 
   return (
-    <div className="mx-auto w-full max-w-2xl">
+    <div className="mx-auto flex w-full max-w-4xl flex-col h-[calc(100dvh-6rem)] sm:h-[calc(100dvh-7rem)]">
       {!user.chat_locale && (
         <ChatLocaleBanner
           accessToken={session.accessToken}
