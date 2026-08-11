@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -118,12 +118,20 @@ export function ThreadView({
   const [reportOpen, setReportOpen] = useState(false);
   const [originalShownFor, setOriginalShownFor] = useState<Set<string>>(new Set());
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   const messagesQuery = useQuery({
     queryKey: ["chat-messages", threadId, 1],
     queryFn: () => chatApi.listMessages(accessToken!, threadId, lang, { page: 1, page_size: PAGE_SIZE }),
     enabled: !!accessToken,
     initialData,
   });
+
+  const newestFirst = messagesQuery.data?.items ?? initialData.items;
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView();
+  }, [newestFirst[0]?.id]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -191,7 +199,6 @@ export function ThreadView({
     });
   }
 
-  const newestFirst = messagesQuery.data?.items ?? initialData.items;
   const timeline = [...olderMessages, ...[...newestFirst].reverse()];
 
   return (
@@ -251,6 +258,7 @@ export function ThreadView({
             />
           ))
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       <form onSubmit={handleSend} className="border-t border-border bg-surface p-3 sm:p-4">
