@@ -366,37 +366,52 @@ export function AvailabilityForm({
         </div>
 
         <div className="space-y-4 rounded-xl border border-border border-dashed p-5 bg-muted/30">
-          <Select
-            label="Day"
-            showLabel
-            options={DAYS_OF_WEEK.map(d => ({ value: d, label: dict.days[d] }))}
-            value={newWindowDay}
-            onChange={setNewWindowDay}
-          />
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input
-              label={dict.startTimeLabel}
-              showLabel
-              type="time"
-              value={newWindowStart}
-              onChange={(e) => setNewWindowStart(e.target.value)}
-            />
-            <Input
-              label={dict.endTimeLabel}
-              showLabel
-              type="time"
-              value={newWindowEnd}
-              onChange={(e) => setNewWindowEnd(e.target.value)}
-            />
-          </div>
-          <Button
-            onClick={() => addWindowMutation.mutate()}
-            disabled={addWindowMutation.isPending}
-            className="w-full mt-2"
-          >
-            <Plus className="mr-2 size-4" />
-            {dict.addWindow}
-          </Button>
+          {DAYS_OF_WEEK.filter(d => windows.filter(w => w.day_of_week === d).length === 0).length > 0 ? (
+            <>
+              <Select
+                label={dict.dayLabel || "Day"}
+                showLabel
+                options={DAYS_OF_WEEK.filter(d => windows.filter(w => w.day_of_week === d).length === 0).map(d => ({ value: d, label: dict.days[d] }))}
+                value={newWindowDay}
+                onChange={setNewWindowDay}
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Input
+                  label={dict.startTimeLabel}
+                  showLabel
+                  type="time"
+                  value={newWindowStart}
+                  onChange={(e) => setNewWindowStart(e.target.value)}
+                />
+                <Input
+                  label={dict.endTimeLabel}
+                  showLabel
+                  type="time"
+                  value={newWindowEnd}
+                  onChange={(e) => setNewWindowEnd(e.target.value)}
+                />
+              </div>
+              <Button
+                onClick={() => {
+                  addWindowMutation.mutate();
+                  // Reset selection to next available closed day if possible
+                  const remainingClosedDays = DAYS_OF_WEEK.filter(d => d !== newWindowDay && windows.filter(w => w.day_of_week === d).length === 0);
+                  if (remainingClosedDays.length > 0) {
+                    setNewWindowDay(remainingClosedDays[0]);
+                  }
+                }}
+                disabled={addWindowMutation.isPending}
+                className="w-full mt-2"
+              >
+                <Plus className="mr-2 size-4" />
+                {dict.addWindow}
+              </Button>
+            </>
+          ) : (
+            <div className="text-center p-4">
+              <p className="text-sm font-medium text-muted-foreground">All days currently have hours set.</p>
+            </div>
+          )}
         </div>
       </section>
 

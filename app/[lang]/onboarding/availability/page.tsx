@@ -5,6 +5,8 @@ import { auth } from "@/auth";
 import { onboardingApi } from "@/lib/api/onboarding-client";
 import { AvailabilityForm } from "@/components/onboarding/availability-form";
 
+import { loginPath } from "@/lib/auth-redirect";
+
 export default async function AvailabilityPage(props: {
   params: Promise<{ lang: Locale }>;
 }) {
@@ -13,7 +15,7 @@ export default async function AvailabilityPage(props: {
   const session = await auth();
 
   if (!session?.accessToken) {
-    redirect(`/${lang}/login`);
+    redirect(await loginPath(lang));
   }
 
   // Fetch all required data for the availability form concurrently
@@ -21,11 +23,9 @@ export default async function AvailabilityPage(props: {
     onboardingApi.getAvailabilitySettings(session.accessToken, lang),
     onboardingApi.getWeeklyWindows(session.accessToken, lang),
     onboardingApi.getExceptions(session.accessToken, lang),
-  ]).catch((error) => {
-    // If settings haven't been created yet, they are auto-created, so this shouldn't 404,
-    // but we can catch general API errors and redirect/throw.
+  ]).catch(async (error) => {
     console.error("Failed to fetch availability data:", error);
-    throw error;
+    redirect(await loginPath(lang));
   });
 
   return (
