@@ -3,7 +3,7 @@ import { getDictionary, hasLocale } from "../../dictionaries";
 import { Locale } from "@/lib/i18n";
 import { auth } from "@/auth";
 import { onboardingApi } from "@/lib/api/onboarding-client";
-import { AvailabilityForm } from "@/components/onboarding/availability-form";
+import { DashboardAvailability } from "@/components/dashboard/availability/dashboard-availability";
 
 export default async function DashboardAvailabilityPage(props: {
   params: Promise<{ lang: string }>;
@@ -33,24 +33,21 @@ export default async function DashboardAvailabilityPage(props: {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          {dict.onboarding.availability.title}
+          {dict.dashboardTitle || dict.onboarding.availability.dashboardTitle || dict.onboarding.availability.title}
         </h1>
         <p className="text-muted-foreground">
-          {dict.onboarding.availability.subtitle}
+          {dict.dashboardSubtitle || dict.onboarding.availability.dashboardSubtitle || dict.onboarding.availability.subtitle}
         </p>
       </div>
       
-      <div className="rounded-xl border border-border bg-surface shadow-sm pt-0">
-        <AvailabilityForm
-          dict={dict.onboarding.availability}
-          common={dict.common}
-          lang={lang as Locale}
-          initialSettings={settings}
-          initialWindows={windows}
-          initialExceptions={exceptions}
-          isDashboard={true}
-        />
-      </div>
+      <DashboardAvailability
+        dict={dict.onboarding.availability}
+        common={dict.common}
+        lang={lang as Locale}
+        initialSettings={settings}
+        initialWindows={windows}
+        initialExceptions={exceptions}
+      />
     </div>
   );
 }
