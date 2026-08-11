@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Clock, CalendarX2, Settings2 } from "lucide-react";
+import { Plus, Trash2, Clock, CalendarX2, Settings2, Pencil, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
+
+import { Modal } from "@/components/ui/modal";
 
 import { onboardingApi } from "@/lib/api/onboarding-client";
 import type {
@@ -88,6 +90,11 @@ export function AvailabilityForm({
   const [newExceptionEnd, setNewExceptionEnd] = useState("17:00");
   const [newExceptionReason, setNewExceptionReason] = useState("");
 
+  const [editingWindow, setEditingWindow] = useState<WeeklyWindowResponse | null>(null);
+  const [editWindowDay, setEditWindowDay] = useState<DayOfWeek>("MONDAY");
+  const [editWindowStart, setEditWindowStart] = useState("09:00");
+  const [editWindowEnd, setEditWindowEnd] = useState("17:00");
+
   // Mutations
   const updateSettingsMutation = useMutation({
     mutationFn: async (data: typeof settings) => {
@@ -138,6 +145,36 @@ export function AvailabilityForm({
     onSuccess: (_, id) => {
       setWindows((prev) => prev.filter((w) => w.id !== id));
       toast.success(dict.toasts.windowRemoved);
+    },
+    onError: (err: any) => toast.error(err.message || common.errors.validationError),
+  });
+
+  const editWindowMutation = useMutation({
+    mutationFn: async () => {
+      if (!editingWindow) throw new Error("No window selected");
+      if (editingWindow.id.startsWith("temp-")) {
+        return {
+          ...editingWindow,
+          day_of_week: editWindowDay,
+          start_time: editWindowStart,
+          end_time: editWindowEnd,
+        };
+      }
+      await onboardingApi.deleteWeeklyWindow(token, editingWindow.id, lang);
+      return onboardingApi.createWeeklyWindow(
+        token,
+        {
+          day_of_week: editWindowDay,
+          start_time: editWindowStart,
+          end_time: editWindowEnd,
+        },
+        lang
+      );
+    },
+    onSuccess: (data) => {
+      setWindows((prev) => prev.map((w) => (w.id === editingWindow?.id ? data : w)));
+      setEditingWindow(null);
+      toast.success("Updated successfully");
     },
     onError: (err: any) => toast.error(err.message || common.errors.validationError),
   });
@@ -288,20 +325,34 @@ export function AvailabilityForm({
                         <span className="mr-1">
                           {w.start_time.slice(0, 5)} - {w.end_time.slice(0, 5)}
                         </span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (w.id.startsWith("temp-")) {
-                              setWindows((prev) => prev.filter((win) => win.id !== w.id));
-                            } else {
-                              deleteWindowMutation.mutate(w.id);
-                            }
-                          }}
-                          className="flex size-6 items-center justify-center rounded-full text-brand/60 transition-colors hover:bg-red-500/10 hover:text-red-600 focus:outline-none"
-                          disabled={deleteWindowMutation.isPending}
-                        >
-                          <Trash2 className="size-3.5" />
-                        </button>
+                        <div className="flex items-center gap-0.5 ml-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingWindow(w);
+                              setEditWindowDay(w.day_of_week);
+                              setEditWindowStart(w.start_time.slice(0, 5));
+                              setEditWindowEnd(w.end_time.slice(0, 5));
+                            }}
+                            className="flex size-6 items-center justify-center rounded-full text-brand/60 transition-colors hover:bg-brand/10 hover:text-brand focus:outline-none"
+                          >
+                            <Pencil className="size-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (w.id.startsWith("temp-")) {
+                                setWindows((prev) => prev.filter((win) => win.id !== w.id));
+                              } else {
+                                deleteWindowMutation.mutate(w.id);
+                              }
+                            }}
+                            className="flex size-6 items-center justify-center rounded-full text-brand/60 transition-colors hover:bg-red-500/10 hover:text-red-600 focus:outline-none"
+                            disabled={deleteWindowMutation.isPending}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </button>
+                        </div>
                       </div>
                     ))
                   ) : (
@@ -440,6 +491,44 @@ export function AvailabilityForm({
           {isDashboard ? dict.saveChanges || "Save Changes" : dict.continue}
         </Button>
       </div>
+
+      <Modal open={!!editingWindow} onClose={() => setEditingWindow(null)} labelledBy="edit-window-title">
+        <div className="space-y-5">
+          <h2 id="edit-window-title" className="text-xl font-semibold text-foreground">Edit Working Hours</h2>
+          <div className="grid gap-4">
+            <Select
+              label="Day"
+              showLabel
+              options={DAYS_OF_WEEK.map(d => ({ value: d, label: dict.days[d] }))}
+              value={editWindowDay}
+              onChange={(val) => setEditWindowDay(val as DayOfWeek)}
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <Input
+                label={dict.startTimeLabel}
+                showLabel
+                type="time"
+                value={editWindowStart}
+                onChange={(e) => setEditWindowStart(e.target.value)}
+              />
+              <Input
+                label={dict.endTimeLabel}
+                showLabel
+                type="time"
+                value={editWindowEnd}
+                onChange={(e) => setEditWindowEnd(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-3 mt-6">
+            <Button variant="outline" onClick={() => setEditingWindow(null)}>Cancel</Button>
+            <Button onClick={() => editWindowMutation.mutate()} disabled={editWindowMutation.isPending}>
+              {editWindowMutation.isPending ? <Loader2 className="size-4 animate-spin mr-2" /> : null}
+              Update
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
