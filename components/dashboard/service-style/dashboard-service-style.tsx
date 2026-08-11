@@ -422,7 +422,7 @@ export function DashboardServiceStyle({
                         </div>
                         <Button
                           type="button"
-                          variant={added ? "secondary" : "outline"}
+                          variant={added ? "default" : "outline"}
                           size="sm"
                           disabled={added}
                           onClick={() => openStyle(style)}
