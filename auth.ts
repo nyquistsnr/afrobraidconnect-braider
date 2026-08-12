@@ -90,10 +90,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
             lang
           );
+          
+          if (tokens.user_type === "CUSTOMER") {
+            throw new LoginError("CUSTOMER_LOGIN_DISABLED");
+          }
+          
           return toAuthUser(tokens, lang);
         } catch (error) {
           throw new LoginError(
-            error instanceof ApiError ? error.code : "UNKNOWN_ERROR"
+            error instanceof ApiError ? error.code : 
+            (error instanceof LoginError ? error.code : "UNKNOWN_ERROR")
           );
         }
       },
@@ -129,10 +135,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
             lang
           );
+          
+          if (tokens.user_type === "CUSTOMER") {
+            throw new LoginError("CUSTOMER_LOGIN_DISABLED");
+          }
+          
           return toAuthUser(tokens, lang);
         } catch (error) {
           throw new LoginError(
-            error instanceof ApiError ? error.code : "UNKNOWN_ERROR"
+            error instanceof ApiError ? error.code : 
+            (error instanceof LoginError ? error.code : "UNKNOWN_ERROR")
           );
         }
       },

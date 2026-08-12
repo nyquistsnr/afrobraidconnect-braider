@@ -202,6 +202,7 @@
       "chatMessageNotFound": "That message couldn't be found.",
       "notificationNotFound": "That notification couldn't be found.",
       "invalidDateRange": "The end date must be on or after the start date.",
+      "customerLoginDisabled": "Client accounts cannot log in to this portal.",
       "generic": "Something went wrong. Please try again."
     },
     "toasts": {
@@ -307,7 +308,7 @@
       "confirm": "Log Out"
     },
     "home": {
-      "greeting": "Hello There",
+      "greeting": "Hi {name}",
       "stats": {
         "totalBookings": "Total Bookings",
         "totalRevenue": "Total Revenue",

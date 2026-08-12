@@ -52,26 +52,26 @@ export default async function DashboardPage(props: {
     dashboardApi.getOverview(session.accessToken, lang, {
       date_from: dateFrom,
       date_to: dateTo,
-    }),
+    }).catch(() => null),
     dashboardApi.getRevenueTimeseries(session.accessToken, lang, {
       date_from: dateFrom,
       date_to: dateTo,
       interval: "day",
-    }),
+    }).catch(() => null),
     dashboardApi.getBookingsByWeekday(session.accessToken, lang, {
       date_from: dateFrom,
       date_to: dateTo,
-    }),
+    }).catch(() => null),
     dashboardApi.getStyleBreakdown(session.accessToken, lang, {
       date_from: dateFrom,
       date_to: dateTo,
-    }),
+    }).catch(() => null),
     bookingsApi.list(session.accessToken, lang, {
       page: 1,
       page_size: 5,
       date_from: dateFrom,
       date_to: dateTo,
-    }),
+    }).catch(() => null),
   ]);
 
   const formatCurrency = (amount: string, currency: string) => {
@@ -110,7 +110,7 @@ export default async function DashboardPage(props: {
     <div className="w-full space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          {homeDict.greeting}
+          {homeDict.greeting.replace("{name}", session.user?.firstName || "")}
         </h1>
         <DashboardFilters lang={lang as Locale} dict={dict.dashboard.bookings.filters} />
       </div>

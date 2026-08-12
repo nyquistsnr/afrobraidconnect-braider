@@ -214,7 +214,7 @@ export function ThreadView({
             <ArrowLeft className="size-4" />
           </button>
           <p className="truncate text-sm font-semibold text-foreground">
-            {otherParticipantName ?? dict.title}
+            {otherParticipantName ?? dict.title} <span className="text-muted-foreground font-normal">#{threadId.slice(-4)}</span>
           </p>
         </div>
         <button

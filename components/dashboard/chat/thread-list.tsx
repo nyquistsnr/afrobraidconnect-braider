@@ -74,7 +74,7 @@ export function ThreadList({
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <p className="truncate text-sm font-semibold text-foreground">
-                    {thread.other_participant_name}
+                    {thread.other_participant_name} <span className="text-muted-foreground font-normal">#{thread.id.slice(-4)}</span>
                   </p>
                   {thread.last_message_at && (
                     <span className="shrink-0 text-xs text-muted-foreground">

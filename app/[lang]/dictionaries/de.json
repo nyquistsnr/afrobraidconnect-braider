@@ -202,6 +202,7 @@
       "chatMessageNotFound": "Diese Nachricht konnte nicht gefunden werden.",
       "notificationNotFound": "Diese Benachrichtigung konnte nicht gefunden werden.",
       "invalidDateRange": "Das Enddatum muss am oder nach dem Startdatum liegen.",
+      "customerLoginDisabled": "Kundenkonten können sich nicht in diesem Portal anmelden.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "toasts": {
@@ -307,7 +308,7 @@
       "confirm": "Abmelden"
     },
     "home": {
-      "greeting": "Hallo",
+      "greeting": "Hallo {name}",
       "stats": {
         "totalBookings": "Gesamtbuchungen",
         "totalRevenue": "Gesamteinnahmen",
