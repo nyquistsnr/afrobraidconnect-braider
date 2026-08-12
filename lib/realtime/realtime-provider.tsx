@@ -26,10 +26,39 @@ function getWebSocketUrl(accessToken: string): string | null {
   return `${wsBase}/ws?token=${encodeURIComponent(accessToken)}`;
 }
 
-function handleRealtimeEvent(queryClient: QueryClient, event: RealtimeEvent) {
+function playNotificationSound() {
+  try {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.15);
+  } catch (e) {
+    // Ignore autoplay or audio errors
+  }
+}
+
+function handleRealtimeEvent(queryClient: QueryClient, event: RealtimeEvent, currentUserId?: string) {
   switch (event.type) {
     case "chat_message": {
       const { thread_id, message } = event;
+      if (message.sender_id !== currentUserId) {
+        playNotificationSound();
+      }
       // Only page 1 (newest-first) ever needs a new message spliced in.
       queryClient.setQueriesData<PaginatedData<ChatMessage>>(
         {
@@ -69,6 +98,7 @@ function handleRealtimeEvent(queryClient: QueryClient, event: RealtimeEvent) {
       break;
     }
     case "notification": {
+      playNotificationSound();
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
       break;
     }
@@ -78,6 +108,7 @@ function handleRealtimeEvent(queryClient: QueryClient, event: RealtimeEvent) {
 export function RealtimeProvider() {
   const { data: session } = useSession();
   const accessToken = session?.accessToken;
+  const currentUserId = session?.user?.id;
   // Stable for the app's lifetime (QueryProvider creates it once via a
   // useState lazy initializer), so including it below never causes an
   // extra reconnect.
@@ -117,7 +148,7 @@ export function RealtimeProvider() {
         } catch {
           return;
         }
-        handleRealtimeEvent(queryClient, payload);
+        handleRealtimeEvent(queryClient, payload, currentUserId);
       };
 
       socket.onclose = (event) => {
