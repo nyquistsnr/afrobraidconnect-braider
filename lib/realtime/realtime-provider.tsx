@@ -28,27 +28,12 @@ function getWebSocketUrl(accessToken: string): string | null {
 
 function playNotificationSound() {
   try {
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(800, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.15);
+    const audio = new Audio("/sounds/notification.mp3");
+    audio.play().catch(() => {
+      // Ignore autoplay errors if user hasn't interacted with document
+    });
   } catch (e) {
-    // Ignore autoplay or audio errors
+    // Ignore audio play errors
   }
 }
 
