@@ -32,7 +32,7 @@ export function Header({ dict, lang }: { dict: any; lang: string }) {
           </Link>
           <nav className="hidden md:flex gap-6">
             <Link
-              href="https://example.com/find"
+              href={`${process.env.NEXT_PUBLIC_FIND_BRAIDER_URL || "https://example.com"}/${lang}/search`}
               className="flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {dict.header.findBraider}
@@ -83,7 +83,7 @@ export function Header({ dict, lang }: { dict: any; lang: string }) {
         <div className="md:hidden border-t border-border bg-background absolute top-16 left-0 right-0 shadow-lg">
           <nav className="flex flex-col p-4 space-y-4">
             <Link
-              href="https://example.com/find"
+              href={`${process.env.NEXT_PUBLIC_FIND_BRAIDER_URL || "https://example.com"}/${lang}/search`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-sm font-medium text-muted-foreground hover:text-foreground"
             >

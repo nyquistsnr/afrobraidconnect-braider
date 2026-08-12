@@ -202,7 +202,7 @@
       "chatMessageNotFound": "That message couldn't be found.",
       "notificationNotFound": "That notification couldn't be found.",
       "invalidDateRange": "The end date must be on or after the start date.",
-      "customerLoginDisabled": "Client accounts cannot log in to this portal.",
+      "customerLoginDisabled": "Incorrect email or password.",
       "generic": "Something went wrong. Please try again."
     },
     "toasts": {

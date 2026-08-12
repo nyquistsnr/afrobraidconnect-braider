@@ -35,7 +35,7 @@ export function Footer({ dict, lang }: { dict: any; lang: string }) {
                 </Link>
               </li>
               <li>
-                <Link href="https://example.com/find" className="hover:text-brand transition-colors">
+                <Link href={`${process.env.NEXT_PUBLIC_FIND_BRAIDER_URL || "https://example.com"}/${lang}/search`} className="hover:text-brand transition-colors">
                   {dict.header.findBraider}
                 </Link>
               </li>

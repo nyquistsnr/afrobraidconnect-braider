@@ -202,7 +202,7 @@
       "chatMessageNotFound": "Ce message est introuvable.",
       "notificationNotFound": "Cette notification est introuvable.",
       "invalidDateRange": "La date de fin doit être postérieure ou égale à la date de début.",
-      "customerLoginDisabled": "Les comptes clients ne peuvent pas se connecter à ce portail.",
+      "customerLoginDisabled": "E-mail ou mot de passe incorrect.",
       "generic": "Une erreur s'est produite. Veuillez réessayer."
     },
     "toasts": {

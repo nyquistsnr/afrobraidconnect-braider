@@ -30,7 +30,7 @@ export function Hero({ dict, lang }: { dict: any; lang: string }) {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Link href="https://example.com/find" className="w-full sm:w-auto">
+              <Link href={`${process.env.NEXT_PUBLIC_FIND_BRAIDER_URL || "https://example.com"}/${lang}/search`} className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base bg-brand hover:bg-brand-hover text-brand-foreground shadow-lg shadow-brand/25 transition-all hover:scale-105 active:scale-95 group">
                   {dict.home.ctaFind}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
