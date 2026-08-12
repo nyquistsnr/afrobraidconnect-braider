@@ -26,10 +26,16 @@ function getWebSocketUrl(accessToken: string): string | null {
   return `${wsBase}/ws?token=${encodeURIComponent(accessToken)}`;
 }
 
+let notificationAudio: HTMLAudioElement | null = null;
+if (typeof window !== "undefined") {
+  notificationAudio = new Audio("/sounds/notification.mp3");
+}
+
 function playNotificationSound() {
+  if (!notificationAudio) return;
   try {
-    const audio = new Audio("/sounds/notification.mp3");
-    audio.play().catch(() => {
+    notificationAudio.currentTime = 0;
+    notificationAudio.play().catch(() => {
       // Ignore autoplay errors if user hasn't interacted with document
     });
   } catch (e) {
