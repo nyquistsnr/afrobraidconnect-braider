@@ -26,20 +26,14 @@ function getWebSocketUrl(accessToken: string): string | null {
   return `${wsBase}/ws?token=${encodeURIComponent(accessToken)}`;
 }
 
-let notificationAudio: HTMLAudioElement | null = null;
-if (typeof window !== "undefined") {
-  notificationAudio = new Audio("/sounds/notification.mp3");
-}
-
 function playNotificationSound() {
-  if (!notificationAudio) return;
+  const audio = document.getElementById("notification-sound") as HTMLAudioElement | null;
+  if (!audio) return;
   try {
-    notificationAudio.currentTime = 0;
-    notificationAudio.play().catch(() => {
-      // Ignore autoplay errors if user hasn't interacted with document
-    });
+    audio.currentTime = 0;
+    audio.play().catch(console.error);
   } catch (e) {
-    // Ignore audio play errors
+    console.error("Audio playback error:", e);
   }
 }
 
@@ -169,5 +163,12 @@ export function RealtimeProvider() {
     };
   }, [accessToken, queryClient]);
 
-  return null;
+  return (
+    <audio 
+      id="notification-sound" 
+      src="/sounds/notification.mp3" 
+      preload="auto" 
+      style={{ display: 'none' }} 
+    />
+  );
 }
