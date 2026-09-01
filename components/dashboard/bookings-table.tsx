@@ -117,7 +117,7 @@ export function BookingsTable({
   dict: BookingsDict;
   common: Dictionary["common"];
   lang: Locale;
-  initialData: BookingListResponse;
+  initialData?: BookingListResponse;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -203,7 +203,7 @@ export function BookingsTable({
     queryKey: ["braider-bookings", filterParams],
     queryFn: () => bookingsApi.list(accessToken!, lang, filterParams),
     enabled: !!accessToken,
-    initialData: isDefaultQuery ? initialData : undefined,
+    initialData: isDefaultQuery && initialData ? initialData : undefined,
     placeholderData: (previous) => previous,
   });
 

@@ -21,7 +21,7 @@ export function ThreadList({
 }: {
   dict: Dictionary["chat"]["inbox"];
   lang: Locale;
-  initialData: PaginatedData<ChatThread>;
+  initialData?: PaginatedData<ChatThread>;
 }) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -32,7 +32,7 @@ export function ThreadList({
     queryKey: ["chat-threads", { page, page_size: PAGE_SIZE }],
     queryFn: () => chatApi.listThreads(accessToken!, lang, { page, page_size: PAGE_SIZE }),
     enabled: !!accessToken,
-    initialData: page === 1 ? initialData : undefined,
+    initialData: page === 1 && initialData ? initialData : undefined,
     placeholderData: (previous) => previous,
   });
 

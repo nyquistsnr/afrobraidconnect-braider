@@ -11,7 +11,7 @@ import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { Pagination } from "@/components/ui/pagination";
 
 interface PaymentsTableProps {
-  initialData: PaymentListResponse;
+  initialData?: PaymentListResponse;
   lang: Locale;
   dict?: any;
   dateFrom?: string;
@@ -126,12 +126,12 @@ export function PaymentsTable({ initialData, lang, dict, dateFrom, dateTo }: Pay
     queryKey: ["braider-payments", filterParams],
     queryFn: () => paymentsApi.list(accessToken!, lang, filterParams),
     enabled: !!accessToken,
-    initialData: isDefaultQuery ? initialData : undefined,
+    initialData: isDefaultQuery && initialData ? initialData : undefined,
     placeholderData: (previous) => previous,
   });
 
   const data = paymentsQuery.data || initialData;
-  const items = data.items || [];
+  const items = data?.items || [];
   const isLoading = paymentsQuery.isLoading || paymentsQuery.isPlaceholderData;
 
   const formatDate = (dateString: string) => {

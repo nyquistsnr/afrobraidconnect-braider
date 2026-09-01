@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
@@ -15,22 +16,32 @@ export function DashboardShell({
   dict,
   themeLabels,
   logoutSuccessMessage,
-  userName,
-  userLogo,
   children,
 }: {
   lang: Locale;
   dict: Dictionary["dashboard"];
   themeLabels: Dictionary["common"]["theme"];
   logoutSuccessMessage: string;
-  userName: string;
-  userLogo: string | null;
   children: React.ReactNode;
 }) {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      const currentUrl = window.location.pathname + window.location.search;
+      router.replace(`/${lang}/login?callbackUrl=${encodeURIComponent(currentUrl)}`);
+    },
+  });
+
+  const fallbackUserName = "Braider";
+  const userName =
+    [session?.user?.firstName, session?.user?.lastName].filter(Boolean).join(" ") ||
+    session?.user?.name ||
+    fallbackUserName;
+  const userLogo = session?.braider?.logo_url ?? null;
 
   const handleConfirmLogout = useCallback(async () => {
     setLoggingOut(true);
@@ -44,6 +55,24 @@ export function DashboardShell({
       setLogoutModalOpen(false);
     }
   }, [lang, logoutSuccessMessage, router]);
+
+  useEffect(() => {
+    if (session?.error !== "RefreshAccessTokenError") return;
+    const currentUrl = window.location.pathname + window.location.search;
+    router.replace(`/${lang}/login?callbackUrl=${encodeURIComponent(currentUrl)}`);
+  }, [lang, router, session?.error]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background text-sm text-muted-foreground">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!session || session.error === "RefreshAccessTokenError") {
+    return null;
+  }
 
   return (
     <div className="flex h-screen">
