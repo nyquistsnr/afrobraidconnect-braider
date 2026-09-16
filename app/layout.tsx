@@ -32,6 +32,9 @@ const description = "Connecting clients with professional hair braiders.";
 const socialImage = "/favicon_io/android-chrome-512x512.png";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
   title,
   description,
   applicationName: title,
